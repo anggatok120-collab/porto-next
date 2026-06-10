@@ -623,6 +623,28 @@ body {
     margin-bottom: 24px;
 }
 
+/* CONTACT FORM */
+.contact__form { display: flex; flex-direction: column; gap: 14px; }
+.form__group { display: flex; flex-direction: column; gap: 6px; }
+.form__label { font-size: 13px; color: var(--text-muted); }
+.form__input, .form__textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    transition: var(--transition);
+    outline: none;
+    width: 100%;
+}
+.form__input:focus, .form__textarea:focus { border-color: var(--accent-mid); }
+.form__textarea { min-height: 110px; resize: vertical; }
+.form__status { font-size: 13px; text-align: center; padding: 8px 12px; border-radius: 6px; }
+.form__status--success { color: var(--accent); background: var(--accent-dim); }
+.form__status--error { color: #f87171; background: rgba(248,113,113,0.08); }
+
 /* FOOTER */
 .footer {
     border-top: 1px solid var(--border);

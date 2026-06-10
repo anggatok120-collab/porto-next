@@ -1,8 +1,31 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [formStatus, setFormStatus] = useState('idle')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setFormStatus('loading')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      if (res.ok) {
+        setFormStatus('success')
+        setFormData({ name: '', email: '', message: '' })
+      } else {
+        setFormStatus('error')
+      }
+    } catch {
+      setFormStatus('error')
+    }
+  }
+
   useEffect(() => {
     // NAV
     const toggle = document.getElementById('navToggle')
@@ -910,10 +933,53 @@ export default function Home() {
               </div>
             </div>
             <div className="contact__card">
-              <p className="contact__card-label" data-id="Siap terhubung" data-en="Ready to connect">Siap terhubung</p>
-              <h3 className="contact__card-title" data-id="Mari Bekerja Sama" data-en="Let's Work Together">Mari Bekerja Sama</h3>
-              <p className="contact__card-sub" data-id="Response time: &lt; 24 jam" data-en="Response time: &lt; 24 hours">Response time: &lt; 24 jam</p>
-              <a href="https://mail.google.com/mail/?view=cm&to=anggatok120@gmail.com&su=Portfolio%20Inquiry%20-%20Angga&body=Halo%20Angga%2C%0A%0ASaya%20%5BNama%5D%20dari%20%5BPerusahaan%2FInstansi%5D%2C%20tertarik%20untuk%20menghubungi%20Anda%20terkait%20%5Btuliskan%20keperluan%5D.%0A%0A%5BTulis%20pesan%20di%20sini%5D%0A%0ATerima%20kasih%20atas%20waktu%20dan%20perhatian%20Anda.%0A%0AHormat%20saya%2C%0A%5BNama%5D%0A%5BJabatan%5D%0A%5BKontak%5D" target="_blank" className="btn btn--primary btn--full" data-id="Kirim Email" data-en="Send Email">Kirim Email</a>
+              <form className="contact__form" onSubmit={handleSubmit}>
+                <div className="form__group">
+                  <label className="form__label" data-id="Nama" data-en="Name">Nama</label>
+                  <input
+                    className="form__input"
+                    type="text"
+                    placeholder="John Doe"
+                    value={formData.name}
+                    onChange={e => setFormData({...formData, name: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="form__group">
+                  <label className="form__label">Email</label>
+                  <input
+                    className="form__input"
+                    type="email"
+                    placeholder="john@example.com"
+                    value={formData.email}
+                    onChange={e => setFormData({...formData, email: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="form__group">
+                  <label className="form__label" data-id="Pesan" data-en="Message">Pesan</label>
+                  <textarea
+                    className="form__textarea"
+                    placeholder="Halo Angga..."
+                    value={formData.message}
+                    onChange={e => setFormData({...formData, message: e.target.value})}
+                    required
+                  />
+                </div>
+                {formStatus === 'success' && (
+                  <p className="form__status form__status--success">Pesan terkirim! Saya akan segera membalas.</p>
+                )}
+                {formStatus === 'error' && (
+                  <p className="form__status form__status--error">Gagal mengirim. Coba lagi.</p>
+                )}
+                <button
+                  type="submit"
+                  className="btn btn--primary btn--full"
+                  disabled={formStatus === 'loading'}
+                >
+                  {formStatus === 'loading' ? 'Mengirim...' : 'Kirim Pesan'}
+                </button>
+              </form>
             </div>
           </div>
         </div>
