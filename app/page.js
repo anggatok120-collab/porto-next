@@ -418,6 +418,7 @@ export default function Home() {
           <li><a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a></li>
           <li><a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a></li>
           <li><a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a></li>
+          <li><a href="/blog">Blog</a></li>
           <li><a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a></li>
         </ul>
         <div className="nav__right">
@@ -439,6 +440,7 @@ export default function Home() {
         <a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a>
         <a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a>
         <a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a>
+        <a href="/blog">Blog</a>
         <a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a>
       </div>
 
