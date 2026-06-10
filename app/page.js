@@ -5,23 +5,28 @@ import { useEffect, useState } from 'react'
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [formStatus, setFormStatus] = useState('idle')
+  const [formError, setFormError] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
     setFormStatus('loading')
+    setFormError('')
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
+      const data = await res.json()
       if (res.ok) {
         setFormStatus('success')
         setFormData({ name: '', email: '', message: '' })
       } else {
+        setFormError(data.error || 'Unknown error')
         setFormStatus('error')
       }
-    } catch {
+    } catch (err) {
+      setFormError(err.message)
       setFormStatus('error')
     }
   }
@@ -970,7 +975,7 @@ export default function Home() {
                   <p className="form__status form__status--success">Pesan terkirim! Saya akan segera membalas.</p>
                 )}
                 {formStatus === 'error' && (
-                  <p className="form__status form__status--error">Gagal mengirim. Coba lagi.</p>
+                  <p className="form__status form__status--error">Error: {formError || 'Gagal mengirim'}</p>
                 )}
                 <button
                   type="submit"
