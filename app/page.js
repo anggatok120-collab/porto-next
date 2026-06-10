@@ -1,6 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -12,19 +18,12 @@ export default function Home() {
     setFormStatus('loading')
     setFormError('')
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      const data = await res.json()
-      if (res.ok) {
-        setFormStatus('success')
-        setFormData({ name: '', email: '', message: '' })
-      } else {
-        setFormError(data.error || 'Unknown error')
-        setFormStatus('error')
-      }
+      const { error } = await supabase
+        .from('messages')
+        .insert([{ name: formData.name, email: formData.email, message: formData.message }])
+      if (error) throw error
+      setFormStatus('success')
+      setFormData({ name: '', email: '', message: '' })
     } catch (err) {
       setFormError(err.message)
       setFormStatus('error')
