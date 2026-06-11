@@ -677,72 +677,81 @@ export default function Home() {
             <div className="tools__grid">
               <div className="tool-item" data-tool="MikroTik">
                 <div className="tool-item__icon tool-item__icon--mikrotik">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 11.5a5 5 0 0 1 6 0"/>
-                    <path d="M6 8.5a9.5 9.5 0 0 1 12 0"/>
-                    <rect x="2" y="14" width="20" height="6" rx="2"/>
-                    <circle cx="6" cy="17" r="0.8" fill="currentColor" stroke="none"/>
-                    <circle cx="9.5" cy="17" r="0.8" fill="currentColor" stroke="none"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 19 L3 7 L12 15 L21 7 L21 19" stroke="white" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">MikroTik</span>
               </div>
               <div className="tool-item" data-tool="Zabbix">
                 <div className="tool-item__icon tool-item__icon--zabbix">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5cacee" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="5 5 19 5 8 19 20 19"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 6 L19 6 L8 18 L19 18" stroke="#d40000" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">Zabbix</span>
               </div>
               <div className="tool-item" data-tool="Grafana">
                 <div className="tool-item__icon tool-item__icon--grafana">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f46800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2c0 0-5 4.5-5 10a5 5 0 0 0 10 0c0-5.5-5-10-5-10z"/>
-                    <path d="M9.5 14a2.5 2.5 0 0 0 5 0"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M4.5 16.5 A8.5 8.5 0 0 1 19.5 16.5" stroke="#f46800" strokeWidth="2.5" strokeLinecap="round"/>
+                    <path d="M7.5 13 A5.5 5.5 0 0 1 16.5 13" stroke="#f46800" strokeWidth="1.5" strokeLinecap="round" opacity="0.55"/>
+                    <line x1="12" y1="16" x2="17.5" y2="10.5" stroke="#f46800" strokeWidth="2.2" strokeLinecap="round"/>
+                    <circle cx="12" cy="16" r="2" fill="#f46800"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">Grafana</span>
               </div>
               <div className="tool-item" data-tool="Linux">
                 <div className="tool-item__icon tool-item__icon--linux">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fcc624" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 3c-2 0-4 2-4 6 0 2 1 4 2 5l-2 4h8l-2-4c1-1 2-3 2-5 0-4-2-6-4-6z"/>
-                    <circle cx="10" cy="9" r="0.8" fill="#fcc624" stroke="none"/>
-                    <circle cx="14" cy="9" r="0.8" fill="#fcc624" stroke="none"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <ellipse cx="12" cy="15.5" rx="5.5" ry="5" fill="#fcc624"/>
+                    <ellipse cx="12" cy="16.5" rx="3.2" ry="3.8" fill="#fffde7" opacity="0.85"/>
+                    <circle cx="12" cy="7.5" r="4" fill="#fcc624"/>
+                    <circle cx="10.2" cy="7" r="1" fill="#1a1a2e"/>
+                    <circle cx="13.8" cy="7" r="1" fill="#1a1a2e"/>
+                    <circle cx="9.85" cy="6.7" r="0.35" fill="white"/>
+                    <circle cx="13.45" cy="6.7" r="0.35" fill="white"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">Linux</span>
               </div>
               <div className="tool-item" data-tool="SSH">
                 <div className="tool-item__icon tool-item__icon--ssh">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
                 </div>
                 <span className="tool-item__name">SSH</span>
               </div>
               <div className="tool-item" data-tool="MRTG">
                 <div className="tool-item__icon tool-item__icon--mrtg">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <polyline points="2 17 6 11 10 14 14 7 18 12 22 8" stroke="#00ccaa" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <line x1="2" y1="20" x2="22" y2="20" stroke="#00ccaa" strokeWidth="1.2" strokeLinecap="round" opacity="0.4"/>
+                  </svg>
                 </div>
                 <span className="tool-item__name">MRTG</span>
               </div>
               <div className="tool-item" data-tool="Juniper">
                 <div className="tool-item__icon tool-item__icon--juniper">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#84b135" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 22v-8"/>
-                    <path d="M5 14c0-5 3-9 7-12 4 3 7 7 7 12a7 7 0 0 1-14 0z"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M14 5 L14 17 Q14 21 10.5 21 Q7 21 7 18" stroke="#84b135" strokeWidth="2.8" strokeLinecap="round" fill="none"/>
+                    <line x1="10" y1="5" x2="14" y2="5" stroke="#84b135" strokeWidth="2.8" strokeLinecap="round"/>
+                    <path d="M10 9 Q14 7 18 9" stroke="#84b135" strokeWidth="1.6" strokeLinecap="round" fill="none" opacity="0.8"/>
+                    <path d="M11 12.5 Q14 10.5 17 12.5" stroke="#84b135" strokeWidth="1.3" strokeLinecap="round" fill="none" opacity="0.55"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">Juniper</span>
               </div>
               <div className="tool-item" data-tool="Winbox">
                 <div className="tool-item__icon tool-item__icon--winbox">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="6" width="20" height="12" rx="2"/>
-                    <circle cx="7" cy="12" r="1" fill="#aaaaaa" stroke="none"/>
-                    <circle cx="11" cy="12" r="1" fill="#aaaaaa" stroke="none"/>
-                    <line x1="16" y1="9" x2="16" y2="15"/>
-                    <line x1="19" y1="9" x2="19" y2="15"/>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="5" width="20" height="15" rx="2.5" stroke="#bbb" strokeWidth="1.5"/>
+                    <line x1="2" y1="11" x2="22" y2="11" stroke="#bbb" strokeWidth="1"/>
+                    <circle cx="5.5" cy="8" r="1.3" fill="#ff5f57"/>
+                    <circle cx="9.5" cy="8" r="1.3" fill="#febc2e"/>
+                    <circle cx="13.5" cy="8" r="1.3" fill="#28c840"/>
+                    <line x1="5" y1="15" x2="16" y2="15" stroke="#bbb" strokeWidth="1" opacity="0.5"/>
+                    <line x1="5" y1="18" x2="12" y2="18" stroke="#bbb" strokeWidth="1" opacity="0.5"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">Winbox</span>
