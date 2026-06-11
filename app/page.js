@@ -1,17 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  'https://bscvyefetbcnzhwmiyjy.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzY3Z5ZWZldGJjbnpod21peWp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMDgzODksImV4cCI6MjA5NjY4NDM4OX0.jk_z_YCtO74YWkWhtTLLPggHInUhBdodzvO1d9cmPZU'
-)
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [formStatus, setFormStatus] = useState('idle')
   const [formError, setFormError] = useState('')
+  const [lang, setLang] = useState('id')
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -88,8 +83,11 @@ export default function Home() {
       document.documentElement.lang = lang
     }
     document.getElementById('langToggle').addEventListener('click', () => {
-      applyLang(currentLang === 'id' ? 'en' : 'id')
+      const next = currentLang === 'id' ? 'en' : 'id'
+      applyLang(next)
+      setLang(next)
     })
+    setLang(currentLang)
     applyLang(currentLang)
 
     // TOOL MODAL DATA
@@ -981,7 +979,9 @@ export default function Home() {
                   />
                 </div>
                 {formStatus === 'success' && (
-                  <p className="form__status form__status--success">Pesan terkirim! Saya akan segera membalas.</p>
+                  <p className="form__status form__status--success">
+                    {lang === 'id' ? 'Pesan terkirim! Saya akan segera membalas.' : "Message sent! I'll reply soon."}
+                  </p>
                 )}
                 {formStatus === 'error' && (
                   <p className="form__status form__status--error">Error: {formError || 'Gagal mengirim'}</p>
@@ -991,7 +991,9 @@ export default function Home() {
                   className="btn btn--primary btn--full"
                   disabled={formStatus === 'loading'}
                 >
-                  {formStatus === 'loading' ? 'Mengirim...' : 'Kirim Pesan'}
+                  {formStatus === 'loading'
+                    ? (lang === 'id' ? 'Mengirim...' : 'Sending...')
+                    : (lang === 'id' ? 'Kirim Pesan' : 'Send Message')}
                 </button>
               </form>
             </div>
@@ -1018,7 +1020,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="footer">
         <div className="container footer__inner">
-          <p data-id="© 2025 Angga. Semua hak dilindungi." data-en="© 2025 Angga. All rights reserved.">© 2025 Angga. Semua hak dilindungi.</p>
+          <p data-id="© 2026 Angga. Semua hak dilindungi." data-en="© 2026 Angga. All rights reserved.">© 2026 Angga. Semua hak dilindungi.</p>
           <p className="footer__sub" data-id="Dibuat dengan Next.js & ❤️" data-en="Built with Next.js & ❤️">Dibuat dengan Next.js &amp; ❤️</p>
         </div>
       </footer>
