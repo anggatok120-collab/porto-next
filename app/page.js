@@ -462,7 +462,7 @@ export default function Home() {
               <span className="hero__sep">/</span>
               <span className="hero__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</span>
             </div>
-            <p className="hero__desc" data-id="2.5+ tahun pengalaman di Network Operations Center, monitoring infrastruktur jaringan 24/7, troubleshooting, dan technical support untuk memastikan stabilitas layanan." data-en="2.5+ years of experience in Network Operations Center, 24/7 network infrastructure monitoring, troubleshooting, and technical support to ensure service stability.">2.5+ tahun pengalaman di Network Operations Center, monitoring infrastruktur jaringan 24/7, troubleshooting, dan technical support untuk memastikan stabilitas layanan.</p>
+            <p className="hero__desc" data-id="1.5 tahun di Network Operations Center dan 1 tahun di Customer Support — monitoring jaringan 24/7, troubleshooting, dan technical support untuk memastikan stabilitas layanan." data-en="1.5 years in Network Operations Center and 1 year in Customer Support — 24/7 network monitoring, troubleshooting, and technical support to ensure service stability.">1.5 tahun di Network Operations Center dan 1 tahun di Customer Support — monitoring jaringan 24/7, troubleshooting, dan technical support untuk memastikan stabilitas layanan.</p>
             <div className="hero__actions">
               <a href="#contact" className="btn btn--primary" data-id="Hubungi Saya" data-en="Get in Touch">Hubungi Saya</a>
               <a href="#experience" className="btn btn--ghost" data-id="Lihat Pengalaman" data-en="View Experience">Lihat Pengalaman</a>
@@ -510,7 +510,7 @@ export default function Home() {
           </div>
           <div className="about__grid">
             <div className="about__text">
-              <p data-id="Network Engineer dan IT Support dengan pengalaman lebih dari <strong>2,5 tahun</strong> di bidang Network Operations Center (NOC), Customer Support, dan Helpdesk." data-en="Network Engineer and IT Support with more than <strong>2.5 years</strong> of experience in Network Operations Center (NOC), Customer Support, and Helpdesk.">Network Engineer dan IT Support dengan pengalaman lebih dari <strong>2,5 tahun</strong> di bidang Network Operations Center (NOC), Customer Support, dan Helpdesk.</p>
+              <p data-id="Network Engineer dan IT Support dengan pengalaman <strong>1,5 tahun di NOC</strong> dan <strong>1 tahun di Customer Support</strong>, mencakup monitoring jaringan, helpdesk, dan IT support." data-en="Network Engineer and IT Support with <strong>1.5 years in NOC</strong> and <strong>1 year in Customer Support</strong>, covering network monitoring, helpdesk, and IT support.">Network Engineer dan IT Support dengan pengalaman <strong>1,5 tahun di NOC</strong> dan <strong>1 tahun di Customer Support</strong>, mencakup monitoring jaringan, helpdesk, dan IT support.</p>
               <p data-id="Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall." data-en="Skilled in network monitoring, network troubleshooting, MikroTik configuration, routing &amp; switching, Linux server administration, and VLAN and firewall management.">Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.</p>
               <p data-id="Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan." data-en="Experienced working in dynamic network operational environments with strong analytical, problem-solving, and communication skills. Committed to maintaining IT infrastructure stability and improving service quality.">Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.</p>
               <div className="about__meta">
@@ -689,27 +689,28 @@ export default function Home() {
               </div>
               <div className="tool-item" data-tool="Zabbix">
                 <div className="tool-item__icon tool-item__icon--zabbix">
-                  <img
-                    src="https://cdn.simpleicons.org/zabbix/e8e8ff"
-                    alt="Zabbix"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                      e.currentTarget.nextSibling.style.display = 'inline'
-                    }}
-                  />
-                  <span style={{display:'none', fontSize:'10px', fontWeight:'700', color:'#8ab4f8'}}>ZBX</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5cacee" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="5 5 19 5 8 19 20 19"/>
+                  </svg>
                 </div>
                 <span className="tool-item__name">Zabbix</span>
               </div>
               <div className="tool-item" data-tool="Grafana">
                 <div className="tool-item__icon tool-item__icon--grafana">
-                  <img src="https://cdn.simpleicons.org/grafana/f46800" alt="Grafana" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f46800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2c0 0-5 4.5-5 10a5 5 0 0 0 10 0c0-5.5-5-10-5-10z"/>
+                    <path d="M9.5 14a2.5 2.5 0 0 0 5 0"/>
+                  </svg>
                 </div>
                 <span className="tool-item__name">Grafana</span>
               </div>
               <div className="tool-item" data-tool="Linux">
                 <div className="tool-item__icon tool-item__icon--linux">
-                  <img src="https://cdn.simpleicons.org/linux/fcc624" alt="Linux" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fcc624" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3c-2 0-4 2-4 6 0 2 1 4 2 5l-2 4h8l-2-4c1-1 2-3 2-5 0-4-2-6-4-6z"/>
+                    <circle cx="10" cy="9" r="0.8" fill="#fcc624" stroke="none"/>
+                    <circle cx="14" cy="9" r="0.8" fill="#fcc624" stroke="none"/>
+                  </svg>
                 </div>
                 <span className="tool-item__name">Linux</span>
               </div>
@@ -727,13 +728,22 @@ export default function Home() {
               </div>
               <div className="tool-item" data-tool="Juniper">
                 <div className="tool-item__icon tool-item__icon--juniper">
-                  <img src="https://cdn.simpleicons.org/junipernetworks/84b135" alt="Juniper" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#84b135" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22v-8"/>
+                    <path d="M5 14c0-5 3-9 7-12 4 3 7 7 7 12a7 7 0 0 1-14 0z"/>
+                  </svg>
                 </div>
                 <span className="tool-item__name">Juniper</span>
               </div>
               <div className="tool-item" data-tool="Winbox">
                 <div className="tool-item__icon tool-item__icon--winbox">
-                  <img src="https://cdn.simpleicons.org/mikrotik/aaaaaa" alt="Winbox" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaaaaa" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="6" width="20" height="12" rx="2"/>
+                    <circle cx="7" cy="12" r="1" fill="#aaaaaa" stroke="none"/>
+                    <circle cx="11" cy="12" r="1" fill="#aaaaaa" stroke="none"/>
+                    <line x1="16" y1="9" x2="16" y2="15"/>
+                    <line x1="19" y1="9" x2="19" y2="15"/>
+                  </svg>
                 </div>
                 <span className="tool-item__name">Winbox</span>
               </div>
