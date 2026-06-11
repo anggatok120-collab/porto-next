@@ -678,7 +678,12 @@ export default function Home() {
               <div className="tool-item" data-tool="MikroTik">
                 <div className="tool-item__icon tool-item__icon--mikrotik">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M3 19 L3 7 L12 15 L21 7 L21 19" stroke="white" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8.5 10.5 A5 5 0 0 1 15.5 10.5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+                    <path d="M5.5 7.5 A8.5 8.5 0 0 1 18.5 7.5" stroke="white" strokeWidth="1.6" strokeLinecap="round" opacity="0.7"/>
+                    <path d="M3 4.5 A11.5 11.5 0 0 1 21 4.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" opacity="0.4"/>
+                    <rect x="3" y="14" width="18" height="7" rx="1.5" fill="white" opacity="0.95"/>
+                    <circle cx="7" cy="17.5" r="1.1" fill="#cc0000"/>
+                    <circle cx="11" cy="17.5" r="1.1" fill="#cc0000"/>
                   </svg>
                 </div>
                 <span className="tool-item__name">MikroTik</span>
