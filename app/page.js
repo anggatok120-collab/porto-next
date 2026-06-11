@@ -782,7 +782,7 @@ export default function Home() {
               <div className="timeline__card">
                 <div className="timeline__meta">
                   <span className="timeline__period" data-id="Jan 2025 – Sekarang" data-en="Jan 2025 – Present">Jan 2025 – Sekarang</span>
-                  <span className="timeline__badge timeline__badge--current" data-id="Saat Ini" data-en="Current">Saat Ini</span>
+                  <span className="timeline__badge timeline__badge--current" data-id="Sekarang" data-en="Current">Sekarang</span>
                 </div>
                 <h3 className="timeline__role">Network Operations Center (NOC)</h3>
                 <p className="timeline__company">PT. Inovasi Tjaraka Buana MyNet — Bandung</p>
@@ -811,7 +811,7 @@ export default function Home() {
               <div className="timeline__card">
                 <div className="timeline__meta">
                   <span className="timeline__period" data-id="Jul 2025 – Sekarang" data-en="Jul 2025 – Present">Jul 2025 – Sekarang</span>
-                  <span className="timeline__badge timeline__badge--current" data-id="Sekarang" data-en="Current">Current</span>
+                  <span className="timeline__badge timeline__badge--current" data-id="Sekarang" data-en="Current">Sekarang</span>
                   <span className="timeline__badge timeline__badge--freelance" data-id="Freelance" data-en="Freelance">Freelance</span>
                 </div>
                 <h3 className="timeline__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</h3>
@@ -839,7 +839,7 @@ export default function Home() {
               <div className="timeline__card">
                 <div className="timeline__meta">
                   <span className="timeline__period" data-id="Jul 2025 – Sekarang" data-en="Jul 2025 – Present">Jul 2025 – Sekarang</span>
-                  <span className="timeline__badge timeline__badge--current" data-id="Sekarang" data-en="Current">Current</span>
+                  <span className="timeline__badge timeline__badge--current" data-id="Sekarang" data-en="Current">Sekarang</span>
                   <span className="timeline__badge timeline__badge--freelance" data-id="Freelance" data-en="Freelance">Freelance</span>
                 </div>
                 <h3 className="timeline__role" data-id="Network Operations Center (NOC)" data-en="Network Operations Center (NOC)">Network Operations Center (NOC)</h3>
