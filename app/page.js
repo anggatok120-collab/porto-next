@@ -18,10 +18,13 @@ export default function Home() {
     setFormStatus('loading')
     setFormError('')
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert([{ name: formData.name, email: formData.email, message: formData.message }])
-      if (error) throw error
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Gagal mengirim')
       setFormStatus('success')
       setFormData({ name: '', email: '', message: '' })
     } catch (err) {
@@ -75,6 +78,9 @@ export default function Home() {
       localStorage.setItem('lang', lang)
       document.querySelectorAll('[data-id][data-en]').forEach(el => {
         el.innerHTML = lang === 'id' ? el.dataset.id : el.dataset.en
+      })
+      document.querySelectorAll('[data-id-ph][data-en-ph]').forEach(el => {
+        el.placeholder = lang === 'id' ? el.dataset.idPh : el.dataset.enPh
       })
       document.querySelectorAll('.lang__option').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang)
@@ -967,6 +973,8 @@ export default function Home() {
                   <textarea
                     className="form__textarea"
                     placeholder="Halo Angga..."
+                    data-id-ph="Halo Angga..."
+                    data-en-ph="Hi Angga..."
                     value={formData.message}
                     onChange={e => setFormData({...formData, message: e.target.value})}
                     required
