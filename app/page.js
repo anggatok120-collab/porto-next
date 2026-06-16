@@ -964,6 +964,14 @@ export default function Home() {
                   </div>
                   <span>Malang, Jawa Timur, Indonesia</span>
                 </a>
+                <a href="https://portfolio.anggatok.my.id" target="_blank" rel="noopener noreferrer" className="contact__link">
+                  <div className="contact__link-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+                    </svg>
+                  </div>
+                  <span data-id="Terminal Portfolio" data-en="Terminal Portfolio">portfolio.anggatok.my.id</span>
+                </a>
               </div>
             </div>
             <div className="contact__card">
