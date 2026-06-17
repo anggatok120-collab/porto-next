@@ -466,6 +466,7 @@ export default function Home() {
             <div className="hero__actions">
               <a href="#contact" className="btn btn--primary" data-id="Hubungi Saya" data-en="Get in Touch">Hubungi Saya</a>
               <a href="#experience" className="btn btn--ghost" data-id="Lihat Pengalaman" data-en="View Experience">Lihat Pengalaman</a>
+              <a href="https://drive.google.com/file/d/1OTRYIbIfJOi860ptvR7UXMSUnYklKnVl/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="btn btn--ghost" data-id="↓ Unduh CV" data-en="↓ Download CV">↓ Unduh CV</a>
             </div>
             <div className="hero__badges">
               <div className="hero__badge">
@@ -971,6 +972,14 @@ export default function Home() {
                     </svg>
                   </div>
                   <span data-id="Terminal Portfolio" data-en="Terminal Portfolio">portfolio.anggatok.my.id</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1OTRYIbIfJOi860ptvR7UXMSUnYklKnVl/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="contact__link">
+                  <div className="contact__link-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+                    </svg>
+                  </div>
+                  <span data-id="Unduh CV (Google Drive)" data-en="Download CV (Google Drive)">Unduh CV (Google Drive)</span>
                 </a>
               </div>
             </div>
