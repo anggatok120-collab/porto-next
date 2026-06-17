@@ -1,11 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
-
-const supabase = createClient(
-  'https://bscvyefetbcnzhwmiyjy.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzY3Z5ZWZldGJjbnpod21peWp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMDgzODksImV4cCI6MjA5NjY4NDM4OX0.jk_z_YCtO74YWkWhtTLLPggHInUhBdodzvO1d9cmPZU'
-)
 
 export async function POST(request) {
   try {
@@ -14,12 +8,6 @@ export async function POST(request) {
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Semua field harus diisi' }, { status: 400 })
     }
-
-    const { error: dbError } = await supabase
-      .from('messages')
-      .insert([{ name, email, message }])
-
-    if (dbError) throw dbError
 
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY)
