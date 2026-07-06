@@ -483,11 +483,6 @@ body {
     text-transform: uppercase;
     letter-spacing: 1px;
 }
-.timeline__badge--current {
-    background: rgba(0, 255, 136, 0.1);
-    color: #00ff88;
-    border: 1px solid rgba(0, 255, 136, 0.3);
-}
 .timeline__badge--intern {
     background: rgba(129, 140, 248, 0.1);
     color: #818cf8;
