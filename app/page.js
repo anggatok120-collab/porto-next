@@ -481,7 +481,7 @@ export default function Home() {
           </div>
           <div className="hero__photo">
             <div className="hero__photo-wrap">
-              <img src="/images/angga.jpg" alt="Angga" />
+              <img src="/images/foto_HD.png" alt="Angga" />
             </div>
             <div className="hero__photo-stats">
               <div className="hero__mini-stat">
@@ -1065,3 +1065,4 @@ export default function Home() {
     </>
   )
 }
+
