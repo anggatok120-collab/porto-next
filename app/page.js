@@ -458,8 +458,6 @@ export default function Home() {
             <div className="hero__roles">
               <span className="hero__role" data-id="Network Engineer" data-en="Network Engineer">Network Engineer</span>
               <span className="hero__sep">/</span>
-              <span className="hero__role" data-id="IT Support" data-en="IT Support">IT Support</span>
-              <span className="hero__sep">/</span>
               <span className="hero__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</span>
             </div>
             <p className="hero__desc" data-id="2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Customer Support, 24/7 network monitoring, troubleshooting, and technical support.">2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
@@ -511,7 +509,7 @@ export default function Home() {
           </div>
           <div className="about__grid">
             <div className="about__text">
-              <p data-id="Network Engineer dan IT Support dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan, helpdesk, dan IT support." data-en="Network Engineer and IT Support with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Customer Support internship</strong>, covering network monitoring, helpdesk, and IT support.">Network Engineer dan IT Support dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan, helpdesk, dan IT support.</p>
+              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan helpdesk." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Customer Support internship</strong>, covering network monitoring and helpdesk.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan helpdesk.</p>
               <p data-id="Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall." data-en="Skilled in network monitoring, network troubleshooting, MikroTik configuration, routing &amp; switching, Linux server administration, and VLAN and firewall management.">Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.</p>
               <p data-id="Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan." data-en="Experienced working in dynamic network operational environments with strong analytical, problem-solving, and communication skills. Committed to maintaining IT infrastructure stability and improving service quality.">Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.</p>
               <div className="about__meta">
@@ -1065,4 +1063,5 @@ export default function Home() {
     </>
   )
 }
+
 
