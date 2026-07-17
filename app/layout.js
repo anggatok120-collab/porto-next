@@ -24,7 +24,11 @@ export default function RootLayout({ children }) {
 .nav{position:fixed;top:0;left:0;right:0}
 `}</style>
       </head>
-      <body>{children}<Analytics /></body>
+      <body>
+        <a href="#hero" className="skip-link">Skip to content</a>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
