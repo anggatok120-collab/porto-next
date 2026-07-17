@@ -1,6 +1,5 @@
 import './globals.css'
-import dynamic from 'next/dynamic'
-const Analytics = dynamic(() => import('@vercel/analytics/react'), { ssr: false })
+import AnalyticsClient from './AnalyticsClient'
 
 export const metadata = {
   title: 'Angga — Network Engineer',
@@ -28,7 +27,7 @@ export default function RootLayout({ children }) {
       <body>
         <a href="#hero" className="skip-link">Skip to content</a>
         {children}
-        <Analytics />
+        <AnalyticsClient />
       </body>
     </html>
   )
