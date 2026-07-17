@@ -32,6 +32,7 @@ export default function Home() {
     // NAV
     const toggle = document.getElementById('navToggle')
     const mobileMenu = document.getElementById('mobileMenu')
+    const themeToggle = document.getElementById('themeToggle')
     toggle.addEventListener('click', () => {
       const open = mobileMenu.classList.toggle('open')
       document.body.style.overflow = open ? 'hidden' : ''
@@ -47,6 +48,27 @@ export default function Home() {
         document.body.style.overflow = ''
       })
     })
+
+    // THEME TOGGLE (light/dark)
+    try {
+      const applyTheme = (t) => {
+        if (t === 'light') document.documentElement.setAttribute('data-theme', 'light')
+        else document.documentElement.removeAttribute('data-theme')
+        try { localStorage.setItem('theme', t) } catch (e) {}
+      }
+      // initialise from storage
+      const saved = (typeof window !== 'undefined') ? localStorage.getItem('theme') : null
+      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light')
+      if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', document.documentElement.getAttribute('data-theme') === 'light' ? 'true' : 'false')
+        themeToggle.addEventListener('click', () => {
+          const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'
+          applyTheme(next)
+          themeToggle.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false')
+        })
+      }
+    } catch (e) { }
+
 
     const sections = document.querySelectorAll('section[id]')
     const navItems = document.querySelectorAll('.nav__links a')
@@ -436,6 +458,7 @@ export default function Home() {
             <span className="lang__sep">/</span>
             <span className="lang__option" data-lang="en">EN</span>
           </button>
+        <button className="theme__toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">☀︎/☾</button>
         <button className="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-controls="mobileMenu" aria-expanded="false">
           <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
           </button>

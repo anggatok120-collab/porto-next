@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
 .hero__actions .btn{display:inline-block;padding:10px 14px;border-radius:8px}
 .nav{position:fixed;top:0;left:0;right:0}
 `}</style>
+        <script dangerouslySetInnerHTML={{__html: "(function(){try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){} })()"}} />
       </head>
       <body>
         <a href="#hero" className="skip-link">Skip to content</a>
