@@ -460,7 +460,7 @@ export default function Home() {
               <span className="hero__sep">/</span>
               <span className="hero__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</span>
             </div>
-            <p className="hero__desc" data-id="2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Customer Support, 24/7 network monitoring, troubleshooting, and technical support.">2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
+            <p className="hero__desc" data-id="2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Helpdesk, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Helpdesk, 24/7 network monitoring, troubleshooting, and technical support.">2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Helpdesk, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
             <div className="hero__actions">
               <a href="#contact" className="btn btn--primary" data-id="Hubungi Saya" data-en="Get in Touch">Hubungi Saya</a>
               <a href="#experience" className="btn btn--ghost" data-id="Lihat Pengalaman" data-en="View Experience">Lihat Pengalaman</a>
@@ -479,7 +479,11 @@ export default function Home() {
           </div>
           <div className="hero__photo">
             <div className="hero__photo-wrap">
-              <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" />
+              <picture>
+                <source type="image/avif" srcSet="/images/foto_HD.avif" />
+                <source type="image/webp" srcSet="/images/foto_HD.webp" />
+                <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
+              </picture>
             </div>
             <div className="hero__photo-stats">
               <div className="hero__mini-stat">
@@ -509,7 +513,7 @@ export default function Home() {
           </div>
           <div className="about__grid">
             <div className="about__text">
-              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan helpdesk." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Customer Support internship</strong>, covering network monitoring and helpdesk.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan helpdesk.</p>
+              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Helpdesk</strong>, mencakup monitoring jaringan dan helpdesk." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Helpdesk internship</strong>, covering network monitoring and helpdesk.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Helpdesk</strong>, mencakup monitoring jaringan dan helpdesk.</p>
               <p data-id="Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall." data-en="Skilled in network monitoring, network troubleshooting, MikroTik configuration, routing &amp; switching, Linux server administration, and VLAN and firewall management.">Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.</p>
               <p data-id="Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan." data-en="Experienced working in dynamic network operational environments with strong analytical, problem-solving, and communication skills. Committed to maintaining IT infrastructure stability and improving service quality.">Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.</p>
               <div className="about__meta">
@@ -781,7 +785,7 @@ export default function Home() {
                   <span className="timeline__period" data-id="Jan 2024 – Des 2024" data-en="Jan 2024 – Dec 2024">Jan 2024 – Des 2024</span>
                   <span className="timeline__badge timeline__badge--intern" data-id="Magang / PKL" data-en="Internship">Magang / PKL</span>
                 </div>
-                <h3 className="timeline__role" data-id="Customer Support" data-en="Customer Support">Customer Support</h3>
+                <h3 className="timeline__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</h3>
                 <p className="timeline__company">PT. Inovasi Tjaraka Buana MyNet — Bandung</p>
                 <ul className="timeline__list">
                   <li data-id="Menangani keluhan pelanggan terkait gangguan internet melalui telepon, WhatsApp, dan ticketing system dengan pelayanan yang responsif dan profesional" data-en="Handle customer complaints related to internet issues via phone, WhatsApp, and ticketing system with responsive and professional service">Menangani keluhan pelanggan terkait gangguan internet melalui telepon, WhatsApp, dan ticketing system dengan pelayanan yang responsif dan profesional</li>
