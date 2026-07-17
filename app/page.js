@@ -33,9 +33,14 @@ export default function Home() {
     const toggle = document.getElementById('navToggle')
     const mobileMenu = document.getElementById('mobileMenu')
     toggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open')
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : ''
+      const open = mobileMenu.classList.toggle('open')
+      document.body.style.overflow = open ? 'hidden' : ''
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true')
     })
+    // ensure mobileMenu aria-hidden initially
+    mobileMenu.setAttribute('aria-hidden', 'true')
+    toggle.setAttribute('aria-expanded', 'false')
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         mobileMenu.classList.remove('open')
@@ -385,18 +390,6 @@ export default function Home() {
     const modal = document.getElementById('toolModal')
     const modalClose = document.getElementById('modalClose')
 
-    function openToolModal(toolName) {
-      const d = toolData[toolName]
-      if (!d) return
-      document.getElementById('modalIcon').style.cssText = `background:${d.iconBg};color:${d.iconText}`
-      document.getElementById('modalIcon').textContent = d.iconLabel
-      document.getElementById('modalName').textContent = toolName
-      document.getElementById('modalCat').textContent = currentLang === 'id' ? d.cat_id : d.cat_en
-      document.getElementById('modalScreen').innerHTML = d.mock
-      document.getElementById('modalDesc').textContent = currentLang === 'id' ? d.desc_id : d.desc_en
-      modal.classList.add('active')
-      document.body.style.overflow = 'hidden'
-    }
 
     function closeModal() {
       modal.classList.remove('active')
@@ -404,7 +397,19 @@ export default function Home() {
     }
 
     document.querySelectorAll('[data-tool]').forEach(el => {
-      el.addEventListener('click', () => openToolModal(el.dataset.tool))
+      el.addEventListener('click', () => {
+        const toolName = el.dataset.tool
+        const d = toolData[toolName]
+        if (!d) return
+        document.getElementById('modalIcon').style.cssText = `background:${d.iconBg};color:${d.iconText}`
+        document.getElementById('modalIcon').textContent = d.iconLabel
+        document.getElementById('modalName').textContent = toolName
+        document.getElementById('modalCat').textContent = currentLang === 'id' ? d.cat_id : d.cat_en
+        document.getElementById('modalScreen').innerHTML = d.mock
+        document.getElementById('modalDesc').textContent = currentLang === 'id' ? d.desc_id : d.desc_en
+        modal.classList.add('active')
+        document.body.style.overflow = 'hidden'
+      })
     })
     modalClose.addEventListener('click', closeModal)
     modal.addEventListener('click', e => { if (e.target === modal) closeModal() })
@@ -985,8 +990,9 @@ export default function Home() {
             <div className="contact__card">
               <form className="contact__form" onSubmit={handleSubmit}>
                 <div className="form__group">
-                  <label className="form__label" data-id="Nama" data-en="Name">Nama</label>
+                  <label className="form__label" htmlFor="contact-name" data-id="Nama" data-en="Name">Nama</label>
                   <input
+                    id="contact-name"
                     className="form__input"
                     type="text"
                     placeholder="John Doe"
@@ -996,8 +1002,9 @@ export default function Home() {
                   />
                 </div>
                 <div className="form__group">
-                  <label className="form__label">Email</label>
+                  <label className="form__label" htmlFor="contact-email">Email</label>
                   <input
+                    id="contact-email"
                     className="form__input"
                     type="email"
                     placeholder="john@example.com"
@@ -1007,8 +1014,9 @@ export default function Home() {
                   />
                 </div>
                 <div className="form__group">
-                  <label className="form__label" data-id="Pesan" data-en="Message">Pesan</label>
+                  <label className="form__label" htmlFor="contact-message" data-id="Pesan" data-en="Message">Pesan</label>
                   <textarea
+                    id="contact-message"
                     className="form__textarea"
                     placeholder="Halo Angga..."
                     data-id-ph="Halo Angga..."
