@@ -18,6 +18,23 @@
     --transition: 0.2s ease;
 }
 
+/* Light theme variables (applied when documentElement has data-theme="light") */
+[data-theme="light"] {
+    --bg: #ffffff;
+    --bg-alt: #f8fafc;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --border: rgba(15, 23, 42, 0.06);
+    --accent: #0ea5a4;
+    --accent-dim: rgba(14,165,164,0.06);
+    --accent-mid: rgba(14,165,164,0.12);
+    --text: #0f172a;
+    --text-muted: #475569;
+    --text-dim: #64748b;
+    --font: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+}
+
 html { scroll-behavior: smooth; background: #0a0a0d; }
 
 body {
@@ -100,6 +117,17 @@ body {
     transition: var(--transition);
 }
 .lang__toggle:hover { border-color: var(--text-muted); }
+
+.theme__toggle {
+   background: none;
+   border: 1px solid var(--border);
+   padding: 6px 8px;
+   border-radius: 6px;
+   cursor: pointer;
+   color: var(--text-dim);
+}
+.theme__toggle[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+
 .lang__option {
     font-family: var(--mono);
     font-size: 11px;
