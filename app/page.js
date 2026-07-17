@@ -426,13 +426,13 @@ export default function Home() {
           <li><a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a></li>
         </ul>
         <div className="nav__right">
-          <button className="lang__toggle" id="langToggle">
+        <button className="lang__toggle" id="langToggle" aria-label="Toggle language" aria-haspopup="true">
             <span className="lang__option active" data-lang="id">ID</span>
             <span className="lang__sep">/</span>
             <span className="lang__option" data-lang="en">EN</span>
           </button>
-          <button className="nav__toggle" id="navToggle">
-            <span></span><span></span><span></span>
+        <button className="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-controls="mobileMenu" aria-expanded="false">
+          <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
           </button>
         </div>
       </nav>
