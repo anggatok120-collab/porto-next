@@ -480,9 +480,9 @@ export default function Home() {
           <div className="hero__photo">
             <div className="hero__photo-wrap">
               <picture>
-                <source type="image/avif" srcSet="/images/foto_HD.avif" />
-                <source type="image/webp" srcSet="/images/foto_HD.webp" />
-                <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
+                <source type="image/avif" srcSet="/images/foto_HD-360.avif 360w, /images/foto_HD-768.avif 768w, /images/foto_HD-1200.avif 1200w, /images/foto_HD.avif 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
+                <source type="image/webp" srcSet="/images/foto_HD-360.webp 360w, /images/foto_HD-768.webp 768w, /images/foto_HD-1200.webp 1200w, /images/foto_HD.webp 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
+                <img src="/images/foto_HD-360.webp" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
               </picture>
             </div>
             <div className="hero__photo-stats">
