@@ -601,7 +601,7 @@ export default function Home() {
               <div className="service-card__icon">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </div>
-              <h3 className="service-card__title" data-id="IT Support & Helpdesk" data-en="IT Support & Helpdesk">IT Support &amp; Helpdesk</h3>
+              <h3 className="service-card__title" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</h3>
               <p className="service-card__desc" data-id="Dukungan teknis kepada pengguna melalui remote support, ticketing system, dan komunikasi online. Penanganan permasalahan perangkat, koneksi, dan layanan IT secara responsif." data-en="Technical support to users via remote support, ticketing system, and online communication. Responsive handling of device, connectivity, and IT service issues.">Dukungan teknis kepada pengguna melalui remote support, ticketing system, dan komunikasi online. Penanganan permasalahan perangkat, koneksi, dan layanan IT secara responsif.</p>
               <div className="service-card__tags">
                 <span className="tag tag--sm" data-id="Dukungan Jarak Jauh" data-en="Remote Support">Dukungan Jarak Jauh</span>
@@ -1063,5 +1063,6 @@ export default function Home() {
     </>
   )
 }
+
 
 
