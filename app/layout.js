@@ -25,7 +25,6 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{__html: "(function(){try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){} })()"}} />
       </head>
       <body>
-        <a href="#hero" className="skip-link">Skip to content</a>
         {children}
         <AnalyticsClient />
       </body>
