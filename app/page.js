@@ -548,13 +548,13 @@ export default function Home() {
               <a href="https://drive.google.com/file/d/1OTRYIbIfJOi860ptvR7UXMSUnYklKnVl/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="btn btn--ghost" data-id="↓ Unduh CV" data-en="↓ Download CV">↓ Unduh CV</a>
             </div>
             <div className="hero__badges">
-              <div className="hero__badge">
-                <span className="hero__badge-dot"></span>
-                <span data-id="Bekerja di PT Anugerah Media Data Nusantara" data-en="Employed at PT Anugerah Media Data Nusantara">Bekerja di PT Anugerah Media Data Nusantara</span>
-              </div>
               <div className="hero__badge hero__badge--outline">
                 <span>📍</span>
                 <span>Malang, Indonesia</span>
+              </div>
+              <div className="hero__badge">
+                <span className="hero__badge-dot"></span>
+                <span data-id="Bekerja di PT Anugerah Media Data Nusantara" data-en="Employed at PT Anugerah Media Data Nusantara">Bekerja di PT Anugerah Media Data Nusantara</span>
               </div>
             </div>
           </div>

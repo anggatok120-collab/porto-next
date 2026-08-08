@@ -728,7 +728,14 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 }
 
 /* HERO BADGES */
-.hero__badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.hero__badges { 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center;
+    gap: 10px 14px; 
+    margin-top: 24px;
+    max-width: 100%;
+}
 .hero__badge {
     display: inline-flex;
     align-items: center;
@@ -739,6 +746,8 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     color: var(--text-muted);
     border: 1px solid var(--border);
     background: var(--surface);
+    max-width: 100%;
+    box-sizing: border-box;
 }
 .hero__badge--outline { background: transparent; }
 .hero__badge-dot {
