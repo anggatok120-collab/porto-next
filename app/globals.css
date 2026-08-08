@@ -237,7 +237,7 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 }
 .hero__content {
     flex: 1;
-    text-align: center;
+    text-align: left;
 }
 .hero__greeting {
     font-family: var(--mono);
@@ -261,7 +261,7 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 .hero__roles {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
     margin-bottom: 24px;
     flex-wrap: wrap;
@@ -278,8 +278,9 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     font-size: 16px;
     line-height: 1.7;
     margin-bottom: 36px;
+    text-align: left;
 }
-.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start; }
 .hero__scroll {
     position: absolute;
     bottom: 40px;
@@ -732,6 +733,7 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     display: flex; 
     flex-wrap: wrap; 
     align-items: center;
+    justify-content: flex-start;
     gap: 10px 14px; 
     margin-top: 24px;
     max-width: 100%;
