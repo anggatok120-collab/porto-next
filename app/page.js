@@ -519,7 +519,7 @@ export default function Home() {
                 <span className="hero__mini-label" data-id="Tahun" data-en="Years">Tahun</span>
               </div>
               <div className="hero__mini-stat">
-                <span className="hero__mini-num">3</span>
+                <span className="hero__mini-num">4</span>
                 <span className="hero__mini-label" data-id="Perusahaan" data-en="Companies">Perusahaan</span>
               </div>
               <div className="hero__mini-stat">
@@ -559,7 +559,7 @@ export default function Home() {
                 </div>
                 <div className="about__meta-item">
                   <span className="about__meta-label">Status</span>
-                  <span className="about__meta-value about__meta-value--active" data-id="Mencari Pekerjaan" data-en="Open to Work">Mencari Pekerjaan</span>
+                  <span className="about__meta-value about__meta-value--active" data-id="Bekerja di PT Anugerah Media Data Nusantara" data-en="Working at PT Anugerah Media Data Nusantara">Bekerja di PT Anugerah Media Data Nusantara</span>
                 </div>
               </div>
             </div>
@@ -569,7 +569,7 @@ export default function Home() {
                 <span className="stat__label" data-id="Tahun Pengalaman" data-en="Years Experience">Tahun Pengalaman</span>
               </div>
               <div className="stat">
-                <span className="stat__num">3</span>
+                <span className="stat__num">4</span>
                 <span className="stat__label" data-id="Perusahaan" data-en="Companies">Perusahaan</span>
               </div>
               <div className="stat">
@@ -805,6 +805,33 @@ export default function Home() {
             <h2 className="section__title" data-id="Pengalaman Kerja" data-en="Work Experience">Pengalaman Kerja</h2>
           </div>
           <div className="timeline">
+
+            <div className="timeline__item">
+              <div className="timeline__dot"></div>
+              <div className="timeline__card">
+                <div className="timeline__meta">
+                  <span className="timeline__period" data-id="Agt 2026 – Sekarang" data-en="Aug 2026 – Present">Agt 2026 – Sekarang</span>
+                  <span className="timeline__badge timeline__badge--active" data-id="Aktif" data-en="Active">Aktif</span>
+                </div>
+                <h3 className="timeline__role" data-id="Network Engineer" data-en="Network Engineer">Network Engineer</h3>
+                <p className="timeline__company">PT Anugerah Media Data Nusantara</p>
+                <ul className="timeline__list">
+                  <li data-id="Memantau dan mengelola infrastruktur jaringan enterprise &amp; ISP 24/7 untuk memastikan stabilitas dan performa jaringan yang optimal" data-en="Monitor and manage 24/7 enterprise &amp; ISP network infrastructure to ensure optimal stability and performance">Memantau dan mengelola infrastruktur jaringan enterprise &amp; ISP 24/7 untuk memastikan stabilitas dan performa jaringan yang optimal</li>
+                  <li data-id="Melakukan analisis traffic network, penanganan gangguan jaringan (troubleshooting), serta mitigasi insiden secara cepat dan efisien" data-en="Analyze network traffic, perform network troubleshooting, and conduct rapid incident mitigation">Melakukan analisis traffic network, penanganan gangguan jaringan (troubleshooting), serta mitigasi insiden secara cepat dan efisien</li>
+                  <li data-id="Mengonfigurasi dan mengelola perangkat jaringan MikroTik, routing &amp; switching, VLAN, serta firewall rules" data-en="Configure and manage MikroTik network devices, routing &amp; switching, VLANs, and firewall rules">Mengonfigurasi dan mengelola perangkat jaringan MikroTik, routing &amp; switching, VLAN, serta firewall rules</li>
+                  <li data-id="Berkoordinasi dalam pengawasan ketersediaan jaringan, pemeliharaan infrastruktur IT, dan pemenuhan SLA layanan" data-en="Coordinate network availability oversight, IT infrastructure maintenance, and service SLA fulfillment">Berkoordinasi dalam pengawasan ketersediaan jaringan, pemeliharaan infrastruktur IT, dan pemenuhan SLA layanan</li>
+                </ul>
+                <div className="timeline__tags">
+                  <span className="tag tag--sm">Network Engineer</span>
+                  <span className="tag tag--sm">MikroTik</span>
+                  <span className="tag tag--sm">Routing &amp; Switching</span>
+                  <span className="tag tag--sm">VLAN</span>
+                  <span className="tag tag--sm">Firewall</span>
+                  <span className="tag tag--sm" data-id="Monitoring Jaringan" data-en="Network Monitoring">Monitoring Jaringan</span>
+                  <span className="tag tag--sm">SLA</span>
+                </div>
+              </div>
+            </div>
 
             <div className="timeline__item">
               <div className="timeline__dot"></div>
