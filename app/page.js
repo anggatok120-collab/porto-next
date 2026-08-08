@@ -405,6 +405,59 @@ export default function Home() {
             <div class="mock-out">172.16.0.2&nbsp;&nbsp;65002&nbsp;&nbsp;<span style="color:#84b135">Establ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;84/84</div>
           </div>
         </div>`
+      },
+      'Huawei': {
+        color: '#e41e2b', textColor: '#fff',
+        cat_id: 'Network Equipment · Enterprise Switch & Routing',
+        cat_en: 'Network Equipment · Enterprise Switch & Routing',
+        desc_id: 'Huawei Switch (VRP OS) digunakan untuk manajemen switching enterprise, VLAN tagging, L2/L3 routing, ACL, port security, dan stacking (iStack). Dipakai di jaringan enterprise, data center, dan ISP.',
+        desc_en: 'Huawei Switch (VRP OS) is used for enterprise switching management, VLAN tagging, L2/L3 routing, ACLs, port security, and stacking (iStack). Used in enterprise, data center & ISP networks.',
+        iconBg: '#2a080a', iconText: '#e41e2b', iconLabel: 'HW',
+        mock: `<div class="mock-window" style="background:#0a0707">
+          <div class="mock-bar" style="background:#1a0f10">
+            <span class="mock-dot" style="background:#ff5f56"></span>
+            <span class="mock-dot" style="background:#ffbd2e"></span>
+            <span class="mock-dot" style="background:#27c93f"></span>
+            <span class="mock-title">ssh admin@192.168.10.2 — Huawei VRP</span>
+          </div>
+          <div class="mock-terminal" style="background:#0a0707">
+            <div><span class="mock-prompt">&lt;Huawei-S5735&gt;</span> <span class="mock-cmd">display interface brief</span></div>
+            <div class="mock-out">PHY: Physical&nbsp;&nbsp;*eth: EthPort</div>
+            <div class="mock-out">Interface&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PHY&nbsp;&nbsp;Protocol&nbsp;&nbsp;InUti&nbsp;&nbsp;OutUti</div>
+            <div class="mock-out">GE0/0/1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;up&nbsp;&nbsp;&nbsp;up&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12.4%&nbsp;&nbsp;18.2%</div>
+            <div class="mock-out">GE0/0/2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;up&nbsp;&nbsp;&nbsp;up&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45.1%&nbsp;&nbsp;32.0%</div>
+            <div class="mock-out" style="margin-top:6px"><span class="mock-prompt">&lt;Huawei-S5735&gt;</span> <span class="mock-cmd">display vlan</span></div>
+            <div class="mock-out">Total VLANs: 4</div>
+            <div class="mock-out">VLAN ID&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;Ports</div>
+            <div class="mock-out">10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e41e2b">enable</span>&nbsp;&nbsp;&nbsp;GE0/0/1, GE0/0/2</div>
+            <div class="mock-out">20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e41e2b">enable</span>&nbsp;&nbsp;&nbsp;GE0/0/3, GE0/0/4</div>
+          </div>
+        </div>`
+      },
+      'Ruijie': {
+        color: '#0066cc', textColor: '#fff',
+        cat_id: 'Network Equipment · Enterprise Switch & AP',
+        cat_en: 'Network Equipment · Enterprise Switch & AP',
+        desc_id: 'Ruijie Networks (RGOS) digunakan untuk manajemen switch, VLAN, PoE management, trunking, serta integrasi dengan Ruijie Cloud untuk pemantauan jaringan kampus dan bisnis secara terpusat.',
+        desc_en: 'Ruijie Networks (RGOS) is used for switch management, VLANs, PoE management, trunking, and integration with Ruijie Cloud for centralized campus & business network monitoring.',
+        iconBg: '#05182a', iconText: '#0066cc', iconLabel: 'RJ',
+        mock: `<div class="mock-window" style="background:#050d14">
+          <div class="mock-bar" style="background:#0d1a29">
+            <span class="mock-dot" style="background:#ff5f56"></span>
+            <span class="mock-dot" style="background:#ffbd2e"></span>
+            <span class="mock-dot" style="background:#27c93f"></span>
+            <span class="mock-title">ssh admin@192.168.20.1 — Ruijie RGOS</span>
+          </div>
+          <div class="mock-terminal" style="background:#050d14">
+            <div><span class="mock-prompt">Ruijie#</span> <span class="mock-cmd">show interfaces status</span></div>
+            <div class="mock-out">Interface&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;Vlan&nbsp;&nbsp;Duplex&nbsp;&nbsp;Speed&nbsp;&nbsp;Type</div>
+            <div class="mock-out">Gi0/1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0066cc">Connected</span>&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;Full&nbsp;&nbsp;&nbsp;&nbsp;1000M&nbsp;&nbsp;1000Base-T</div>
+            <div class="mock-out">Gi0/2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0066cc">Connected</span>&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;Full&nbsp;&nbsp;&nbsp;&nbsp;1000M&nbsp;&nbsp;1000Base-T</div>
+            <div class="mock-out" style="margin-top:6px"><span class="mock-prompt">Ruijie#</span> <span class="mock-cmd">show ruijie-cloud status</span></div>
+            <div class="mock-out">Cloud Status:&nbsp;&nbsp;<span style="color:#0066cc">ONLINE</span></div>
+            <div class="mock-out">Device Model:&nbsp;&nbsp;RG-NBS3100-24GT4FP-P</div>
+          </div>
+        </div>`
       }
     }
 
@@ -677,6 +730,8 @@ export default function Home() {
                 <span className="tag tag--accent">SSH</span>
                 <span className="tag tag--accent">Winbox</span>
                 <span className="tag tag--accent">Juniper</span>
+                <span className="tag tag--accent">Huawei Switch</span>
+                <span className="tag tag--accent">Ruijie Switch</span>
               </div>
             </div>
             <div className="skill-group">
@@ -791,6 +846,27 @@ export default function Home() {
                   </svg>
                 </div>
                 <span className="tool-item__name">Winbox</span>
+              </div>
+              <div className="tool-item" data-tool="Huawei">
+                <div className="tool-item__icon tool-item__icon--huawei">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="6" width="20" height="12" rx="2" stroke="#e41e2b" strokeWidth="1.8"/>
+                    <circle cx="6" cy="12" r="1.2" fill="#e41e2b"/>
+                    <circle cx="10" cy="12" r="1.2" fill="#e41e2b"/>
+                    <circle cx="14" cy="12" r="1.2" fill="#e41e2b"/>
+                    <circle cx="18" cy="12" r="1.2" fill="#e41e2b"/>
+                  </svg>
+                </div>
+                <span className="tool-item__name">Huawei</span>
+              </div>
+              <div className="tool-item" data-tool="Ruijie">
+                <div className="tool-item__icon tool-item__icon--ruijie">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="6" width="20" height="12" rx="2" stroke="#0066cc" strokeWidth="1.8"/>
+                    <path d="M6 10 H18 M6 14 H14" stroke="#0066cc" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <span className="tool-item__name">Ruijie</span>
               </div>
             </div>
           </div>
