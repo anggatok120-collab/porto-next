@@ -837,29 +837,30 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 20px;
+    text-align: center;
 }
 .tools__grid {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 12px;
-    overflow-x: auto;
-    scrollbar-width: none;
     padding: 6px 2px;
 }
 .tools__grid::-webkit-scrollbar { display: none; }
 .tool-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 10px 12px;
+    padding: 10px 16px;
     transition: var(--transition);
     cursor: pointer;
     position: relative;
-    flex: 1;
+    flex: 0 0 auto;
 }
 .tool-item:hover {
     border-color: var(--accent-mid);
