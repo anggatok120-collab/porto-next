@@ -263,8 +263,10 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     align-items: center;
     justify-content: flex-start;
     gap: 12px;
+    margin-left: 0;
     margin-bottom: 24px;
     flex-wrap: wrap;
+    text-align: left;
 }
 .hero__role {
     font-size: 15px;
@@ -279,26 +281,10 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     line-height: 1.7;
     margin-bottom: 36px;
     text-align: left;
+    margin-left: 0;
 }
-.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start; }
-.hero__scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.hero__scroll span {
-    display: block;
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-    animation: scrollLine 2s ease-in-out infinite;
-}
-@keyframes scrollLine {
-    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
-    50% { opacity: 1; transform: scaleY(1); }
-    100% { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
-}
+.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start; margin-left: 0; }
+.hero__scroll { display: none !important; }
 
 /* HERO PHOTO */
 .hero__photo {

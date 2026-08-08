@@ -582,7 +582,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="hero__scroll"><span></span></div>
       </section>
 
       {/* ABOUT */}
