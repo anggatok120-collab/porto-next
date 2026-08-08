@@ -951,6 +951,27 @@ export default function Home() {
             <span className="section__tag">05 / <span data-id="Pendidikan" data-en="Education">Pendidikan</span></span>
             <h2 className="section__title" data-id="Pendidikan" data-en="Education">Pendidikan</h2>
           </div>
+          <div className="edu__card" style={{ marginBottom: '24px' }}>
+            <div className="edu__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </div>
+            <div className="edu__content">
+              <div className="edu__header">
+                <div>
+                  <h3 className="edu__school">Institut Teknologi dan Bisnis Asia Malang</h3>
+                  <p className="edu__major" data-id="Pendidikan Tinggi / Perguruan Tinggi" data-en="Higher Education / Undergraduate">Pendidikan Tinggi / Perguruan Tinggi</p>
+                </div>
+                <span className="edu__period" data-id="Sep 2026 – Sekarang" data-en="Sep 2026 – Present">Sep 2026 – Sekarang</span>
+              </div>
+              <div className="edu__activities">
+                <p className="edu__subjects-label" data-id="Status / Keterangan:" data-en="Status / Description:">Status / Keterangan:</p>
+                <p className="edu__activity-desc" data-id="Menempuh pendidikan tinggi di Institut Teknologi dan Bisnis Asia Malang." data-en="Pursuing higher education at Institut Teknologi dan Bisnis Asia Malang.">Menempuh pendidikan tinggi di Institut Teknologi dan Bisnis Asia Malang.</p>
+              </div>
+            </div>
+          </div>
+
           <div className="edu__card">
             <div className="edu__icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
