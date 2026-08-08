@@ -846,12 +846,11 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 20px;
-    text-align: center;
 }
 .tools__grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 12px;
     padding: 6px 2px;
