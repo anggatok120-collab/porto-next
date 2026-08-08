@@ -961,13 +961,13 @@ export default function Home() {
               <div className="edu__header">
                 <div>
                   <h3 className="edu__school">Institut Teknologi dan Bisnis Asia Malang</h3>
-                  <p className="edu__major" data-id="Pendidikan Tinggi / Perguruan Tinggi" data-en="Higher Education / Undergraduate">Pendidikan Tinggi / Perguruan Tinggi</p>
+                  <p className="edu__major" data-id="Teknik Informatika" data-en="Informatics Engineering">Teknik Informatika</p>
                 </div>
                 <span className="edu__period" data-id="Sep 2026 – Sekarang" data-en="Sep 2026 – Present">Sep 2026 – Sekarang</span>
               </div>
               <div className="edu__activities">
                 <p className="edu__subjects-label" data-id="Status / Keterangan:" data-en="Status / Description:">Status / Keterangan:</p>
-                <p className="edu__activity-desc" data-id="Menempuh pendidikan tinggi di Institut Teknologi dan Bisnis Asia Malang." data-en="Pursuing higher education at Institut Teknologi dan Bisnis Asia Malang.">Menempuh pendidikan tinggi di Institut Teknologi dan Bisnis Asia Malang.</p>
+                <p className="edu__activity-desc" data-id="Menempuh pendidikan tinggi jurusan Teknik Informatika di Institut Teknologi dan Bisnis Asia Malang." data-en="Pursuing higher education majoring in Informatics Engineering at Institut Teknologi dan Bisnis Asia Malang.">Menempuh pendidikan tinggi jurusan Teknik Informatika di Institut Teknologi dan Bisnis Asia Malang.</p>
               </div>
             </div>
           </div>
