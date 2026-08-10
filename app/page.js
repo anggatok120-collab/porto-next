@@ -1153,7 +1153,9 @@ export default function Home() {
                     id="contact-email"
                     className="form__input"
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder="angga@contoh.com"
+                    data-id-ph="angga@contoh.com"
+                    data-en-ph="angga@example.com"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                     required
