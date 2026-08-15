@@ -1123,6 +1123,14 @@ export default function Home() {
                   </div>
                   <span data-id="Terminal Portfolio" data-en="Terminal Portfolio">portfolio.anggatok.my.id</span>
                 </a>
+                <a href="https://networklab.anggatok.my.id" target="_blank" rel="noopener noreferrer" className="contact__link">
+                  <div className="contact__link-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                  </div>
+                  <span data-id="Network Lab Simulator" data-en="Network Lab Simulator">networklab.anggatok.my.id</span>
+                </a>
                 <a href="https://drive.google.com/file/d/1OTRYIbIfJOi860ptvR7UXMSUnYklKnVl/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="contact__link">
                   <div className="contact__link-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
