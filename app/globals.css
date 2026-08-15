@@ -1406,3 +1406,283 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 .blog-article__content { font-size: 15px; color: var(--text-muted); line-height: 1.8; }
 .blog-article__content p { margin-bottom: 16px; }
 .blog-article__content p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   NETWORK TOPOLOGY & PACKET SIMULATOR
+   ============================================================ */
+.simulator {
+    margin-top: 10px;
+}
+.simulator__card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+}
+.simulator__card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.simulator__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+.simulator__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+.sim-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+}
+.sim-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+.sim-btn--primary {
+    background: var(--accent);
+    color: #0d1117;
+    border-color: var(--accent);
+    font-weight: 600;
+}
+.sim-btn--primary:hover {
+    background: #bbf246;
+    color: #0d1117;
+    border-color: #bbf246;
+}
+.sim-btn--danger {
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+}
+.sim-btn--danger:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: #ef4444;
+    color: #ef4444;
+}
+.sim-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.03);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+.sim-status__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+}
+.sim-status__dot.active {
+    animation: pulseDot 1.2s infinite;
+}
+.sim-status__dot.down {
+    background: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+}
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+/* SVG DIAGRAM CONTAINER */
+.simulator__canvas-wrap {
+    width: 100%;
+    background: #090c10;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.sim-svg {
+    width: 100%;
+    height: auto;
+    min-height: 380px;
+    display: block;
+}
+.sim-link-line {
+    stroke: rgba(255,255,255,0.18);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: stroke 0.3s ease, stroke-dasharray 0.3s ease;
+}
+.sim-link-line.active {
+    stroke: #22c55e;
+    stroke-width: 3;
+}
+.sim-link-line.backup {
+    stroke: #f59e0b;
+    stroke-dasharray: 6 4;
+}
+.sim-link-line.down {
+    stroke: #ef4444;
+    stroke-dasharray: 4 4;
+    opacity: 0.6;
+}
+.sim-link-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    fill: var(--text-dim);
+    text-anchor: middle;
+    pointer-events: none;
+}
+.sim-node-group {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.sim-node-group:hover .sim-node-bg {
+    stroke: var(--accent);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 8px rgba(163,230,53,0.3));
+}
+.sim-node-bg {
+    fill: #161b22;
+    stroke: #30363d;
+    stroke-width: 1.5;
+    rx: 10;
+    transition: all 0.2s ease;
+}
+.sim-node-icon-bg {
+    fill: #21262d;
+    rx: 6;
+}
+.sim-node-title {
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 600;
+    fill: #f0f6fc;
+}
+.sim-node-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    fill: #8b949e;
+}
+.sim-node-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* PACKET ANIMATION */
+.sim-packet-dot {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent));
+    pointer-events: none;
+}
+.sim-packet-dot.icmp { fill: #22c55e; filter: drop-shadow(0 0 6px #22c55e); }
+.sim-packet-dot.vlan { fill: #38bdf8; filter: drop-shadow(0 0 6px #38bdf8); }
+.sim-packet-dot.failover { fill: #f59e0b; filter: drop-shadow(0 0 6px #f59e0b); }
+.sim-packet-dot.drop { fill: #ef4444; filter: drop-shadow(0 0 8px #ef4444); }
+
+/* CONSOLE PANEL */
+.simulator__console {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.sim-console__header {
+    background: #161b22;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #30363d;
+}
+.sim-console__dots {
+    display: flex;
+    gap: 6px;
+}
+.sim-console__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.sim-console__dot--r { background: #ff5f56; }
+.sim-console__dot--y { background: #ffbd2e; }
+.sim-console__dot--g { background: #27c93f; }
+.sim-console__title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.sim-console__clear {
+    background: none;
+    border: none;
+    color: #8b949e;
+    font-family: var(--mono);
+    font-size: 11px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.sim-console__clear:hover {
+    color: #f0f6fc;
+}
+.sim-console__body {
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.6;
+    color: #c9d1d9;
+    height: 140px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.sim-log-line {
+    display: flex;
+    gap: 8px;
+    word-break: break-all;
+}
+.sim-log-time { color: #8b949e; flex-shrink: 0; }
+.sim-log-host { color: var(--accent); font-weight: 600; flex-shrink: 0; }
+.sim-log-msg { color: #e6edf3; }
+.sim-log-msg--ok { color: #4ade80; }
+.sim-log-msg--warn { color: #fbbf24; }
+.sim-log-msg--err { color: #f87171; }
+.sim-log-msg--info { color: #38bdf8; }
+
+@media (max-width: 768px) {
+    .simulator__card { padding: 16px; }
+    .simulator__toolbar { flex-direction: column; align-items: stretch; }
+    .simulator__actions { width: 100%; justify-content: flex-start; }
+    .sim-btn { font-size: 12px; padding: 7px 12px; }
+    .sim-svg { min-height: 320px; }
+    .sim-console__body { height: 160px; font-size: 11px; }
+}
+

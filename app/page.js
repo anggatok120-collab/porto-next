@@ -489,6 +489,199 @@ export default function Home() {
     modalClose.addEventListener('click', closeModal)
     modal.addEventListener('click', e => { if (e.target === modal) closeModal() })
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+
+    // ============================================================
+    // NETWORK TOPOLOGY & PACKET SIMULATOR LOGIC
+    // ============================================================
+    const simConsole = document.getElementById('simConsoleBody')
+    const simStatusText = document.getElementById('simStatusText')
+    const simStatusDot = document.getElementById('simStatusDot')
+    const linkPrimary = document.getElementById('simLinkPrimary')
+    const linkBackup = document.getElementById('simLinkBackup')
+    const packetDot = document.getElementById('simPacketDot')
+    let isFailover = false
+    let isSimulating = false
+
+    function getNow() {
+      const d = new Date()
+      return d.toTimeString().split(' ')[0]
+    }
+
+    function simLog(host, msg, type = 'info') {
+      if (!simConsole) return
+      const line = document.createElement('div')
+      line.className = 'sim-log-line'
+      const typeClass = type === 'ok' ? 'sim-log-msg--ok' : type === 'warn' ? 'sim-log-msg--warn' : type === 'err' ? 'sim-log-msg--err' : 'sim-log-msg--info'
+      line.innerHTML = `<span class="sim-log-time">[${getNow()}]</span> <span class="sim-log-host">[${host}]</span> <span class="sim-log-msg ${typeClass}">${msg}</span>`
+      simConsole.appendChild(line)
+      simConsole.scrollTop = simConsole.scrollHeight
+    }
+
+    function clearSimLog() {
+      if (simConsole) simConsole.innerHTML = ''
+    }
+
+    const nodeCoords = {
+      client: { x: 100, y: 260 },
+      ruijie: { x: 300, y: 260 },
+      zabbix: { x: 300, y: 90 },
+      huawei: { x: 530, y: 260 },
+      mikrotik: { x: 740, y: 260 },
+      ispPrimary: { x: 880, y: 110 },
+      ispBackup: { x: 880, y: 330 }
+    }
+
+    function movePacketPath(points, colorType, durationPerLeg, onLeg, onComplete) {
+      if (!packetDot || points.length < 2) {
+        if (onComplete) onComplete()
+        return
+      }
+      packetDot.setAttribute('class', `sim-packet-dot ${colorType}`)
+      packetDot.style.opacity = '1'
+      let currentLeg = 0
+
+      function runLeg() {
+        if (currentLeg >= points.length - 1) {
+          packetDot.style.opacity = '0'
+          if (onComplete) onComplete()
+          return
+        }
+        const pStart = points[currentLeg]
+        const pEnd = points[currentLeg + 1]
+        if (onLeg) onLeg(currentLeg, pStart, pEnd)
+
+        const startTime = performance.now()
+        function step(now) {
+          const elapsed = now - startTime
+          const progress = Math.min(elapsed / durationPerLeg, 1)
+          const curX = pStart.x + (pEnd.x - pStart.x) * progress
+          const curY = pStart.y + (pEnd.y - pStart.y) * progress
+          packetDot.setAttribute('cx', curX)
+          packetDot.setAttribute('cy', curY)
+
+          if (progress < 1) {
+            requestAnimationFrame(step)
+          } else {
+            currentLeg++
+            setTimeout(runLeg, 50)
+          }
+        }
+        requestAnimationFrame(step)
+      }
+      runLeg()
+    }
+
+    // 1. PING ACTION
+    document.getElementById('btnSimPing')?.addEventListener('click', () => {
+      if (isSimulating) return
+      isSimulating = true
+      clearSimLog()
+      const targetISP = isFailover ? nodeCoords.ispBackup : nodeCoords.ispPrimary
+      simLog('Host-01', `PING ${isFailover ? '198.51.100.1' : '203.0.113.1'}: 64 data bytes (ICMP Echo)`, 'info')
+
+      const outbound = [nodeCoords.client, nodeCoords.ruijie, nodeCoords.huawei, nodeCoords.mikrotik, targetISP]
+      movePacketPath(outbound, 'icmp', 220, (leg) => {
+        if (leg === 0) simLog('Ruijie-SW', 'Forwarding packet via 802.1Q Trunk (VLAN 10 Tagged)', 'info')
+        if (leg === 1) simLog('Huawei-Core', 'Inter-VLAN Route lookup -> Next-hop 10.0.0.1 (CCR)', 'info')
+        if (leg === 2) simLog('MikroTik-CCR', `NAT Masquerade -> Out Interface: ${isFailover ? 'ether2 (Backup)' : 'ether1 (Primary)'}`, 'ok')
+        if (leg === 3) simLog('ISP-Gateway', 'ICMP Echo Received. Generating Echo-Reply packet.', 'ok')
+      }, () => {
+        const inbound = [targetISP, nodeCoords.mikrotik, nodeCoords.huawei, nodeCoords.ruijie, nodeCoords.client]
+        movePacketPath(inbound, 'icmp', 200, null, () => {
+          simLog('Host-01', `64 bytes from ${isFailover ? '198.51.100.1' : '203.0.113.1'}: icmp_seq=1 ttl=58 time=7.82 ms`, 'ok')
+          simLog('Host-01', '--- Ping statistics: 1 packets transmitted, 1 received, 0% packet loss ---', 'ok')
+          isSimulating = false
+        })
+      })
+    })
+
+    // 2. FAILOVER ACTION
+    document.getElementById('btnSimFailover')?.addEventListener('click', () => {
+      if (isSimulating) return
+      isFailover = !isFailover
+      if (isFailover) {
+        linkPrimary?.classList.remove('active')
+        linkPrimary?.classList.add('down')
+        linkBackup?.classList.add('active')
+        if (simStatusText) simStatusText.textContent = 'FAILOVER (Backup WAN Active)'
+        if (simStatusDot) { simStatusDot.className = 'sim-status__dot down' }
+        simLog('BGP-DAEMON', 'ALERT: BGP Session to AS65001 (Primary ISP) DROPPED! Link Loss detected.', 'err')
+        simLog('MikroTik-CCR', 'Dynamic Route Failover activated: Default Route -> 198.51.100.1 (Metric 20)', 'warn')
+        simLog('MikroTik-CCR', 'Backup Link UP (ether2). Traffic rerouted successfully in 0.84s.', 'ok')
+      } else {
+        linkPrimary?.classList.remove('down')
+        linkPrimary?.classList.add('active')
+        linkBackup?.classList.remove('active')
+        if (simStatusText) simStatusText.textContent = 'Normal (Primary Link Active)'
+        if (simStatusDot) { simStatusDot.className = 'sim-status__dot' }
+        simLog('BGP-DAEMON', 'Primary Link Restored. BGP Session Established to AS65001.', 'ok')
+        simLog('MikroTik-CCR', 'Default Route reverted to Primary Gateway 203.0.113.1 (Metric 10).', 'info')
+      }
+    })
+
+    // 3. VLAN TAGGING ACTION
+    document.getElementById('btnSimVlan')?.addEventListener('click', () => {
+      if (isSimulating) return
+      isSimulating = true
+      clearSimLog()
+      simLog('Host-01', 'Host sending SNMP Query to Monitoring Server (192.168.10.50)', 'info')
+      const path = [nodeCoords.client, nodeCoords.ruijie, nodeCoords.zabbix]
+      movePacketPath(path, 'vlan', 300, (leg) => {
+        if (leg === 0) simLog('Ruijie-SW', 'Untagged Ethernet Frame received on Port Gi0/1 (Assigned PVID: 10)', 'info')
+        if (leg === 1) simLog('Zabbix-SRV', 'Frame received on eth0 (VLAN 10). SNMP Response generated.', 'ok')
+      }, () => {
+        const pathBack = [nodeCoords.zabbix, nodeCoords.ruijie, nodeCoords.client]
+        movePacketPath(pathBack, 'vlan', 250, null, () => {
+          simLog('Host-01', 'SNMP Response: Zabbix Server Status [UP] - 0 packet loss.', 'ok')
+          isSimulating = false
+        })
+      })
+    })
+
+    // 4. FIREWALL DROP ACTION
+    document.getElementById('btnSimFirewall')?.addEventListener('click', () => {
+      if (isSimulating) return
+      isSimulating = true
+      clearSimLog()
+      simLog('Host-01', 'Attempting unauthorized SSH connection to WAN IP: 203.0.113.1:22', 'warn')
+      const path = [nodeCoords.client, nodeCoords.ruijie, nodeCoords.huawei, nodeCoords.mikrotik]
+      movePacketPath(path, 'drop', 240, (leg) => {
+        if (leg === 2) simLog('MikroTik-CCR', 'FIREWALL FILTER: Checking Chain=FORWARD, Dst-Port=22, Action=DROP', 'warn')
+      }, () => {
+        simLog('MikroTik-CCR', '[DROP] IN=vlan10 OUT=ether1 SRC=192.168.10.101 DST=203.0.113.1 PROTO=TCP DPT=22', 'err')
+        simLog('Host-01', 'ssh: connect to host 203.0.113.1 port 22: Connection refused / Dropped by Firewall Rule.', 'err')
+        isSimulating = false
+      })
+    })
+
+    // 5. RESET ACTION
+    document.getElementById('btnSimReset')?.addEventListener('click', () => {
+      isFailover = false
+      isSimulating = false
+      linkPrimary?.classList.remove('down')
+      linkPrimary?.classList.add('active')
+      linkBackup?.classList.remove('active')
+      if (simStatusText) simStatusText.textContent = 'Normal (Primary Link Active)'
+      if (simStatusDot) { simStatusDot.className = 'sim-status__dot' }
+      if (packetDot) packetDot.style.opacity = '0'
+      clearSimLog()
+      simLog('SYS-RESET', 'Topology and links reset to default normal operational state.', 'ok')
+    })
+
+    // 6. CLEAR LOG
+    document.getElementById('simConsoleClear')?.addEventListener('click', () => {
+      clearSimLog()
+    })
+
+    // 7. NODE CLICK INSPECTION
+    document.querySelectorAll('.sim-node-group').forEach(node => {
+      node.addEventListener('click', () => {
+        const name = node.dataset.nodeName || 'Device'
+        const ip = node.dataset.nodeIp || 'N/A'
+        const role = node.dataset.nodeRole || 'Network Node'
+        simLog(name, `INSPECT: IP=${ip} | Role=${role} | Status=ONLINE | Interfaces=UP`, 'info')
+      })
+    })
   }, [])
 
   return (
@@ -500,6 +693,7 @@ export default function Home() {
           <li><a href="#about" data-id="Tentang" data-en="About">Tentang</a></li>
           <li><a href="#services" data-id="Layanan" data-en="Services">Layanan</a></li>
           <li><a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a></li>
+          <li><a href="#lab" data-id="Lab & Simulasi" data-en="Lab & Simulation">Lab &amp; Simulasi</a></li>
           <li><a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a></li>
           <li><a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a></li>
           <li><a href="/blog">Blog</a></li>
@@ -523,6 +717,7 @@ export default function Home() {
         <a href="#about" data-id="Tentang" data-en="About">Tentang</a>
         <a href="#services" data-id="Layanan" data-en="Services">Layanan</a>
         <a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a>
+        <a href="#lab" data-id="Lab & Simulasi" data-en="Lab & Simulation">Lab &amp; Simulasi</a>
         <a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a>
         <a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a>
         <a href="/blog">Blog</a>
@@ -872,11 +1067,180 @@ export default function Home() {
         </div>
       </section>
 
+      {/* NETWORK LAB & TOPOLOGY SIMULATOR */}
+      <section className="section" id="lab">
+        <div className="container">
+          <div className="section__header">
+            <span className="section__tag">04 / <span data-id="Lab & Simulasi" data-en="Lab & Simulation">Lab &amp; Simulasi</span></span>
+            <h2 className="section__title" data-id="Topologi Jaringan & Simulator" data-en="Network Topology & Simulator">Topologi Jaringan &amp; Simulator</h2>
+            <p className="section__subtitle" data-id="Simulasi interaktif aliran paket data, failover redundancy, isolasi VLAN, dan filter firewall pada arsitektur jaringan enterprise." data-en="Interactive simulation of packet flow, link failover redundancy, VLAN segmentation, and firewall security on enterprise network architecture.">Simulasi interaktif aliran paket data, failover redundancy, isolasi VLAN, dan filter firewall pada arsitektur jaringan enterprise.</p>
+          </div>
+
+          <div className="simulator__card">
+            {/* TOOLBAR CONTROLS */}
+            <div className="simulator__toolbar">
+              <div className="simulator__actions">
+                <button type="button" className="sim-btn sim-btn--primary" id="btnSimPing">
+                  <span>⚡</span> <span data-id="Kirim Ping (ICMP)" data-en="Send Ping (ICMP)">Kirim Ping (ICMP)</span>
+                </button>
+                <button type="button" className="sim-btn sim-btn--danger" id="btnSimFailover">
+                  <span>⇄</span> <span data-id="Simulasi Failover Link" data-en="Simulate Link Failover">Simulasi Failover Link</span>
+                </button>
+                <button type="button" className="sim-btn" id="btnSimVlan">
+                  <span>🏷️</span> <span data-id="VLAN Tagging (802.1Q)" data-en="VLAN Tagging (802.1Q)">VLAN Tagging (802.1Q)</span>
+                </button>
+                <button type="button" className="sim-btn" id="btnSimFirewall">
+                  <span>🛡️</span> <span data-id="Firewall Drop Filter" data-en="Firewall Drop Filter">Firewall Drop Filter</span>
+                </button>
+                <button type="button" className="sim-btn" id="btnSimReset">
+                  <span>↺</span> <span data-id="Reset" data-en="Reset">Reset</span>
+                </button>
+              </div>
+              <div className="sim-status">
+                <span className="sim-status__dot" id="simStatusDot"></span>
+                <span id="simStatusText">Normal (Primary Link Active)</span>
+              </div>
+            </div>
+
+            {/* SVG TOPOLOGY DIAGRAM */}
+            <div className="simulator__canvas-wrap">
+              <svg viewBox="0 0 960 380" className="sim-svg" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gradLink" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4"/>
+                    <stop offset="100%" stopColor="#a3e635" stopOpacity="0.8"/>
+                  </linearGradient>
+                </defs>
+
+                {/* CONNECTION LINKS */}
+                {/* 1. Client -> Ruijie Switch */}
+                <line x1="100" y1="260" x2="300" y2="260" className="sim-link-line active" />
+                <text x="200" y="250" className="sim-link-label">Gi0/1 (VLAN 10)</text>
+
+                {/* 2. Ruijie Switch -> NOC Zabbix Server */}
+                <line x1="300" y1="260" x2="300" y2="90" className="sim-link-line active" />
+                <text x="315" y="180" className="sim-link-label">Gi0/2</text>
+
+                {/* 3. Ruijie Switch -> Huawei Core Switch */}
+                <line x1="300" y1="260" x2="530" y2="260" className="sim-link-line active" />
+                <text x="415" y="250" className="sim-link-label">Trunk 802.1Q (Gi0/24)</text>
+
+                {/* 4. Huawei Core Switch -> MikroTik CCR */}
+                <line x1="530" y1="260" x2="740" y2="260" className="sim-link-line active" />
+                <text x="635" y="250" className="sim-link-label">10.0.0.0/30 (L3 Routed)</text>
+
+                {/* 5. MikroTik CCR -> ISP Primary */}
+                <line x1="740" y1="260" x2="880" y2="110" className="sim-link-line active" id="simLinkPrimary" />
+                <text x="810" y="175" className="sim-link-label">Primary WAN (BGP)</text>
+
+                {/* 6. MikroTik CCR -> ISP Backup */}
+                <line x1="740" y1="260" x2="880" y2="330" className="sim-link-line backup" id="simLinkBackup" />
+                <text x="810" y="315" className="sim-link-label">Backup WAN (Failover)</text>
+
+                {/* MOVING PACKET DOT */}
+                <circle id="simPacketDot" cx="100" cy="260" r="7" className="sim-packet-dot" style={{ opacity: 0 }} />
+
+                {/* DEVICE NODES */}
+                {/* Node 1: Client Host */}
+                <g className="sim-node-group" data-node-name="Host-01" data-node-ip="192.168.10.101" data-node-role="Workstation (VLAN 10)">
+                  <rect x="30" y="225" width="140" height="70" className="sim-node-bg" />
+                  <rect x="42" y="240" width="36" height="36" className="sim-node-icon-bg" />
+                  <text x="60" y="263" fill="#38bdf8" textAnchor="middle" fontSize="18">💻</text>
+                  <text x="88" y="252" className="sim-node-title">Host-01</text>
+                  <text x="88" y="268" className="sim-node-sub">192.168.10.101</text>
+                  <text x="88" y="282" className="sim-node-badge" fill="#a3e635">VLAN 10</text>
+                </g>
+
+                {/* Node 2: Ruijie Access Switch */}
+                <g className="sim-node-group" data-node-name="Ruijie-SW" data-node-ip="10.0.0.3" data-node-role="Access Switch (RG-NBS3100)">
+                  <rect x="225" y="225" width="150" height="70" className="sim-node-bg" />
+                  <rect x="237" y="240" width="36" height="36" className="sim-node-icon-bg" />
+                  <text x="255" y="263" fill="#0066cc" textAnchor="middle" fontSize="18">🔀</text>
+                  <text x="283" y="252" className="sim-node-title">Ruijie Switch</text>
+                  <text x="283" y="268" className="sim-node-sub">RG-NBS3100</text>
+                  <text x="283" y="282" className="sim-node-badge" fill="#38bdf8">VLAN 10/20 Trunk</text>
+                </g>
+
+                {/* Node 3: NOC Zabbix Server */}
+                <g className="sim-node-group" data-node-name="Zabbix-SRV" data-node-ip="192.168.10.50" data-node-role="NOC Monitoring Server">
+                  <rect x="225" y="55" width="150" height="70" className="sim-node-bg" />
+                  <rect x="237" y="70" width="36" height="36" className="sim-node-icon-bg" />
+                  <text x="255" y="93" fill="#f87171" textAnchor="middle" fontSize="18">🖥️</text>
+                  <text x="283" y="82" className="sim-node-title">NOC Zabbix</text>
+                  <text x="283" y="98" className="sim-node-sub">192.168.10.50</text>
+                  <text x="283" y="112" className="sim-node-badge" fill="#f46800">SNMP Server</text>
+                </g>
+
+                {/* Node 4: Huawei Core Switch */}
+                <g className="sim-node-group" data-node-name="Huawei-Core" data-node-ip="10.0.0.2" data-node-role="Core L3 Switch (S5735-L)">
+                  <rect x="455" y="225" width="150" height="70" className="sim-node-bg" />
+                  <rect x="467" y="240" width="36" height="36" className="sim-node-icon-bg" />
+                  <text x="485" y="263" fill="#e41e2b" textAnchor="middle" fontSize="18">🏢</text>
+                  <text x="513" y="252" className="sim-node-title">Huawei Core</text>
+                  <text x="513" y="268" className="sim-node-sub">S5735-L (L3 Core)</text>
+                  <text x="513" y="282" className="sim-node-badge" fill="#a3e635">10.0.0.2/30</text>
+                </g>
+
+                {/* Node 5: MikroTik Core Router */}
+                <g className="sim-node-group" data-node-name="MikroTik-CCR" data-node-ip="10.0.0.1" data-node-role="Core Edge Router (CCR2004)">
+                  <rect x="665" y="225" width="150" height="70" className="sim-node-bg" />
+                  <rect x="677" y="240" width="36" height="36" className="sim-node-icon-bg" />
+                  <text x="695" y="263" fill="#cc0000" textAnchor="middle" fontSize="18">🛡️</text>
+                  <text x="723" y="252" className="sim-node-title">MikroTik Router</text>
+                  <text x="723" y="268" className="sim-node-sub">CCR2004-1G-12S+</text>
+                  <text x="723" y="282" className="sim-node-badge" fill="#f59e0b">BGP · NAT · FW</text>
+                </g>
+
+                {/* Node 6: ISP Primary */}
+                <g className="sim-node-group" data-node-name="ISP-Primary" data-node-ip="203.0.113.1" data-node-role="Primary ISP Gateway (AS65001)">
+                  <rect x="825" y="75" width="125" height="65" className="sim-node-bg" />
+                  <rect x="835" y="88" width="34" height="34" className="sim-node-icon-bg" />
+                  <text x="852" y="110" fill="#22c55e" textAnchor="middle" fontSize="16">🌐</text>
+                  <text x="876" y="99" className="sim-node-title">ISP Primary</text>
+                  <text x="876" y="113" className="sim-node-sub">203.0.113.1</text>
+                  <text x="876" y="126" className="sim-node-badge" fill="#22c55e">WAN Active</text>
+                </g>
+
+                {/* Node 7: ISP Backup */}
+                <g className="sim-node-group" data-node-name="ISP-Backup" data-node-ip="198.51.100.1" data-node-role="Secondary Backup WAN">
+                  <rect x="825" y="295" width="125" height="65" className="sim-node-bg" />
+                  <rect x="835" y="308" width="34" height="34" className="sim-node-icon-bg" />
+                  <text x="852" y="330" fill="#f59e0b" textAnchor="middle" fontSize="16">☁️</text>
+                  <text x="876" y="319" className="sim-node-title">ISP Backup</text>
+                  <text x="876" y="333" className="sim-node-sub">198.51.100.1</text>
+                  <text x="876" y="346" className="sim-node-badge" fill="#f59e0b">Standby WAN</text>
+                </g>
+              </svg>
+            </div>
+
+            {/* LIVE NOC CONSOLE / LOG */}
+            <div className="simulator__console">
+              <div className="sim-console__header">
+                <div className="sim-console__dots">
+                  <span className="sim-console__dot sim-console__dot--r"></span>
+                  <span className="sim-console__dot sim-console__dot--y"></span>
+                  <span className="sim-console__dot sim-console__dot--g"></span>
+                </div>
+                <span className="sim-console__title">NOC REAL-TIME PACKET &amp; ROUTE CONSOLE</span>
+                <button type="button" className="sim-console__clear" id="simConsoleClear" data-id="Bersihkan" data-en="Clear">Bersihkan</button>
+              </div>
+              <div className="sim-console__body" id="simConsoleBody">
+                <div className="sim-log-line">
+                  <span className="sim-log-time">[00:00:00]</span>
+                  <span className="sim-log-host">[SYS-READY]</span>
+                  <span className="sim-log-msg sim-log-msg--info" data-id="Topologi siap. Klik tombol simulasi di atas untuk menguji aliran paket data." data-en="Topology ready. Click simulation action buttons above to test live packet flows.">Topologi siap. Klik tombol simulasi di atas untuk menguji aliran paket data.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* EXPERIENCE */}
       <section className="section section--alt" id="experience">
         <div className="container">
           <div className="section__header">
-            <span className="section__tag">04 / <span data-id="Pengalaman" data-en="Experience">Pengalaman</span></span>
+            <span className="section__tag">05 / <span data-id="Pengalaman" data-en="Experience">Pengalaman</span></span>
             <h2 className="section__title" data-id="Pengalaman Kerja" data-en="Work Experience">Pengalaman Kerja</h2>
           </div>
           <div className="timeline">
@@ -1023,7 +1387,7 @@ export default function Home() {
       <section className="section" id="education">
         <div className="container">
           <div className="section__header">
-            <span className="section__tag">05 / <span data-id="Pendidikan" data-en="Education">Pendidikan</span></span>
+            <span className="section__tag">06 / <span data-id="Pendidikan" data-en="Education">Pendidikan</span></span>
             <h2 className="section__title" data-id="Pendidikan" data-en="Education">Pendidikan</h2>
           </div>
           <div className="edu__card" style={{ marginBottom: '24px' }}>
@@ -1084,7 +1448,7 @@ export default function Home() {
       <section className="section section--alt" id="contact">
         <div className="container">
           <div className="section__header">
-            <span className="section__tag">06 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
+            <span className="section__tag">07 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
             <h2 className="section__title" data-id="Hubungi Saya" data-en="Contact Me">Hubungi Saya</h2>
           </div>
           <div className="contact__grid">
