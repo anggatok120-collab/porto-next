@@ -237,7 +237,7 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 }
 .hero__content {
     flex: 1;
-    text-align: left;
+    text-align: center;
 }
 .hero__greeting {
     font-family: var(--mono);
@@ -257,16 +257,16 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-align: center;
 }
 .hero__roles {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 12px;
-    margin-left: 0;
     margin-bottom: 24px;
     flex-wrap: wrap;
-    text-align: left;
+    text-align: center;
 }
 .hero__role {
     font-size: 15px;
@@ -275,15 +275,14 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 }
 .hero__sep { color: var(--accent); opacity: 0.5; }
 .hero__desc {
-    max-width: 520px;
+    max-width: 540px;
     color: var(--text-muted);
     font-size: 16px;
     line-height: 1.7;
-    margin-bottom: 36px;
-    text-align: left;
-    margin-left: 0;
+    margin: 0 auto 36px auto;
+    text-align: center;
 }
-.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start; margin-left: 0; }
+.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin: 0 auto; }
 .hero__scroll { display: none !important; }
 
 /* HERO PHOTO */
@@ -719,7 +718,7 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     display: flex; 
     flex-wrap: wrap; 
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px 14px; 
     margin-top: 24px;
     max-width: 100%;
