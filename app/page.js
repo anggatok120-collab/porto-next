@@ -607,7 +607,7 @@ export default function Home() {
                 </div>
                 <div className="about__meta-item">
                   <span className="about__meta-label">Status</span>
-                  <span className="about__meta-value about__meta-value--active" data-id="Terbuka untuk Peluang Kerja" data-en="Open to Work">Terbuka untuk Peluang Kerja</span>
+                  <span className="about__meta-value about__meta-value--active" data-id="Mahasiswa Aktif — UMM (Akuakultur)" data-en="Active Student — UMM (Aquaculture)">Mahasiswa Aktif — UMM (Akuakultur)</span>
                 </div>
               </div>
             </div>
