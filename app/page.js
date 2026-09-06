@@ -539,13 +539,13 @@ export default function Home() {
             <div className="hero__roles">
               <span className="hero__role" data-id="Network Engineer" data-en="Network Engineer">Network Engineer</span>
               <span className="hero__sep">/</span>
-              <span className="hero__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</span>
+              <span className="hero__role" data-id="Customer Support" data-en="Customer Support">Customer Support</span>
             </div>
-            <p className="hero__desc" data-id="2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Helpdesk, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Helpdesk, 24/7 network monitoring, troubleshooting, and technical support.">2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Helpdesk, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
+            <p className="hero__desc" data-id="2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Customer Support, 24/7 network monitoring, troubleshooting, and technical support.">2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
             <div className="hero__actions">
               <a href="#contact" className="btn btn--primary" data-id="Hubungi Saya" data-en="Get in Touch">Hubungi Saya</a>
               <a href="#experience" className="btn btn--ghost" data-id="Lihat Pengalaman" data-en="View Experience">Lihat Pengalaman</a>
-              <a href="https://drive.google.com/file/d/1OTRYIbIfJOi860ptvR7UXMSUnYklKnVl/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="btn btn--ghost" data-id="↓ Unduh CV" data-en="↓ Download CV">↓ Unduh CV</a>
+              <a href="/cv/CV_Angga.pdf" target="_blank" rel="noopener noreferrer" className="btn btn--ghost" data-id="↓ Unduh CV" data-en="↓ Download CV">↓ Unduh CV</a>
             </div>
             <div className="hero__badges">
               <div className="hero__badge hero__badge--outline">
@@ -589,7 +589,7 @@ export default function Home() {
           </div>
           <div className="about__grid">
             <div className="about__text">
-              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Helpdesk</strong>, mencakup monitoring jaringan dan helpdesk." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Helpdesk internship</strong>, covering network monitoring and helpdesk.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Helpdesk</strong>, mencakup monitoring jaringan dan helpdesk.</p>
+              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan customer support." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Customer Support internship</strong>, covering network monitoring and customer support.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan customer support.</p>
               <p data-id="Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall." data-en="Skilled in network monitoring, network troubleshooting, MikroTik configuration, routing &amp; switching, Linux server administration, and VLAN and firewall management.">Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.</p>
               <p data-id="Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan." data-en="Experienced working in dynamic network operational environments with strong analytical, problem-solving, and communication skills. Committed to maintaining IT infrastructure stability and improving service quality.">Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.</p>
               <div className="about__meta">
@@ -1126,13 +1126,13 @@ export default function Home() {
                   </div>
                   <span data-id="Network Lab Simulator" data-en="Network Lab Simulator">lab.anggatok.my.id</span>
                 </a>
-                <a href="https://drive.google.com/file/d/1OTRYIbIfJOi860ptvR7UXMSUnYklKnVl/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="contact__link">
+                <a href="/cv/CV_Angga.pdf" target="_blank" rel="noopener noreferrer" className="contact__link">
                   <div className="contact__link-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
                     </svg>
                   </div>
-                  <span data-id="Unduh CV (Google Drive)" data-en="Download CV (Google Drive)">Unduh CV (Google Drive)</span>
+                  <span data-id="Unduh CV (PDF)" data-en="Download CV (PDF)">Unduh CV (PDF)</span>
                 </a>
               </div>
             </div>
