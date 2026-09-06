@@ -552,10 +552,6 @@ export default function Home() {
                 <span>📍</span>
                 <span>Malang, Indonesia</span>
               </div>
-              <div className="hero__badge">
-                <span className="hero__badge-dot"></span>
-                <span data-id="Bekerja di PT Anugerah Media Data Nusantara" data-en="Employed at PT Anugerah Media Data Nusantara">Bekerja di PT Anugerah Media Data Nusantara</span>
-              </div>
             </div>
           </div>
           <div className="hero__photo">
@@ -611,7 +607,7 @@ export default function Home() {
                 </div>
                 <div className="about__meta-item">
                   <span className="about__meta-label">Status</span>
-                  <span className="about__meta-value about__meta-value--active" data-id="Bekerja di PT Anugerah Media Data Nusantara" data-en="Working at PT Anugerah Media Data Nusantara">Bekerja di PT Anugerah Media Data Nusantara</span>
+                  <span className="about__meta-value about__meta-value--active" data-id="Terbuka untuk Peluang Kerja" data-en="Open to Work">Terbuka untuk Peluang Kerja</span>
                 </div>
               </div>
             </div>
@@ -885,8 +881,7 @@ export default function Home() {
               <div className="timeline__dot"></div>
               <div className="timeline__card">
                 <div className="timeline__meta">
-                  <span className="timeline__period" data-id="Agt 2026 – Sekarang" data-en="Aug 2026 – Present">Agt 2026 – Sekarang</span>
-                  <span className="timeline__badge timeline__badge--active" data-id="Aktif" data-en="Active">Aktif</span>
+                  <span className="timeline__period" data-id="Agt 2026 – Sep 2026" data-en="Aug 2026 – Sep 2026">Agt 2026 – Sep 2026</span>
                 </div>
                 <h3 className="timeline__role" data-id="Network Engineer" data-en="Network Engineer">Network Engineer</h3>
                 <p className="timeline__company">PT Anugerah Media Data Nusantara</p>
