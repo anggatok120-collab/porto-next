@@ -1406,37 +1406,72 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 .blog-article__content p { margin-bottom: 16px; }
 .blog-article__content p:last-child { margin-bottom: 0; }
 
-/* ===== PPT SLIDE DECK MODE ===== */
+/* ===== HORIZONTAL PPT SLIDE DECK MODE ===== */
 
-html.slide-mode-active {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+html.slide-mode-active,
+body.slide-mode-active {
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 
-@media (max-width: 768px) {
-    html.slide-mode-active {
-        scroll-snap-type: y proximity;
-    }
-}
-
-.slide-mode-active .hero {
+/* Horizontal track container */
+.slides-container {
+    width: 100%;
     min-height: 100vh;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
+}
+
+.slide-mode-active .slides-container {
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
+.slide-mode-active .slides-container::-webkit-scrollbar {
+    display: none;
+}
+
+.slide-mode-active .hero,
 .slide-mode-active .section {
-    min-height: 100vh;
+    min-width: 100vw;
+    max-width: 100vw;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-    padding: 72px 0 80px 0;
-    position: relative;
     box-sizing: border-box;
+    padding: 72px 0 84px 0;
+    position: relative;
+}
+
+/* Custom sleek scrollbar for internal scroll within a slide if content is tall */
+.slide-mode-active .section::-webkit-scrollbar,
+.slide-mode-active .hero::-webkit-scrollbar {
+    width: 5px;
+}
+.slide-mode-active .section::-webkit-scrollbar-thumb,
+.slide-mode-active .hero::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+.slide-mode-active .section::-webkit-scrollbar-thumb:hover,
+.slide-mode-active .hero::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
 }
 
 /* Compact layout adjustments so all content fits comfortably in 100vh on laptop/desktop */
@@ -1482,18 +1517,17 @@ html.slide-mode-active {
 }
 
 @media (max-width: 768px) {
-    .slide-mode-active .section {
-        min-height: auto;
-        padding: 64px 0;
-        scroll-snap-align: start;
+    .slide-mode-active .section,
+    .slide-mode-active .hero {
+        padding: 64px 0 84px 0;
     }
 }
 
-/* PPT Slide Entrance Transitions */
+/* PPT Slide Entrance Transitions (Horizontal) */
 .slide-mode-active .section.slide-active .section__header,
 .slide-mode-active .hero.slide-active .hero__greeting,
 .slide-mode-active .hero.slide-active .hero__name {
-    animation: pptSlideTitle 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: pptSlideHeader 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .slide-mode-active .section.slide-active .timeline__card,
@@ -1506,10 +1540,10 @@ html.slide-mode-active {
 .slide-mode-active .hero.slide-active .hero__desc,
 .slide-mode-active .hero.slide-active .hero__actions,
 .slide-mode-active .hero.slide-active .hero__badges {
-    animation: pptSlideContent 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: pptSlideContentHorizontal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes pptSlideTitle {
+@keyframes pptSlideHeader {
     from {
         opacity: 0;
         transform: translateY(-16px);
@@ -1520,30 +1554,43 @@ html.slide-mode-active {
     }
 }
 
-@keyframes pptSlideContent {
+@keyframes pptSlideContentHorizontal {
     from {
         opacity: 0;
-        transform: translateY(22px);
+        transform: translateX(32px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
-/* SLIDE NAVIGATION DOTS (RIGHT SIDE) */
+/* SLIDE NAVIGATION DOTS (HORIZONTAL BOTTOM-CENTER) */
 .slide-nav {
     position: fixed;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 990;
     display: flex;
-    flex-direction: column;
-    gap: 14px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    background: rgba(17, 17, 22, 0.88);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 8px 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+[data-theme="light"] .slide-nav {
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .slide-nav--visible {
@@ -1574,15 +1621,17 @@ html.slide-mode-active {
 
 .slide-nav__dot.active {
     background: var(--accent);
-    transform: scale(1.5);
+    transform: scale(1.3);
     box-shadow: 0 0 12px var(--accent);
+    width: 22px;
+    border-radius: 10px;
 }
 
 .slide-nav__tooltip {
     position: absolute;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
@@ -1607,7 +1656,7 @@ html.slide-mode-active {
 
 .slide-nav__dot:hover .slide-nav__tooltip {
     opacity: 1;
-    transform: translateY(-50%) translateX(-2px);
+    transform: translateX(-50%) translateY(-3px);
 }
 
 /* FLOATING SLIDE DECK BAR */
@@ -1758,4 +1807,5 @@ html.slide-mode-active {
         padding: 5px 12px;
     }
 }
+
 

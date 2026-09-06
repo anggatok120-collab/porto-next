@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const SLIDES = [
   { id: 'hero', label: 'Beranda', labelEn: 'Home', num: '01' },
@@ -19,13 +19,24 @@ export default function Home() {
   const [lang, setLang] = useState('id')
   const [activeSlide, setActiveSlide] = useState(0)
   const [isSlideMode, setIsSlideMode] = useState(true)
+  const slidesContainerRef = useRef(null)
 
   const scrollToSlide = (index) => {
     if (index < 0 || index >= SLIDES.length) return
-    const el = document.getElementById(SLIDES[index].id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-      setActiveSlide(index)
+    setActiveSlide(index)
+    if (isSlideMode) {
+      if (slidesContainerRef.current) {
+        const slideWidth = slidesContainerRef.current.clientWidth || window.innerWidth
+        slidesContainerRef.current.scrollTo({
+          left: index * slideWidth,
+          behavior: 'smooth'
+        })
+      }
+    } else {
+      const el = document.getElementById(SLIDES[index].id)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 
@@ -62,41 +73,120 @@ export default function Home() {
     if (typeof document !== 'undefined') {
       if (isSlideMode) {
         document.documentElement.classList.add('slide-mode-active')
+        document.body.classList.add('slide-mode-active')
+        // Sync container scroll position
+        if (slidesContainerRef.current) {
+          const slideWidth = slidesContainerRef.current.clientWidth || window.innerWidth
+          slidesContainerRef.current.scrollTo({
+            left: activeSlide * slideWidth,
+            behavior: 'auto'
+          })
+        }
       } else {
         document.documentElement.classList.remove('slide-mode-active')
+        document.body.classList.remove('slide-mode-active')
+        // Scroll window to active section in vertical mode
+        const el = document.getElementById(SLIDES[activeSlide]?.id)
+        if (el) {
+          el.scrollIntoView({ behavior: 'auto' })
+        }
       }
     }
     return () => {
       if (typeof document !== 'undefined') {
         document.documentElement.classList.remove('slide-mode-active')
+        document.body.classList.remove('slide-mode-active')
       }
     }
   }, [isSlideMode])
 
-  // SLIDE ACTIVE TRACKER
+  // WHEEL TO HORIZONTAL SLIDE TRANSLATION
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollMid = window.scrollY + window.innerHeight / 2
-      let found = 0
-      SLIDES.forEach((slide, idx) => {
-        const el = document.getElementById(slide.id)
-        if (el) {
-          const top = el.offsetTop
-          const bottom = top + el.offsetHeight
-          if (scrollMid >= top && scrollMid < bottom) {
-            found = idx
-          }
+    if (!isSlideMode) return
+    const container = slidesContainerRef.current
+    if (!container) return
+
+    let wheelTimeout = null
+    let accumulatedDelta = 0
+    const THRESHOLD = 50
+
+    const handleWheel = (e) => {
+      // Allow internal scrolling if current slide content is scrollable and not at boundary
+      const currentSlideEl = document.getElementById(SLIDES[activeSlide]?.id)
+      if (currentSlideEl) {
+        const canScrollDown = currentSlideEl.scrollHeight > currentSlideEl.clientHeight &&
+          currentSlideEl.scrollTop + currentSlideEl.clientHeight < currentSlideEl.scrollHeight - 6
+        const canScrollUp = currentSlideEl.scrollTop > 6
+
+        if ((e.deltaY > 0 && canScrollDown) || (e.deltaY < 0 && canScrollUp)) {
+          return // Let natural vertical scroll happen within the slide
         }
-      })
-      setActiveSlide(found)
+      }
+
+      e.preventDefault()
+      accumulatedDelta += e.deltaY
+
+      if (wheelTimeout) clearTimeout(wheelTimeout)
+      wheelTimeout = setTimeout(() => {
+        if (accumulatedDelta > THRESHOLD) {
+          scrollToSlide(Math.min(activeSlide + 1, SLIDES.length - 1))
+        } else if (accumulatedDelta < -THRESHOLD) {
+          scrollToSlide(Math.max(activeSlide - 1, 0))
+        }
+        accumulatedDelta = 0
+      }, 40)
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    container.addEventListener('wheel', handleWheel, { passive: false })
+    return () => {
+      container.removeEventListener('wheel', handleWheel)
+      if (wheelTimeout) clearTimeout(wheelTimeout)
+    }
+  }, [isSlideMode, activeSlide])
 
-  // KEYBOARD NAVIGATION FOR SLIDES
+  // SLIDE ACTIVE TRACKER (HORIZONTAL & VERTICAL)
+  useEffect(() => {
+    if (!isSlideMode) {
+      const handleScroll = () => {
+        const scrollMid = window.scrollY + window.innerHeight / 2
+        let found = 0
+        SLIDES.forEach((slide, idx) => {
+          const el = document.getElementById(slide.id)
+          if (el) {
+            const top = el.offsetTop
+            const bottom = top + el.offsetHeight
+            if (scrollMid >= top && scrollMid < bottom) {
+              found = idx
+            }
+          }
+        })
+        setActiveSlide(found)
+      }
+
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      handleScroll()
+      return () => window.removeEventListener('scroll', handleScroll)
+    } else {
+      const container = slidesContainerRef.current
+      if (!container) return
+
+      const handleContainerScroll = () => {
+        const scrollLeft = container.scrollLeft
+        const slideWidth = container.clientWidth || window.innerWidth
+        if (slideWidth > 0) {
+          const index = Math.round(scrollLeft / slideWidth)
+          if (index >= 0 && index < SLIDES.length) {
+            setActiveSlide(index)
+          }
+        }
+      }
+
+      container.addEventListener('scroll', handleContainerScroll, { passive: true })
+      return () => container.removeEventListener('scroll', handleContainerScroll)
+    }
+  }, [isSlideMode])
+
+  // KEYBOARD NAVIGATION FOR SLIDES (HORIZONTAL & VERTICAL)
   useEffect(() => {
     const handleKeyDown = (e) => {
       const target = e.target
@@ -109,40 +199,18 @@ export default function Home() {
         return
       }
 
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
         e.preventDefault()
-        setActiveSlide(curr => {
-          const next = Math.min(curr + 1, SLIDES.length - 1)
-          scrollToSlide(next)
-          return next
-        })
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        scrollToSlide(Math.min(activeSlide + 1, SLIDES.length - 1))
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
         e.preventDefault()
-        setActiveSlide(curr => {
-          const prev = Math.max(curr - 1, 0)
-          scrollToSlide(prev)
-          return prev
-        })
-      } else if (e.key === ' ' && !e.shiftKey) {
-        e.preventDefault()
-        setActiveSlide(curr => {
-          const next = Math.min(curr + 1, SLIDES.length - 1)
-          scrollToSlide(next)
-          return next
-        })
-      } else if (e.key === ' ' && e.shiftKey) {
-        e.preventDefault()
-        setActiveSlide(curr => {
-          const prev = Math.max(curr - 1, 0)
-          scrollToSlide(prev)
-          return prev
-        })
+        scrollToSlide(Math.max(activeSlide - 1, 0))
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [activeSlide, isSlideMode])
 
   useEffect(() => {
     // NAV
@@ -645,8 +713,10 @@ export default function Home() {
         <a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a>
       </div>
 
-      {/* HERO */}
-      <section className={`hero ${activeSlide === 0 ? 'slide-active' : ''}`} id="hero">
+      {/* SLIDES WRAPPER (HORIZONTAL) */}
+      <div className="slides-container" ref={slidesContainerRef}>
+        {/* HERO */}
+        <section className={`hero ${activeSlide === 0 ? 'slide-active' : ''}`} id="hero">
         <div className="hero__bg"><div className="hero__grid"></div></div>
         <div className="container hero__inner">
           <div className="hero__content">
@@ -1315,8 +1385,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
 
-      {/* SLIDE NAVIGATION DOTS (RIGHT) */}
+      {/* SLIDE NAVIGATION DOTS (HORIZONTAL BOTTOM-CENTER) */}
       <div className={`slide-nav ${isSlideMode ? 'slide-nav--visible' : ''}`} aria-label="Navigasi Slide">
         {SLIDES.map((slide, idx) => (
           <button
@@ -1348,10 +1419,10 @@ export default function Home() {
             onClick={prevSlide}
             disabled={activeSlide === 0}
             aria-label="Slide Sebelumnya"
-            title={lang === 'id' ? 'Slide Sebelumnya (↑ / PageUp)' : 'Previous Slide (↑ / PageUp)'}
+            title={lang === 'id' ? 'Slide Sebelumnya (← / PageUp)' : 'Previous Slide (← / PageUp)'}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="18 15 12 9 6 15" />
+              <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
           <button
@@ -1359,10 +1430,10 @@ export default function Home() {
             onClick={nextSlide}
             disabled={activeSlide === SLIDES.length - 1}
             aria-label="Slide Berikutnya"
-            title={lang === 'id' ? 'Slide Berikutnya (↓ / Space / PageDown)' : 'Next Slide (↓ / Space / PageDown)'}
+            title={lang === 'id' ? 'Slide Berikutnya (→ / Space / PageDown)' : 'Next Slide (→ / Space / PageDown)'}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9" />
+              <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
         </div>
@@ -1383,9 +1454,9 @@ export default function Home() {
           </span>
         </button>
 
-        <span className="slide-deck-bar__hint" title={lang === 'id' ? 'Navigasi Keyboard (Panah Atas / Bawah)' : 'Keyboard Navigation (Up / Down Arrow)'}>
-          <kbd className="slide-deck-bar__kbd">↑</kbd>
-          <kbd className="slide-deck-bar__kbd">↓</kbd>
+        <span className="slide-deck-bar__hint" title={lang === 'id' ? 'Navigasi Keyboard (Panah Kiri / Kanan)' : 'Keyboard Navigation (Left / Right Arrow)'}>
+          <kbd className="slide-deck-bar__kbd">←</kbd>
+          <kbd className="slide-deck-bar__kbd">→</kbd>
         </span>
       </div>
 
