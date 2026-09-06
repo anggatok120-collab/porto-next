@@ -910,7 +910,7 @@ export default function Home() {
                   <span className="timeline__period" data-id="Jan 2024 – Des 2024" data-en="Jan 2024 – Dec 2024">Jan 2024 – Des 2024</span>
                   <span className="timeline__badge timeline__badge--intern" data-id="Magang / PKL" data-en="Internship">Magang / PKL</span>
                 </div>
-                <h3 className="timeline__role" data-id="Helpdesk" data-en="Helpdesk">Helpdesk</h3>
+                <h3 className="timeline__role" data-id="Customer Support" data-en="Customer Support">Customer Support</h3>
                 <p className="timeline__company">PT. Inovasi Tjaraka Buana MyNet — Bandung</p>
                 <ul className="timeline__list">
                   <li data-id="Menangani keluhan pelanggan terkait gangguan internet melalui telepon, WhatsApp, dan ticketing system dengan pelayanan yang responsif dan profesional" data-en="Handle customer complaints related to internet issues via phone, WhatsApp, and ticketing system with responsive and professional service">Menangani keluhan pelanggan terkait gangguan internet melalui telepon, WhatsApp, dan ticketing system dengan pelayanan yang responsif dan profesional</li>
