@@ -1030,14 +1030,14 @@ export default function Home() {
             <div className="edu__content">
               <div className="edu__header">
                 <div>
-                  <h3 className="edu__school">Institut Teknologi dan Bisnis Asia Malang</h3>
-                  <p className="edu__major" data-id="Teknik Informatika" data-en="Informatics Engineering">Teknik Informatika</p>
+                  <h3 className="edu__school">Universitas Muhammadiyah Malang (UMM)</h3>
+                  <p className="edu__major" data-id="Akuakultur (Perikanan)" data-en="Aquaculture (Fisheries)">Akuakultur (Perikanan)</p>
                 </div>
                 <span className="edu__period" data-id="Sep 2026 – Sekarang" data-en="Sep 2026 – Present">Sep 2026 – Sekarang</span>
               </div>
               <div className="edu__activities">
                 <p className="edu__subjects-label" data-id="Status / Keterangan:" data-en="Status / Description:">Status / Keterangan:</p>
-                <p className="edu__activity-desc" data-id="Menempuh pendidikan tinggi jurusan Teknik Informatika di Institut Teknologi dan Bisnis Asia Malang." data-en="Pursuing higher education majoring in Informatics Engineering at Institut Teknologi dan Bisnis Asia Malang.">Menempuh pendidikan tinggi jurusan Teknik Informatika di Institut Teknologi dan Bisnis Asia Malang.</p>
+                <p className="edu__activity-desc" data-id="Menempuh pendidikan tinggi Program Studi Akuakultur (Perikanan) di Universitas Muhammadiyah Malang (UMM). Mempelajari teknologi budidaya perairan modern, manajemen kualitas air &amp; ekosistem akuatik, nutrisi biota air, serta pemanfaatan sistem otomasi dan monitoring berbasis IoT (Smart Aquaculture)." data-en="Pursuing higher education majoring in Aquaculture (Fisheries) at Universitas Muhammadiyah Malang (UMM). Studying modern aquatic cultivation technology, water quality &amp; aquatic ecosystem management, aquatic organism nutrition, and the application of IoT-based automation and monitoring systems (Smart Aquaculture).">Menempuh pendidikan tinggi Program Studi Akuakultur (Perikanan) di Universitas Muhammadiyah Malang (UMM). Mempelajari teknologi budidaya perairan modern, manajemen kualitas air &amp; ekosistem akuatik, nutrisi biota air, serta pemanfaatan sistem otomasi dan monitoring berbasis IoT (Smart Aquaculture).</p>
               </div>
             </div>
           </div>
