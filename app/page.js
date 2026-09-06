@@ -3,12 +3,12 @@
 import { useEffect, useState, useRef } from 'react'
 
 const SLIDES = [
-  { id: 'hero', label: 'Beranda', labelEn: 'Home', num: '01' },
-  { id: 'about', label: 'Tentang', labelEn: 'About', num: '02' },
-  { id: 'services', label: 'Layanan', labelEn: 'Services', num: '03' },
-  { id: 'skills', label: 'Keahlian', labelEn: 'Skills', num: '04' },
-  { id: 'experience', label: 'Pengalaman', labelEn: 'Experience', num: '05' },
-  { id: 'education', label: 'Pendidikan', labelEn: 'Education', num: '06' },
+  { id: 'about', label: 'Tentang', labelEn: 'About', num: '01' },
+  { id: 'services', label: 'Layanan', labelEn: 'Services', num: '02' },
+  { id: 'skills', label: 'Kemampuan', labelEn: 'Skills', num: '03' },
+  { id: 'experience', label: 'Pengalaman', labelEn: 'Experience', num: '04' },
+  { id: 'education', label: 'Pendidikan', labelEn: 'Education', num: '05' },
+  { id: 'blog', label: 'Blog', labelEn: 'Blog', num: '06' },
   { id: 'contact', label: 'Kontak', labelEn: 'Contact', num: '07' },
 ]
 
@@ -659,14 +659,14 @@ export default function Home() {
     <>
       {/* NAV */}
       <nav className="nav">
-        <div className="nav__logo">AG</div>
+        <a href="#about" className="nav__logo" style={{ textDecoration: 'none', color: 'inherit' }}>AG</a>
         <ul className="nav__links">
           <li><a href="#about" data-id="Tentang" data-en="About">Tentang</a></li>
           <li><a href="#services" data-id="Layanan" data-en="Services">Layanan</a></li>
           <li><a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a></li>
           <li><a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a></li>
           <li><a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a></li>
-          <li><a href="/blog">Blog</a></li>
+          <li><a href="#blog" data-id="Blog" data-en="Blog">Blog</a></li>
           <li><a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a></li>
         </ul>
         <div className="nav__right">
@@ -689,7 +689,7 @@ export default function Home() {
         <a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a>
         <a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a>
         <a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a>
-        <a href="/blog">Blog</a>
+        <a href="#blog" data-id="Blog" data-en="Blog">Blog</a>
         <a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a>
       </div>
 
@@ -700,112 +700,80 @@ export default function Home() {
           ref={slidesContainerRef}
           style={isSlideMode ? { transform: `translateX(-${activeSlide * 100}vw)` } : {}}
         >
-          {/* HERO */}
-          <section className={`hero ${activeSlide === 0 ? 'slide-active' : ''}`} id="hero">
-        <div className="hero__bg"><div className="hero__grid"></div></div>
-        <div className="container hero__inner">
-          <div className="hero__content">
-            <p className="hero__greeting" data-id="Halo, Saya" data-en="Hello, I'm">Halo, Saya</p>
-            <h1 className="hero__name">ANGGA</h1>
-            <div className="hero__roles">
-              <span className="hero__role" data-id="Network Engineer" data-en="Network Engineer">Network Engineer</span>
-              <span className="hero__sep">/</span>
-              <span className="hero__role" data-id="Customer Support" data-en="Customer Support">Customer Support</span>
-            </div>
-            <p className="hero__desc" data-id="2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Customer Support, 24/7 network monitoring, troubleshooting, and technical support.">2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
-            <div className="hero__actions">
-              <a href="#contact" className="btn btn--primary" data-id="Hubungi Saya" data-en="Get in Touch">Hubungi Saya</a>
-              <a href="#experience" className="btn btn--ghost" data-id="Lihat Pengalaman" data-en="View Experience">Lihat Pengalaman</a>
-              <a href="/cv/CV_Angga.pdf" target="_blank" rel="noopener noreferrer" className="btn btn--ghost" data-id="↓ Unduh CV" data-en="↓ Download CV">↓ Unduh CV</a>
-            </div>
-            <div className="hero__badges">
-              <div className="hero__badge hero__badge--outline">
-                <span>📍</span>
-                <span>Malang, Indonesia</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero__photo">
-            <div className="hero__photo-wrap">
-              <picture>
-                <source type="image/avif" srcSet="/images/foto_HD-360.avif 360w, /images/foto_HD-768.avif 768w, /images/foto_HD-1200.avif 1200w, /images/foto_HD.avif 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
-                <source type="image/webp" srcSet="/images/foto_HD-360.webp 360w, /images/foto_HD-768.webp 768w, /images/foto_HD-1200.webp 1200w, /images/foto_HD.webp 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
-                <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
-              </picture>
-            </div>
-            <div className="hero__photo-stats">
-              <div className="hero__mini-stat">
-                <span className="hero__mini-num">2.5+</span>
-                <span className="hero__mini-label" data-id="Tahun" data-en="Years">Tahun</span>
-              </div>
-              <div className="hero__mini-stat">
-                <span className="hero__mini-num">4</span>
-                <span className="hero__mini-label" data-id="Perusahaan" data-en="Companies">Perusahaan</span>
-              </div>
-              <div className="hero__mini-stat">
-                <span className="hero__mini-num">24/7</span>
-                <span className="hero__mini-label">NOC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          {/* ABOUT (01) */}
+          <section className={`hero section ${activeSlide === 0 ? 'slide-active' : ''}`} id="about">
+            <div className="hero__bg"><div className="hero__grid"></div></div>
+            <div className="container hero__inner">
+              <div className="hero__content">
+                <div className="section__tag" style={{ marginBottom: 8, display: 'inline-block' }}>
+                  01 / <span data-id="Tentang" data-en="About">Tentang</span>
+                </div>
+                <p className="hero__greeting" data-id="Halo, Saya" data-en="Hello, I'm">Halo, Saya</p>
+                <h1 className="hero__name">ANGGA</h1>
+                <div className="hero__roles">
+                  <span className="hero__role" data-id="Network Engineer" data-en="Network Engineer">Network Engineer</span>
+                  <span className="hero__sep">/</span>
+                  <span className="hero__role" data-id="Customer Support" data-en="Customer Support">Customer Support</span>
+                </div>
+                <p className="hero__desc" data-id="Network Engineer dengan pengalaman 2,5+ tahun — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support." data-en="Network Engineer with 2.5+ years of experience — 1.5 years as employee in Network Operations Center and 1 year internship in Customer Support, 24/7 network monitoring, troubleshooting, and technical support.">Network Engineer dengan pengalaman 2,5+ tahun — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.</p>
+                <div className="hero__actions">
+                  <a href="#contact" className="btn btn--primary" data-id="Hubungi Saya" data-en="Get in Touch">Hubungi Saya</a>
+                  <a href="#experience" className="btn btn--ghost" data-id="Lihat Pengalaman" data-en="View Experience">Lihat Pengalaman</a>
+                  <a href="/cv/CV_Angga.pdf" target="_blank" rel="noopener noreferrer" className="btn btn--ghost" data-id="↓ Unduh CV" data-en="↓ Download CV">↓ Unduh CV</a>
+                </div>
 
-      {/* ABOUT */}
-      <section className={`section ${activeSlide === 1 ? 'slide-active' : ''}`} id="about">
-        <div className="container">
-          <div className="section__header">
-            <span className="section__tag">01 / <span data-id="Tentang" data-en="About">Tentang</span></span>
-            <h2 className="section__title" data-id="Tentang Saya" data-en="About Me">Tentang Saya</h2>
-          </div>
-          <div className="about__grid">
-            <div className="about__text">
-              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan customer support." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Customer Support internship</strong>, covering network monitoring and customer support.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan customer support.</p>
-              <p data-id="Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall." data-en="Skilled in network monitoring, network troubleshooting, MikroTik configuration, routing &amp; switching, Linux server administration, and VLAN and firewall management.">Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.</p>
-              <p data-id="Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan." data-en="Experienced working in dynamic network operational environments with strong analytical, problem-solving, and communication skills. Committed to maintaining IT infrastructure stability and improving service quality.">Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.</p>
-              <div className="about__meta">
-                <div className="about__meta-item">
-                  <span className="about__meta-label" data-id="Lokasi" data-en="Location">Lokasi</span>
-                  <span className="about__meta-value">Malang, Jawa Timur</span>
-                </div>
-                <div className="about__meta-item">
-                  <span className="about__meta-label" data-id="Bahasa" data-en="Languages">Bahasa</span>
-                  <span className="about__meta-value" data-id="Indonesia (Aktif), Inggris (Menengah)" data-en="Indonesian (Active), English (Intermediate)">Indonesia (Aktif), Inggris (Menengah)</span>
-                </div>
-                <div className="about__meta-item">
-                  <span className="about__meta-label" data-id="Bidang" data-en="Field">Bidang</span>
-                  <span className="about__meta-value">Networking / IT Infrastructure</span>
-                </div>
-                <div className="about__meta-item">
-                  <span className="about__meta-label">Status</span>
-                  <span className="about__meta-value about__meta-value--active" data-id="Mahasiswa Aktif — UMM (Akuakultur)" data-en="Active Student — UMM (Aquaculture)">Mahasiswa Aktif — UMM (Akuakultur)</span>
+                <div className="about__meta" style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
+                  <div className="about__meta-item">
+                    <span className="about__meta-label" data-id="Lokasi" data-en="Location">Lokasi</span>
+                    <span className="about__meta-value">Malang, Jawa Timur</span>
+                  </div>
+                  <div className="about__meta-item">
+                    <span className="about__meta-label" data-id="Bahasa" data-en="Languages">Bahasa</span>
+                    <span className="about__meta-value" data-id="Indonesia (Aktif), Inggris (Menengah)" data-en="Indonesian (Active), English (Intermediate)">Indonesia (Aktif), Inggris (Menengah)</span>
+                  </div>
+                  <div className="about__meta-item">
+                    <span className="about__meta-label" data-id="Bidang" data-en="Field">Bidang</span>
+                    <span className="about__meta-value">Networking / IT Infrastructure</span>
+                  </div>
+                  <div className="about__meta-item">
+                    <span className="about__meta-label">Status</span>
+                    <span className="about__meta-value about__meta-value--active" data-id="Mahasiswa Aktif — UMM (Akuakultur)" data-en="Active Student — UMM (Aquaculture)">Mahasiswa Aktif — UMM (Akuakultur)</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="about__stats">
-              <div className="stat">
-                <span className="stat__num">2.5+</span>
-                <span className="stat__label" data-id="Tahun Pengalaman" data-en="Years Experience">Tahun Pengalaman</span>
-              </div>
-              <div className="stat">
-                <span className="stat__num">4</span>
-                <span className="stat__label" data-id="Perusahaan" data-en="Companies">Perusahaan</span>
-              </div>
-              <div className="stat">
-                <span className="stat__num">18+</span>
-                <span className="stat__label" data-id="Keahlian Teknis" data-en="Technical Skills">Keahlian Teknis</span>
-              </div>
-              <div className="stat">
-                <span className="stat__num">24/7</span>
-                <span className="stat__label" data-id="Operasi NOC" data-en="NOC Operations">Operasi NOC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* SERVICES */}
-      <section className={`section section--alt ${activeSlide === 2 ? 'slide-active' : ''}`} id="services">
+              <div className="hero__photo">
+                <div className="hero__photo-wrap">
+                  <picture>
+                    <source type="image/avif" srcSet="/images/foto_HD-360.avif 360w, /images/foto_HD-768.avif 768w, /images/foto_HD-1200.avif 1200w, /images/foto_HD.avif 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
+                    <source type="image/webp" srcSet="/images/foto_HD-360.webp 360w, /images/foto_HD-768.webp 768w, /images/foto_HD-1200.webp 1200w, /images/foto_HD.webp 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
+                    <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
+                  </picture>
+                </div>
+                <div className="hero__photo-stats">
+                  <div className="hero__mini-stat">
+                    <span className="hero__mini-num">2.5+</span>
+                    <span className="hero__mini-label" data-id="Tahun" data-en="Years">Tahun</span>
+                  </div>
+                  <div className="hero__mini-stat">
+                    <span className="hero__mini-num">4</span>
+                    <span className="hero__mini-label" data-id="Perusahaan" data-en="Companies">Perusahaan</span>
+                  </div>
+                  <div className="hero__mini-stat">
+                    <span className="hero__mini-num">18+</span>
+                    <span className="hero__mini-label" data-id="Keahlian" data-en="Skills">Keahlian</span>
+                  </div>
+                  <div className="hero__mini-stat">
+                    <span className="hero__mini-num">24/7</span>
+                    <span className="hero__mini-label">NOC</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* SERVICES */}
+          <section className={`section section--alt ${activeSlide === 1 ? 'slide-active' : ''}`} id="services">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">02 / <span data-id="Layanan" data-en="Services">Layanan</span></span>
@@ -865,7 +833,7 @@ export default function Home() {
       </section>
 
       {/* SKILLS */}
-      <section className={`section ${activeSlide === 3 ? 'slide-active' : ''}`} id="skills">
+      <section className={`section ${activeSlide === 2 ? 'slide-active' : ''}`} id="skills">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">03 / <span data-id="Kemampuan" data-en="Skills">Kemampuan</span></span>
@@ -1040,7 +1008,7 @@ export default function Home() {
       </section>
 
       {/* EXPERIENCE */}
-      <section className={`section section--alt ${activeSlide === 4 ? 'slide-active' : ''}`} id="experience">
+      <section className={`section section--alt ${activeSlide === 3 ? 'slide-active' : ''}`} id="experience">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">04 / <span data-id="Pengalaman" data-en="Experience">Pengalaman</span></span>
@@ -1186,7 +1154,7 @@ export default function Home() {
       </section>
 
       {/* EDUCATION */}
-      <section className={`section ${activeSlide === 5 ? 'slide-active' : ''}`} id="education">
+      <section className={`section ${activeSlide === 4 ? 'slide-active' : ''}`} id="education">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">05 / <span data-id="Pendidikan" data-en="Education">Pendidikan</span></span>
@@ -1246,11 +1214,57 @@ export default function Home() {
         </div>
       </section>
 
+      {/* BLOG */}
+      <section className={`section ${activeSlide === 5 ? 'slide-active' : ''}`} id="blog">
+        <div className="container">
+          <div className="section__header">
+            <span className="section__tag">06 / <span data-id="Blog" data-en="Blog">Blog</span></span>
+            <h2 className="section__title" data-id="Catatan & Tulisan" data-en="Notes & Articles">Catatan &amp; Tulisan</h2>
+            <p className="section__desc" data-id="Dokumentasi seputar jaringan komputer, operasional NOC, panduan troubleshooting, dan catatan teknologi." data-en="Documentation on computer networking, NOC operations, troubleshooting guides, and technology notes.">
+              Dokumentasi seputar jaringan komputer, operasional NOC, panduan troubleshooting, dan catatan teknologi.
+            </p>
+          </div>
+          <div className="blog__grid">
+            <div className="blog-card">
+              <div className="blog-card__meta">
+                <span className="blog-card__tag">Networking · NOC</span>
+                <span className="blog-card__date">17 Juni 2026</span>
+              </div>
+              <h3 className="blog-card__title">Hello World — Selamat Datang di Blog Angga</h3>
+              <p className="blog-card__excerpt" data-id="Tulisan pertama di blog ini seputar perjalanan di bidang jaringan komputer, monitoring jaringan 24/7 di NOC, troubleshooting perangkat MikroTik, serta pengalaman dunia IT." data-en="First post on this blog covering the journey in computer networking, 24/7 network monitoring at NOC, MikroTik troubleshooting, and IT field experience.">
+                Tulisan pertama di blog ini seputar perjalanan di bidang jaringan komputer, monitoring jaringan 24/7 di NOC, troubleshooting perangkat MikroTik, serta pengalaman dunia IT.
+              </p>
+              <div className="blog-card__footer">
+                <a href="/blog/hello-world" className="blog-card__link" data-id="Baca Artikel Lengkap →" data-en="Read Full Article →">
+                  Baca Artikel Lengkap →
+                </a>
+              </div>
+            </div>
+
+            <div className="blog-card blog-card--featured">
+              <div className="blog-card__meta">
+                <span className="blog-card__tag">Pusat Informasi</span>
+                <span className="blog-card__badge" data-id="Arsip Postingan" data-en="Post Archives">Arsip Postingan</span>
+              </div>
+              <h3 className="blog-card__title" data-id="Jelajahi Semua Catatan & Artikel" data-en="Explore All Notes & Articles">Jelajahi Semua Catatan &amp; Artikel</h3>
+              <p className="blog-card__excerpt" data-id="Temukan kumpulan panduan praktis konfigurasi router, dokumentasi insiden jaringan, dan wawasan teknis seputar infrastruktur IT." data-en="Find practical guides for router configuration, network incident documentation, and technical insights on IT infrastructure.">
+                Temukan kumpulan panduan praktis konfigurasi router, dokumentasi insiden jaringan, dan wawasan teknis seputar infrastruktur IT.
+              </p>
+              <div className="blog-card__footer">
+                <a href="/blog" className="btn btn--primary btn--sm" data-id="Buka Halaman Blog →" data-en="Open Blog Page →">
+                  Buka Halaman Blog →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section className={`section section--alt ${activeSlide === 6 ? 'slide-active' : ''}`} id="contact">
         <div className="container">
           <div className="section__header">
-            <span className="section__tag">06 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
+            <span className="section__tag">07 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
             <h2 className="section__title" data-id="Hubungi Saya" data-en="Contact Me">Hubungi Saya</h2>
           </div>
           <div className="contact__grid">

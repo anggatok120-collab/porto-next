@@ -613,6 +613,87 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 }
 .edu__tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
+/* BLOG SECTION IN SLIDE */
+.blog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 16px;
+}
+.blog-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+.blog-card:hover {
+    border-color: var(--accent-mid);
+    transform: translateY(-2px);
+}
+.blog-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 12px;
+}
+.blog-card__tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-mid);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+.blog-card__date, .blog-card__badge {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+}
+.blog-card__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    color: var(--text);
+}
+.blog-card__excerpt {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    flex: 1;
+}
+.blog-card__footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.blog-card__link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.blog-card__link:hover {
+    text-decoration: underline;
+}
+.blog-card--featured {
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(34, 197, 94, 0.04) 100%);
+    border-color: rgba(34, 197, 94, 0.25);
+}
+
 /* CONTACT */
 .contact__grid {
     display: grid;
@@ -1545,10 +1626,12 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 .slide-mode-active .section.slide-active .service-card,
 .slide-mode-active .section.slide-active .about__text,
 .slide-mode-active .section.slide-active .contact__grid,
+.slide-mode-active .section.slide-active .blog-card,
 .slide-mode-active .hero.slide-active .hero__roles,
 .slide-mode-active .hero.slide-active .hero__desc,
 .slide-mode-active .hero.slide-active .hero__actions,
-.slide-mode-active .hero.slide-active .hero__badges {
+.slide-mode-active .hero.slide-active .hero__badges,
+.slide-mode-active .hero.slide-active .about__meta {
     animation: pptSlideContentHorizontal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
