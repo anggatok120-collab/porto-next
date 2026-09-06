@@ -24,15 +24,7 @@ export default function Home() {
   const scrollToSlide = (index) => {
     if (index < 0 || index >= SLIDES.length) return
     setActiveSlide(index)
-    if (isSlideMode) {
-      if (slidesContainerRef.current) {
-        const slideWidth = slidesContainerRef.current.clientWidth || window.innerWidth
-        slidesContainerRef.current.scrollTo({
-          left: index * slideWidth,
-          behavior: 'smooth'
-        })
-      }
-    } else {
+    if (!isSlideMode || (typeof window !== 'undefined' && window.innerWidth <= 768)) {
       const el = document.getElementById(SLIDES[index].id)
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' })
@@ -71,21 +63,12 @@ export default function Home() {
   // SLIDE MODE HTML CLASS
   useEffect(() => {
     if (typeof document !== 'undefined') {
-      if (isSlideMode) {
+      if (isSlideMode && window.innerWidth > 768) {
         document.documentElement.classList.add('slide-mode-active')
         document.body.classList.add('slide-mode-active')
-        // Sync container scroll position
-        if (slidesContainerRef.current) {
-          const slideWidth = slidesContainerRef.current.clientWidth || window.innerWidth
-          slidesContainerRef.current.scrollTo({
-            left: activeSlide * slideWidth,
-            behavior: 'auto'
-          })
-        }
       } else {
         document.documentElement.classList.remove('slide-mode-active')
         document.body.classList.remove('slide-mode-active')
-        // Scroll window to active section in vertical mode
         const el = document.getElementById(SLIDES[activeSlide]?.id)
         if (el) {
           el.scrollIntoView({ behavior: 'auto' })
@@ -100,91 +83,88 @@ export default function Home() {
     }
   }, [isSlideMode])
 
-  // WHEEL TO HORIZONTAL SLIDE TRANSLATION
+  // MOUSE WHEEL TRANSLATION WITH COOLDOWN LOCK
   useEffect(() => {
     if (!isSlideMode) return
     const container = slidesContainerRef.current
     if (!container) return
 
-    let wheelTimeout = null
-    let accumulatedDelta = 0
-    const THRESHOLD = 50
+    let lastWheelTime = 0
 
     const handleWheel = (e) => {
-      // Allow internal scrolling if current slide content is scrollable and not at boundary
-      const currentSlideEl = document.getElementById(SLIDES[activeSlide]?.id)
-      if (currentSlideEl) {
-        const canScrollDown = currentSlideEl.scrollHeight > currentSlideEl.clientHeight &&
-          currentSlideEl.scrollTop + currentSlideEl.clientHeight < currentSlideEl.scrollHeight - 6
-        const canScrollUp = currentSlideEl.scrollTop > 6
+      if (window.innerWidth <= 768) return
 
-        if ((e.deltaY > 0 && canScrollDown) || (e.deltaY < 0 && canScrollUp)) {
-          return // Let natural vertical scroll happen within the slide
+      // Check if current active slide is vertically scrollable and not at scroll boundaries
+      const currentSlide = document.getElementById(SLIDES[activeSlide]?.id)
+      if (currentSlide) {
+        const isScrollable = currentSlide.scrollHeight > currentSlide.clientHeight + 8
+        if (isScrollable) {
+          const atBottom = currentSlide.scrollTop + currentSlide.clientHeight >= currentSlide.scrollHeight - 8
+          const atTop = currentSlide.scrollTop <= 8
+
+          if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
+            return // Let natural vertical scroll inside the slide happen
+          }
         }
       }
 
+      if (Math.abs(e.deltaY) < 25) return // Ignore trackpad flutter
       e.preventDefault()
-      accumulatedDelta += e.deltaY
 
-      if (wheelTimeout) clearTimeout(wheelTimeout)
-      wheelTimeout = setTimeout(() => {
-        if (accumulatedDelta > THRESHOLD) {
-          scrollToSlide(Math.min(activeSlide + 1, SLIDES.length - 1))
-        } else if (accumulatedDelta < -THRESHOLD) {
-          scrollToSlide(Math.max(activeSlide - 1, 0))
-        }
-        accumulatedDelta = 0
-      }, 40)
+      const now = Date.now()
+      if (now - lastWheelTime < 650) return // 650ms cooldown lock
+      lastWheelTime = now
+
+      if (e.deltaY > 0) {
+        setActiveSlide(curr => Math.min(curr + 1, SLIDES.length - 1))
+      } else {
+        setActiveSlide(curr => Math.max(curr - 1, 0))
+      }
     }
 
     container.addEventListener('wheel', handleWheel, { passive: false })
     return () => {
       container.removeEventListener('wheel', handleWheel)
-      if (wheelTimeout) clearTimeout(wheelTimeout)
     }
   }, [isSlideMode, activeSlide])
 
-  // SLIDE ACTIVE TRACKER (HORIZONTAL & VERTICAL)
+  // INTERCEPT ANCHOR CLICKS (#about, #contact, etc.)
   useEffect(() => {
-    if (!isSlideMode) {
-      const handleScroll = () => {
-        const scrollMid = window.scrollY + window.innerHeight / 2
-        let found = 0
-        SLIDES.forEach((slide, idx) => {
-          const el = document.getElementById(slide.id)
-          if (el) {
-            const top = el.offsetTop
-            const bottom = top + el.offsetHeight
-            if (scrollMid >= top && scrollMid < bottom) {
-              found = idx
-            }
-          }
-        })
-        setActiveSlide(found)
-      }
-
-      window.addEventListener('scroll', handleScroll, { passive: true })
-      handleScroll()
-      return () => window.removeEventListener('scroll', handleScroll)
-    } else {
-      const container = slidesContainerRef.current
-      if (!container) return
-
-      const handleContainerScroll = () => {
-        const scrollLeft = container.scrollLeft
-        const slideWidth = container.clientWidth || window.innerWidth
-        if (slideWidth > 0) {
-          const index = Math.round(scrollLeft / slideWidth)
-          if (index >= 0 && index < SLIDES.length) {
-            setActiveSlide(index)
-          }
+    const handleAnchorClick = (e) => {
+      const anchor = e.target.closest('a[href^="#"]')
+      if (!anchor) return
+      const hash = anchor.getAttribute('href').slice(1)
+      if (!hash) return
+      const targetIndex = SLIDES.findIndex(s => s.id === hash)
+      if (targetIndex !== -1) {
+        if (isSlideMode && window.innerWidth > 768) {
+          e.preventDefault()
+          setActiveSlide(targetIndex)
         }
       }
-
-      container.addEventListener('scroll', handleContainerScroll, { passive: true })
-      return () => container.removeEventListener('scroll', handleContainerScroll)
     }
+
+    document.addEventListener('click', handleAnchorClick)
+    return () => document.removeEventListener('click', handleAnchorClick)
   }, [isSlideMode])
+
+  // SYNC NAVBAR ACTIVE LINK
+  useEffect(() => {
+    if (isSlideMode && window.innerWidth > 768) {
+      const navLinks = document.querySelectorAll('.nav__links a, #mobileMenu a')
+      const currentId = SLIDES[activeSlide]?.id
+      navLinks.forEach(link => {
+        link.classList.remove('active')
+        if (link.getAttribute('href') === '#' + currentId) {
+          link.classList.add('active')
+        }
+      })
+      const nav = document.querySelector('.nav')
+      if (nav) {
+        nav.classList.toggle('scrolled', activeSlide > 0)
+      }
+    }
+  }, [activeSlide, isSlideMode])
 
   // KEYBOARD NAVIGATION FOR SLIDES (HORIZONTAL & VERTICAL)
   useEffect(() => {
@@ -714,9 +694,14 @@ export default function Home() {
       </div>
 
       {/* SLIDES WRAPPER (HORIZONTAL) */}
-      <div className="slides-container" ref={slidesContainerRef}>
-        {/* HERO */}
-        <section className={`hero ${activeSlide === 0 ? 'slide-active' : ''}`} id="hero">
+      <div className="slides-wrapper">
+        <div
+          className="slides-container"
+          ref={slidesContainerRef}
+          style={isSlideMode ? { transform: `translateX(-${activeSlide * 100}vw)` } : {}}
+        >
+          {/* HERO */}
+          <section className={`hero ${activeSlide === 0 ? 'slide-active' : ''}`} id="hero">
         <div className="hero__bg"><div className="hero__grid"></div></div>
         <div className="container hero__inner">
           <div className="hero__content">
@@ -1385,6 +1370,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+        </div>
       </div>
 
       {/* SLIDE NAVIGATION DOTS (HORIZONTAL BOTTOM-CENTER) */}

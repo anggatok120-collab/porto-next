@@ -1406,90 +1406,88 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 .blog-article__content p { margin-bottom: 16px; }
 .blog-article__content p:last-child { margin-bottom: 0; }
 
-/* ===== HORIZONTAL PPT SLIDE DECK MODE ===== */
+/* ===== HORIZONTAL PPT SLIDE DECK (DESKTOP) ===== */
 
-html.slide-mode-active,
-body.slide-mode-active {
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
-}
+@media (min-width: 769px) {
+    html.slide-mode-active,
+    body.slide-mode-active {
+        overflow: hidden !important;
+        height: 100vh !important;
+        width: 100vw !important;
+    }
 
-/* Horizontal track container */
-.slides-container {
-    width: 100%;
-    min-height: 100vh;
-}
+    .slide-mode-active .slides-wrapper {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
 
-.slide-mode-active .slides-container {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+    .slide-mode-active .slides-container {
+        display: flex;
+        flex-direction: row;
+        width: 700vw;
+        height: 100vh;
+        transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+    }
 
-.slide-mode-active .slides-container::-webkit-scrollbar {
-    display: none;
-}
+    .slide-mode-active .hero,
+    .slide-mode-active .section {
+        width: 100vw;
+        max-width: 100vw;
+        min-width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        flex-shrink: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        padding: 80px 0 90px 0;
+        position: relative;
+    }
 
-.slide-mode-active .hero,
-.slide-mode-active .section {
-    min-width: 100vw;
-    max-width: 100vw;
-    width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 72px 0 84px 0;
-    position: relative;
-}
+    /* Inner centering wrapper: centers content when small, scrolls from top when tall */
+    .slide-mode-active .hero .hero__inner,
+    .slide-mode-active .section > .container {
+        min-height: calc(100vh - 170px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-/* Custom sleek scrollbar for internal scroll within a slide if content is tall */
-.slide-mode-active .section::-webkit-scrollbar,
-.slide-mode-active .hero::-webkit-scrollbar {
-    width: 5px;
-}
-.slide-mode-active .section::-webkit-scrollbar-thumb,
-.slide-mode-active .hero::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px;
-}
-.slide-mode-active .section::-webkit-scrollbar-thumb:hover,
-.slide-mode-active .hero::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
+    /* Custom sleek scrollbar for slides */
+    .slide-mode-active .section::-webkit-scrollbar,
+    .slide-mode-active .hero::-webkit-scrollbar {
+        width: 6px;
+    }
+    .slide-mode-active .section::-webkit-scrollbar-thumb,
+    .slide-mode-active .hero::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+    }
+    .slide-mode-active .section::-webkit-scrollbar-thumb:hover,
+    .slide-mode-active .hero::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+    }
 }
 
 /* Compact layout adjustments so all content fits comfortably in 100vh on laptop/desktop */
 @media (min-height: 700px) and (min-width: 769px) {
     .slide-mode-active .section__header {
-        margin-bottom: 28px;
+        margin-bottom: 24px;
     }
     .slide-mode-active .timeline__item {
-        margin-bottom: 18px;
+        margin-bottom: 16px;
     }
     .slide-mode-active .timeline__card {
-        padding: 16px 24px;
+        padding: 14px 22px;
     }
     .slide-mode-active .timeline__company {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     .slide-mode-active .timeline__list {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     .slide-mode-active .timeline__list li {
         font-size: 13px;
@@ -1500,26 +1498,37 @@ body.slide-mode-active {
         gap: 14px;
     }
     .slide-mode-active .skill-group {
-        padding: 18px;
+        padding: 16px;
     }
     .slide-mode-active .tools__section {
-        margin-top: 20px;
+        margin-top: 18px;
     }
     .slide-mode-active .about__grid {
-        gap: 40px;
+        gap: 36px;
     }
     .slide-mode-active .edu__card {
-        padding: 22px 26px;
+        padding: 20px 24px;
     }
     .slide-mode-active .contact__card {
-        padding: 26px;
+        padding: 24px;
     }
 }
 
+/* Mobile: Clean, natural responsive vertical scrolling */
 @media (max-width: 768px) {
-    .slide-mode-active .section,
-    .slide-mode-active .hero {
-        padding: 64px 0 84px 0;
+    .slides-wrapper {
+        width: 100%;
+    }
+    .slides-container {
+        display: block !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+    .slide-nav {
+        display: none !important;
+    }
+    .slide-deck-bar {
+        display: none !important;
     }
 }
 
@@ -1792,20 +1801,6 @@ body.slide-mode-active {
     border: 1px solid var(--border);
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-@media (max-width: 768px) {
-    .slide-nav {
-        display: none;
-    }
-    .slide-deck-bar__hint {
-        display: none;
-    }
-    .slide-deck-bar {
-        bottom: 16px;
-        right: 16px;
-        padding: 5px 12px;
-    }
 }
 
 
