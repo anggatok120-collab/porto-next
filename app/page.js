@@ -2,11 +2,40 @@
 
 import { useEffect, useState } from 'react'
 
+const SLIDES = [
+  { id: 'hero', label: 'Beranda', labelEn: 'Home', num: '01' },
+  { id: 'about', label: 'Tentang', labelEn: 'About', num: '02' },
+  { id: 'services', label: 'Layanan', labelEn: 'Services', num: '03' },
+  { id: 'skills', label: 'Keahlian', labelEn: 'Skills', num: '04' },
+  { id: 'experience', label: 'Pengalaman', labelEn: 'Experience', num: '05' },
+  { id: 'education', label: 'Pendidikan', labelEn: 'Education', num: '06' },
+  { id: 'contact', label: 'Kontak', labelEn: 'Contact', num: '07' },
+]
+
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [formStatus, setFormStatus] = useState('idle')
   const [formError, setFormError] = useState('')
   const [lang, setLang] = useState('id')
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [isSlideMode, setIsSlideMode] = useState(true)
+
+  const scrollToSlide = (index) => {
+    if (index < 0 || index >= SLIDES.length) return
+    const el = document.getElementById(SLIDES[index].id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+      setActiveSlide(index)
+    }
+  }
+
+  const nextSlide = () => {
+    scrollToSlide(Math.min(activeSlide + 1, SLIDES.length - 1))
+  }
+
+  const prevSlide = () => {
+    scrollToSlide(Math.max(activeSlide - 1, 0))
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -27,6 +56,93 @@ export default function Home() {
       setFormStatus('error')
     }
   }
+
+  // SLIDE MODE HTML CLASS
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (isSlideMode) {
+        document.documentElement.classList.add('slide-mode-active')
+      } else {
+        document.documentElement.classList.remove('slide-mode-active')
+      }
+    }
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.documentElement.classList.remove('slide-mode-active')
+      }
+    }
+  }, [isSlideMode])
+
+  // SLIDE ACTIVE TRACKER
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollMid = window.scrollY + window.innerHeight / 2
+      let found = 0
+      SLIDES.forEach((slide, idx) => {
+        const el = document.getElementById(slide.id)
+        if (el) {
+          const top = el.offsetTop
+          const bottom = top + el.offsetHeight
+          if (scrollMid >= top && scrollMid < bottom) {
+            found = idx
+          }
+        }
+      })
+      setActiveSlide(found)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // KEYBOARD NAVIGATION FOR SLIDES
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const target = e.target
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable)
+      ) {
+        return
+      }
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault()
+        setActiveSlide(curr => {
+          const next = Math.min(curr + 1, SLIDES.length - 1)
+          scrollToSlide(next)
+          return next
+        })
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault()
+        setActiveSlide(curr => {
+          const prev = Math.max(curr - 1, 0)
+          scrollToSlide(prev)
+          return prev
+        })
+      } else if (e.key === ' ' && !e.shiftKey) {
+        e.preventDefault()
+        setActiveSlide(curr => {
+          const next = Math.min(curr + 1, SLIDES.length - 1)
+          scrollToSlide(next)
+          return next
+        })
+      } else if (e.key === ' ' && e.shiftKey) {
+        e.preventDefault()
+        setActiveSlide(curr => {
+          const prev = Math.max(curr - 1, 0)
+          scrollToSlide(prev)
+          return prev
+        })
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   useEffect(() => {
     // NAV
@@ -530,7 +646,7 @@ export default function Home() {
       </div>
 
       {/* HERO */}
-      <section className="hero" id="hero">
+      <section className={`hero ${activeSlide === 0 ? 'slide-active' : ''}`} id="hero">
         <div className="hero__bg"><div className="hero__grid"></div></div>
         <div className="container hero__inner">
           <div className="hero__content">
@@ -581,7 +697,7 @@ export default function Home() {
       </section>
 
       {/* ABOUT */}
-      <section className="section" id="about">
+      <section className={`section ${activeSlide === 1 ? 'slide-active' : ''}`} id="about">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">01 / <span data-id="Tentang" data-en="About">Tentang</span></span>
@@ -634,7 +750,7 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section className="section section--alt" id="services">
+      <section className={`section section--alt ${activeSlide === 2 ? 'slide-active' : ''}`} id="services">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">02 / <span data-id="Layanan" data-en="Services">Layanan</span></span>
@@ -694,7 +810,7 @@ export default function Home() {
       </section>
 
       {/* SKILLS */}
-      <section className="section" id="skills">
+      <section className={`section ${activeSlide === 3 ? 'slide-active' : ''}`} id="skills">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">03 / <span data-id="Kemampuan" data-en="Skills">Kemampuan</span></span>
@@ -869,7 +985,7 @@ export default function Home() {
       </section>
 
       {/* EXPERIENCE */}
-      <section className="section section--alt" id="experience">
+      <section className={`section section--alt ${activeSlide === 4 ? 'slide-active' : ''}`} id="experience">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">04 / <span data-id="Pengalaman" data-en="Experience">Pengalaman</span></span>
@@ -1015,7 +1131,7 @@ export default function Home() {
       </section>
 
       {/* EDUCATION */}
-      <section className="section" id="education">
+      <section className={`section ${activeSlide === 5 ? 'slide-active' : ''}`} id="education">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">05 / <span data-id="Pendidikan" data-en="Education">Pendidikan</span></span>
@@ -1076,7 +1192,7 @@ export default function Home() {
       </section>
 
       {/* CONTACT */}
-      <section className="section section--alt" id="contact">
+      <section className={`section section--alt ${activeSlide === 6 ? 'slide-active' : ''}`} id="contact">
         <div className="container">
           <div className="section__header">
             <span className="section__tag">06 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
@@ -1199,6 +1315,79 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* SLIDE NAVIGATION DOTS (RIGHT) */}
+      <div className={`slide-nav ${isSlideMode ? 'slide-nav--visible' : ''}`} aria-label="Navigasi Slide">
+        {SLIDES.map((slide, idx) => (
+          <button
+            key={slide.id}
+            className={`slide-nav__dot ${activeSlide === idx ? 'active' : ''}`}
+            onClick={() => scrollToSlide(idx)}
+            aria-label={`Slide ${idx + 1}: ${lang === 'id' ? slide.label : slide.labelEn}`}
+          >
+            <span className="slide-nav__tooltip">
+              <span className="slide-nav__num">{slide.num}</span>
+              {lang === 'id' ? slide.label : slide.labelEn}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* FLOATING SLIDE DECK BAR */}
+      <div className="slide-deck-bar" aria-label="Kontrol Slide Deck">
+        <div className="slide-deck-bar__indicator">
+          <span className="slide-deck-bar__label">SLIDE</span>
+          <span className="slide-deck-bar__current">{String(activeSlide + 1).padStart(2, '0')}</span>
+          <span className="slide-deck-bar__sep">/</span>
+          <span className="slide-deck-bar__total">{String(SLIDES.length).padStart(2, '0')}</span>
+        </div>
+
+        <div className="slide-deck-bar__nav">
+          <button
+            className="slide-deck-bar__btn"
+            onClick={prevSlide}
+            disabled={activeSlide === 0}
+            aria-label="Slide Sebelumnya"
+            title={lang === 'id' ? 'Slide Sebelumnya (↑ / PageUp)' : 'Previous Slide (↑ / PageUp)'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+          <button
+            className="slide-deck-bar__btn"
+            onClick={nextSlide}
+            disabled={activeSlide === SLIDES.length - 1}
+            aria-label="Slide Berikutnya"
+            title={lang === 'id' ? 'Slide Berikutnya (↓ / Space / PageDown)' : 'Next Slide (↓ / Space / PageDown)'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+
+        <button
+          className={`slide-deck-bar__mode-toggle ${isSlideMode ? 'active' : ''}`}
+          onClick={() => setIsSlideMode(!isSlideMode)}
+          title={isSlideMode ? (lang === 'id' ? 'Ganti ke Mode Scroll Bebas' : 'Switch to Free Scroll Mode') : (lang === 'id' ? 'Ganti ke Mode PPT Slide' : 'Switch to PPT Slide Mode')}
+          aria-label="Toggle Slide Mode"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span className="slide-deck-bar__mode-text">
+            {isSlideMode ? 'SLIDE' : 'SCROLL'}
+          </span>
+        </button>
+
+        <span className="slide-deck-bar__hint" title={lang === 'id' ? 'Navigasi Keyboard (Panah Atas / Bawah)' : 'Keyboard Navigation (Up / Down Arrow)'}>
+          <kbd className="slide-deck-bar__kbd">↑</kbd>
+          <kbd className="slide-deck-bar__kbd">↓</kbd>
+        </span>
+      </div>
 
       {/* TOOL MODAL */}
       <div className="modal-overlay" id="toolModal">
