@@ -1298,7 +1298,7 @@ export default function Home() {
                 </div>
                 {formStatus === 'success' && (
                   <p className="form__status form__status--success" role="status">
-                    {lang === 'id' ? 'Pesan terkirim! Saya akan segera membalas.' : "Message sent! I'll reply soon."}
+                    {lang === 'id' ? 'Pesan berhasil dikirim! Angga akan segera merespons.' : 'Message sent! Angga will respond soon.'}
                   </p>
                 )}
                 {formStatus === 'error' && (
