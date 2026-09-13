@@ -562,6 +562,23 @@ export default function Home() {
                 <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
               </picture>
             </div>
+            <aside className="hero__terminal" aria-label="Terminal profile summary">
+              <div className="hero__terminal-bar">
+                <span className="hero__terminal-dot hero__terminal-dot--red"></span>
+                <span className="hero__terminal-dot hero__terminal-dot--yellow"></span>
+                <span className="hero__terminal-dot hero__terminal-dot--green"></span>
+                <span className="hero__terminal-title">angga@portfolio ~</span>
+              </div>
+              <div className="hero__terminal-body">
+                <div><span className="hero__terminal-prompt">$</span> whoami</div>
+                <p>Angga</p>
+                <div><span className="hero__terminal-prompt">$</span> role</div>
+                <p>Network Engineer</p>
+                <div><span className="hero__terminal-prompt">$</span> status</div>
+                <p data-id="Monitoring jaringan 24/7" data-en="24/7 network monitoring">Monitoring jaringan 24/7</p>
+                <span className="hero__terminal-cursor" aria-hidden="true"></span>
+              </div>
+            </aside>
             <div className="hero__photo-stats">
               <div className="hero__mini-stat">
                 <span className="hero__mini-num">2.5+</span>
