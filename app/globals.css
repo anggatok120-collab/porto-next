@@ -1536,7 +1536,7 @@ body {
 .hero__inner { padding-top: 20px; gap: clamp(48px, 8vw, 110px); }
 .hero__content { flex: 1 1 620px; text-align: left !important; }
 .hero__greeting { margin-bottom: 22px; color: var(--accent); letter-spacing: 0.22em; }
-.hero__greeting::before { content: '●'; margin-right: 10px; font-size: 8px; vertical-align: 2px; }
+.hero__greeting::before { content: none; }
 .hero__name {
     width: fit-content;
     max-width: 100%;
