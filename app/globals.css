@@ -1693,7 +1693,12 @@ body {
 .skill-group__title { display: flex; align-items: center; gap: 10px; }
 .skill-group__title::before { content: ''; width: 18px; height: 2px; background: var(--accent); }
 .tag { background: rgba(255,255,255,.035); border-radius: 999px; }
-.tag--accent { background: var(--accent-dim); }
+.skill-group__tags .tag,
+.tag--accent {
+    color: var(--accent);
+    border-color: var(--accent-mid);
+    background: var(--accent-dim);
+}
 .tools__section { margin-top: 56px; padding-top: 44px; }
 .tool-item { border-radius: 16px; padding: 12px 18px; background: var(--surface); }
 .tool-item:hover { transform: translateY(-5px); box-shadow: 0 18px 36px rgba(0,0,0,.22); }
