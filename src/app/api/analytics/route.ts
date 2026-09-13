@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server"; import { z } from "zod"; import { db } from "@/lib/db"; const schema=z.object({type:z.enum(["PAGE_VIEW","PROJECT_VIEW","BLOG_VIEW"]),path:z.string().max(300),entityId:z.string().max(100).optional()});
+export async function POST(req:Request){const p=schema.safeParse(await req.json().catch(()=>null));if(!p.success)return NextResponse.json({ok:false},{status:400});await db.analyticsEvent.create({data:p.data}).catch(()=>null);return NextResponse.json({ok:true})}

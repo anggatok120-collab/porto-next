@@ -1,0 +1,1 @@
+export default function Loading(){return <main style={{minHeight:"100vh",display:"grid",placeItems:"center",fontFamily:"monospace"}}><div className="glass" style={{padding:28,borderRadius:18}}><span style={{color:"var(--cyan)"}}>$</span> Initializing Angga Portfolio<span aria-hidden="true">...</span><p className="muted">Loading modules · Ready soon</p></div></main>}

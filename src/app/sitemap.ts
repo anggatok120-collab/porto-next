@@ -1,0 +1,2 @@
+import type { MetadataRoute } from "next"; import { siteConfig } from "@/config/site"; import { demoProjects } from "@/data/demo";
+export default function sitemap():MetadataRoute.Sitemap{const routes=["","/projects","/blog",...demoProjects.map(p=>`/projects/${p.slug}`)];return routes.map(path=>({url:`${siteConfig.url}${path}`,lastModified:new Date(),changeFrequency:path===""?"weekly":"monthly",priority:path===""?1:.7}))}

@@ -1,0 +1,12 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Script from "next/script";
+import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import { ArrowLeft, Share2 } from "lucide-react";
+import { demoPosts } from "@/data/posts";
+import { getPost } from "@/lib/content";
+
+export function generateStaticParams() { return demoPosts.map((post) => ({ slug: post.slug })); }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const { slug } = await params; const post = await getPost(slug); return post ? { title: post.title, description: post.excerpt, openGraph: { type: "article", title: post.title, description: post.excerpt, publishedTime: post.publishedAt } } : { title: "Article not found" }; }
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) { const { slug } = await params; const post = await getPost(slug); if (!post) notFound(); const jsonLd = { "@context": "https://schema.org", "@type": "Article", headline: post.title, datePublished: post.publishedAt, author: { "@type": "Person", name: "Angga" } }; return <main className="section" style={{ paddingTop: 130 }}><article className="container" style={{ maxWidth: 850 }}><Link className="button" href="/blog"><ArrowLeft size={15}/>All articles</Link><header style={{ margin: "50px 0" }}><span className="eyebrow">{post.category} · {new Date(post.publishedAt).toLocaleDateString("id-ID")}</span><h1 className="headline">{post.title}</h1><p className="muted" style={{ fontSize: "1.15rem", lineHeight: 1.8 }}>{post.excerpt}</p><button className="button" aria-label="Share article"><Share2 size={15}/>Share</button></header><div className="glass markdown" style={{ padding: "clamp(24px,6vw,60px)", borderRadius: 24 }}><ReactMarkdown>{post.content + "\n\n## Engineering notes\n\nThe most durable solutions make boundaries explicit, keep operational feedback visible, and remain simple enough for the next developer to understand.\n\n```ts\nconst result = schema.safeParse(untrustedInput);\nif (!result.success) return { ok: false };\n```\n\n## Takeaway\n\nStart small, measure the result, and strengthen the system where evidence shows it matters."}</ReactMarkdown></div><Script id={`article-schema-${post.slug}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}/></article></main>; }
