@@ -1,49 +1,21 @@
 {
-  "name": "angga-portfolio",
-  "version": "1.0.0",
+  "name": "porto-next",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev",
-    "seed": "tsx prisma/seed.ts",
-    "create-admin": "tsx scripts/create-admin.ts"
+    "images:convert": "node scripts/convert-images.mjs",
+    "postinstall": "npm run images:convert"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "latest",
-    "@hookform/resolvers": "latest",
-    "@prisma/client": "6.19.0",
-    "bcryptjs": "latest",
-    "framer-motion": "latest",
-    "lucide-react": "latest",
-    "next": "latest",
-    "next-auth": "beta",
-    "next-themes": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-hook-form": "latest",
-    "react-markdown": "latest",
-    "recharts": "latest",
-    "resend": "latest",
-    "sonner": "latest",
-    "zod": "latest"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "latest",
-    "@types/bcryptjs": "latest",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest",
-    "prisma": "6.19.0",
-    "tailwindcss": "latest",
-    "tsx": "latest",
-    "typescript": "latest"
-  },
-  "prisma": { "seed": "tsx prisma/seed.ts" }
+    "@vercel/analytics": "^2.0.1",
+    "gray-matter": "^4.0.3",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "resend": "^6.12.4",
+    "sharp": "^0.32.4"
+  }
 }

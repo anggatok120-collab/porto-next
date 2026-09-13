@@ -1,5 +1,0 @@
-import { db } from "@/lib/db"; import { demoProjects } from "@/data/demo"; import { demoPosts } from "@/data/posts";
-export async function getPublishedProjects(){try{const rows=await db.project.findMany({where:{published:true},orderBy:[{featured:"desc"},{sortOrder:"asc"},{createdAt:"desc"}]});return rows.length?rows:demoProjects}catch{return demoProjects}}
-export async function getProject(slug:string){try{return await db.project.findFirst({where:{slug,published:true}})??demoProjects.find(x=>x.slug===slug)??null}catch{return demoProjects.find(x=>x.slug===slug)??null}}
-export async function getPublishedPosts(){try{const rows=await db.blogPost.findMany({where:{status:"PUBLISHED"},orderBy:{publishedAt:"desc"}});return rows.length?rows.map(x=>({...x,publishedAt:(x.publishedAt??x.createdAt).toISOString()})):demoPosts}catch{return demoPosts}}
-export async function getPost(slug:string){try{const x=await db.blogPost.findFirst({where:{slug,status:"PUBLISHED"}});return x?{...x,publishedAt:(x.publishedAt??x.createdAt).toISOString()}:demoPosts.find(p=>p.slug===slug)??null}catch{return demoPosts.find(p=>p.slug===slug)??null}}
