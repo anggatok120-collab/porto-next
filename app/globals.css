@@ -1539,11 +1539,14 @@ body {
 .hero__greeting::before { content: '●'; margin-right: 10px; font-size: 8px; vertical-align: 2px; }
 .hero__name {
     width: fit-content;
-    margin: 0 0 28px !important;
-    font-size: clamp(64px, 10vw, 124px) !important;
-    line-height: .82 !important;
-    letter-spacing: -0.075em;
+    max-width: 100%;
+    margin: -0.08em 0 calc(28px - 0.1em) -0.025em !important;
+    padding: 0.08em 0.12em 0.1em 0.025em;
+    font-size: clamp(60px, 9vw, 112px) !important;
+    line-height: .94 !important;
+    letter-spacing: -0.055em;
     text-align: left !important;
+    overflow: visible;
     background: linear-gradient(112deg, #ffffff 8%, #bdfcf3 45%, #9ba8ff 98%);
     -webkit-background-clip: text;
     background-clip: text;

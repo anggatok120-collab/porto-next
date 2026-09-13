@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
         <style>{`/* Critical hero + header CSS inlined for faster first paint */
 .hero__content{text-align:left}
-.hero__name{font-size:clamp(64px,10vw,124px);font-weight:700;line-height:.82;margin:0 0 28px;display:block;text-align:left}
+.hero__name{max-width:100%;font-size:clamp(60px,9vw,112px);font-weight:700;line-height:.94;margin:0 0 28px;display:block;padding:.08em .12em .1em .025em;overflow:visible;text-align:left}
 .hero__roles{display:flex;justify-content:flex-start;gap:12px;margin-bottom:24px;text-align:left}
 .hero__photo-wrap{width:320px;height:430px;margin:0 auto}
 .hero__actions{display:flex;justify-content:flex-start;margin:0}
