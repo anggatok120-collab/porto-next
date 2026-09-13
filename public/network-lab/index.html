@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Lab & Topology Simulator — Angga</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23141c28' stroke='%2338bdf8' stroke-width='2.5'/%3E%3Cline x1='20' y1='44' x2='32' y2='20' stroke='%2338bdf8' stroke-width='3.5' stroke-linecap='round' opacity='0.8'/%3E%3Cline x1='44' y1='44' x2='32' y2='20' stroke='%2338bdf8' stroke-width='3.5' stroke-linecap='round' opacity='0.8'/%3E%3Cline x1='20' y1='44' x2='44' y2='44' stroke='%23a3e635' stroke-width='3.5' stroke-linecap='round' opacity='0.8'/%3E%3Ccircle cx='32' cy='20' r='7.5' fill='%23a3e635'/%3E%3Ccircle cx='20' cy='44' r='6.5' fill='%2338bdf8'/%3E%3Ccircle cx='44' cy='44' r='6.5' fill='%23a3e635'/%3E%3Ccircle cx='32' cy='20' r='3' fill='%23090d13'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d13;
+      --surface: #111822;
+      --surface-hover: #172230;
+      --border: #1e2d3d;
+      --border-light: #2c3e50;
+      --accent: #a3e635;
+      --accent-glow: rgba(163, 230, 53, 0.25);
+      --cyan: #38bdf8;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --purple: #c084fc;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --transition: all 0.2s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND GRID */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER / NAVBAR */
+    .header {
+      position: relative;
+      z-index: 10;
+      background: rgba(17, 24, 34, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand__icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(163,230,53,0.2), rgba(56,189,248,0.2));
+      border: 1.5px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+    .brand__title { font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+    .brand__subtitle { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--surface-hover);
+    }
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px;
+      cursor: pointer;
+    }
+    .lang-btn {
+      padding: 4px 10px;
+      font-size: 12px;
+      font-family: var(--mono);
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #090d13;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* TOOLBAR */
+    .toolbar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+    }
+    .action-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .action-btn--primary {
+      background: var(--accent);
+      color: #090d13;
+      border-color: var(--accent);
+    }
+    .action-btn--primary:hover {
+      background: #bbf246;
+      border-color: #bbf246;
+      color: #090d13;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+    .action-btn--danger {
+      border-color: rgba(239,68,68,0.4);
+      color: #f87171;
+    }
+    .action-btn--danger:hover {
+      background: rgba(239,68,68,0.15);
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .action-btn--info {
+      border-color: rgba(56,189,248,0.4);
+      color: var(--cyan);
+    }
+    .action-btn--info:hover {
+      background: rgba(56,189,248,0.15);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .system-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 20px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+      animation: pulse 1.5s infinite;
+    }
+    .status-dot.failover { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+    .status-dot.down { background: var(--red); box-shadow: 0 0 10px var(--red); }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(1.2);} }
+
+    /* WORKSPACE GRID */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    /* TOPOLOGY CANVAS */
+    .canvas-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .canvas-header {
+      padding: 12px 18px;
+      background: rgba(0,0,0,0.35);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .canvas-body {
+      background: #080c11;
+      position: relative;
+      flex: 1;
+      min-height: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .topology-svg {
+      width: 100%;
+      height: 100%;
+      min-height: 440px;
+      display: block;
+    }
+
+    /* SVG ELEMENTS */
+    .link-line {
+      stroke: rgba(255,255,255,0.18);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      transition: stroke 0.3s ease, stroke-width 0.3s ease, filter 0.3s ease;
+    }
+    .link-line.active { stroke: #22c55e; stroke-width: 3; }
+    .link-line.backup { stroke: var(--amber); stroke-dasharray: 6 4; }
+    .link-line.down { stroke: var(--red); stroke-dasharray: 4 4; opacity: 0.6; }
+    .link-text { font-family: var(--mono); font-size: 10px; fill: var(--text-dim); text-anchor: middle; }
+
+    /* HIGH-ENERGY CABLE TRANSMISSION FLOW (DATA BURST / PHOTON BEAM) */
+    .link-line.flowing {
+      stroke: #22c55e !important;
+      stroke-dasharray: 10 6 !important;
+      stroke-width: 4.5 !important;
+      animation: cableDataFlow 0.35s linear infinite !important;
+      filter: drop-shadow(0 0 12px #22c55e) !important;
+    }
+    .link-line.flowing.cyan {
+      stroke: var(--cyan) !important;
+      filter: drop-shadow(0 0 12px var(--cyan)) !important;
+    }
+    .link-line.flowing.amber {
+      stroke: var(--amber) !important;
+      filter: drop-shadow(0 0 12px var(--amber)) !important;
+    }
+    .link-line.flowing.red {
+      stroke: #ef4444 !important;
+      filter: drop-shadow(0 0 14px #ef4444) !important;
+    }
+
+    @keyframes cableDataFlow {
+      from { stroke-dashoffset: 32; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .node-group { cursor: pointer; transition: transform 0.2s; }
+    .node-group:hover .node-bg {
+      stroke: var(--accent);
+      stroke-width: 2;
+      filter: drop-shadow(0 0 12px var(--accent-glow));
+    }
+    .node-bg {
+      fill: #141c26;
+      stroke: #253446;
+      stroke-width: 1.5;
+      rx: 10;
+      transition: all 0.25s ease;
+    }
+    .node-icon-box { fill: #1c2736; rx: 6; }
+    .node-name { font-family: var(--font); font-size: 12px; font-weight: 600; fill: #f8fafc; }
+    .node-ip { font-family: var(--mono); font-size: 10px; fill: #94a3b8; }
+    .node-tag { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+    /* NODE ARRIVAL FLASH REACTION */
+    .node-group.node-flash-green .node-bg {
+      stroke: #22c55e !important;
+      stroke-width: 3.5 !important;
+      filter: drop-shadow(0 0 22px #22c55e) !important;
+    }
+    .node-group.node-flash-cyan .node-bg {
+      stroke: var(--cyan) !important;
+      stroke-width: 3.5 !important;
+      filter: drop-shadow(0 0 22px var(--cyan)) !important;
+    }
+    .node-group.node-flash-amber .node-bg {
+      stroke: var(--amber) !important;
+      stroke-width: 3.5 !important;
+      filter: drop-shadow(0 0 22px var(--amber)) !important;
+    }
+    .node-group.node-flash-red .node-bg {
+      stroke: #ef4444 !important;
+      stroke-width: 4 !important;
+      filter: drop-shadow(0 0 25px #ef4444) !important;
+    }
+
+    /* CYBER PACKET CARRIER & HALO */
+    .packet-halo {
+      fill: rgba(34, 197, 94, 0.3);
+      animation: haloPulse 0.6s ease-in-out infinite alternate;
+    }
+    .packet-core {
+      fill: #22c55e;
+      filter: drop-shadow(0 0 10px #22c55e);
+    }
+    .packet-tail {
+      fill: #22c55e;
+      filter: drop-shadow(0 0 6px #22c55e);
+    }
+    .packet-badge-bg {
+      fill: #090d14;
+      stroke: #22c55e;
+      stroke-width: 1.2;
+    }
+    .packet-badge-text {
+      font-family: var(--mono);
+      font-size: 8.5px;
+      font-weight: 700;
+      fill: #22c55e;
+      text-anchor: middle;
+    }
+
+    /* THEME VARIATIONS FOR PACKET */
+    .packet-theme-cyan .packet-halo { fill: rgba(56, 189, 248, 0.3); }
+    .packet-theme-cyan .packet-core, .packet-theme-cyan .packet-tail { fill: var(--cyan); filter: drop-shadow(0 0 10px var(--cyan)); }
+    .packet-theme-cyan .packet-badge-bg { stroke: var(--cyan); }
+    .packet-theme-cyan .packet-badge-text { fill: var(--cyan); }
+
+    .packet-theme-amber .packet-halo { fill: rgba(245, 158, 11, 0.3); }
+    .packet-theme-amber .packet-core, .packet-theme-amber .packet-tail { fill: var(--amber); filter: drop-shadow(0 0 10px var(--amber)); }
+    .packet-theme-amber .packet-badge-bg { stroke: var(--amber); }
+    .packet-theme-amber .packet-badge-text { fill: var(--amber); }
+
+    .packet-theme-red .packet-halo { fill: rgba(239, 68, 68, 0.4); }
+    .packet-theme-red .packet-core, .packet-theme-red .packet-tail { fill: #ef4444; filter: drop-shadow(0 0 12px #ef4444); }
+    .packet-theme-red .packet-badge-bg { stroke: #ef4444; }
+    .packet-theme-red .packet-badge-text { fill: #ef4444; }
+
+    @keyframes haloPulse {
+      0% { r: 10; opacity: 0.4; }
+      100% { r: 16; opacity: 0.9; }
+    }
+
+    /* DROP SHOCKWAVE BURST */
+    .drop-shockwave {
+      fill: none;
+      stroke: #ef4444;
+      stroke-width: 2.5;
+      animation: dropWave 0.7s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+    .drop-shockwave.delay {
+      animation-delay: 0.25s;
+    }
+    .drop-badge-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+      fill: #ef4444;
+      text-anchor: middle;
+      filter: drop-shadow(0 0 10px #ef4444);
+    }
+    @keyframes dropWave {
+      0% { r: 8; opacity: 1; stroke-width: 3.5; }
+      100% { r: 42; opacity: 0; stroke-width: 0.5; }
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .console-card, .inspect-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .console-card { flex: 1; }
+    .card-header {
+      background: rgba(0,0,0,0.3);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .clear-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .clear-btn:hover { color: var(--text); }
+
+    .console-body {
+      padding: 14px 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: #080c11;
+    }
+    .log-line { display: flex; gap: 8px; word-break: break-all; }
+    .log-time { color: var(--text-dim); flex-shrink: 0; }
+    .log-host { color: var(--accent); font-weight: 600; flex-shrink: 0; }
+    .log-msg { color: #e2e8f0; }
+    .log-msg--ok { color: #4ade80; }
+    .log-msg--warn { color: #fbbf24; }
+    .log-msg--err { color: #f87171; }
+    .log-msg--info { color: #38bdf8; }
+
+    /* DEVICE INSPECT PANEL */
+    .inspect-body {
+      padding: 16px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .inspect-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .inspect-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .inspect-btn-full {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--mono);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .inspect-btn-full:hover {
+      background: var(--cyan);
+      color: #090d13;
+      box-shadow: 0 0 12px rgba(56,189,248,0.3);
+    }
+    .inspect-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .inspect-item {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+    }
+    .inspect-item-label { font-size: 10px; font-family: var(--mono); color: var(--text-dim); text-transform: uppercase; }
+    .inspect-item-val { font-size: 12px; font-family: var(--mono); color: var(--accent); font-weight: 600; word-break: break-all; }
+
+    /* MODAL WINDOW FOR REAL CONFIG & LEARNING */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-window {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 820px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.1);
+      transform: scale(0.96);
+      transition: transform 0.25s ease;
+      overflow: hidden;
+    }
+    .modal-overlay.active .modal-window {
+      transform: scale(1);
+    }
+    .modal-header {
+      padding: 14px 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .modal-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .modal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .modal-dot--r { background: #ff5f56; }
+    .modal-dot--y { background: #ffbd2e; }
+    .modal-dot--g { background: #27c93f; }
+    .modal-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(163,230,53,0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+    .modal-close:hover {
+      color: var(--red);
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    /* MODAL TABS */
+    .modal-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      gap: 8px;
+    }
+    .modal-tab-btn {
+      padding: 12px 18px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .modal-tab-btn:hover { color: var(--text); }
+    .modal-tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .modal-content {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: flex; flex-direction: column; gap: 16px; }
+
+    /* CODE BLOCK / SCRIPT VIEW */
+    .code-box {
+      background: #06090e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .code-box-header {
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .copy-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .copy-btn:hover {
+      background: var(--accent);
+      color: #090d13;
+      border-color: var(--accent);
+    }
+    .code-box pre {
+      padding: 16px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #7dd3fc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* CONCEPT / EDUCATIONAL NOTES */
+    .edu-card {
+      background: rgba(56, 189, 248, 0.04);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .edu-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .edu-card-body {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+    .edu-card-body p { margin-bottom: 8px; }
+    .edu-card-body ul { padding-left: 20px; margin-bottom: 8px; }
+    .edu-card-body li { margin-bottom: 4px; }
+    .badge-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(163, 230, 53, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-right: 6px;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      background: var(--surface);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 1024px) {
+      .workspace-grid { grid-template-columns: 1fr; }
+      .console-body { height: 180px; }
+    }
+    @media (max-width: 640px) {
+      .header { flex-direction: column; align-items: flex-start; }
+      .nav-links { width: 100%; justify-content: space-between; }
+      .toolbar-card { flex-direction: column; align-items: stretch; }
+      .action-group { flex-direction: column; }
+      .action-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="/" class="brand">
+      <div class="brand__icon">⚡</div>
+      <div>
+        <div class="brand__title" data-id="Angga — Network Lab Simulator" data-en="Angga — Network Lab Simulator">Angga — Network Lab Simulator</div>
+        <div class="brand__subtitle">Interactive Topology &amp; Production Configs</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-btn">🌐 <span data-id="Portofolio Utama" data-en="Main Portfolio">Portofolio Utama</span></a>
+      <a href="/terminal" class="nav-btn">🖥️ <span data-id="Terminal UI" data-en="Terminal UI">Terminal UI</span></a>
+      <div class="lang-toggle">
+        <button type="button" class="lang-btn active" id="btnLangId">ID</button>
+        <button type="button" class="lang-btn" id="btnLangEn">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="container">
+    <!-- TOOLBAR CONTROLS -->
+    <div class="toolbar-card">
+      <div class="action-group">
+        <button type="button" class="action-btn action-btn--primary" id="btnPing">
+          <span>⚡</span> <span data-id="1. Kirim Ping (ICMP Echo)" data-en="1. Send Ping (ICMP Echo)">1. Kirim Ping (ICMP Echo)</span>
+        </button>
+        <button type="button" class="action-btn action-btn--danger" id="btnFailover">
+          <span>⇄</span> <span data-id="2. Simulasi Failover WAN" data-en="2. Simulate WAN Failover">2. Simulasi Failover WAN</span>
+        </button>
+        <button type="button" class="action-btn action-btn--info" id="btnVlan">
+          <span>🏷️</span> <span data-id="3. VLAN Tagging (802.1Q)" data-en="3. VLAN Tagging (802.1Q)">3. VLAN Tagging (802.1Q)</span>
+        </button>
+        <button type="button" class="action-btn" id="btnFirewall">
+          <span>🛡️</span> <span data-id="4. Firewall Port 22 Drop" data-en="4. Firewall Port 22 Drop">4. Firewall Port 22 Drop</span>
+        </button>
+        <button type="button" class="action-btn" id="btnReset">
+          <span>↺</span> <span data-id="Reset Lab" data-en="Reset Lab">Reset Lab</span>
+        </button>
+      </div>
+      <div class="system-status">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText" data-id="Status: Normal (Primary WAN Aktif)" data-en="Status: Normal (Primary WAN Active)">Status: Normal (Primary WAN Aktif)</span>
+      </div>
+    </div>
+
+    <!-- WORKSPACE CANVAS & SIDEBAR -->
+    <div class="workspace-grid">
+      <!-- SVG TOPOLOGY -->
+      <div class="canvas-card">
+        <div class="canvas-header">
+          <span data-id="Enterprise Network Topology (Klik perangkat mana saja untuk membuka Script Config &amp; Modul Pembelajaran)" data-en="Enterprise Network Topology (Click any device to open Script Config &amp; Learning Module)">Enterprise Network Topology (Klik perangkat mana saja untuk membuka Script Config &amp; Modul Pembelajaran)</span>
+          <span style="color:var(--accent); font-weight:700;">KLIK PERANGKAT 🔍</span>
+        </div>
+        <div class="canvas-body">
+          <svg viewBox="0 0 1280 360" class="topology-svg" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <!-- 1. CABLE LINKS (RENDERED UNDERNEATH) -->
+            <!-- Link 1: Host-01 -> Ruijie Switch -->
+            <line id="link-client-ruijie" x1="92" y1="273" x2="295" y2="273" class="link-line active" />
+
+            <!-- Link 2: Ruijie -> Zabbix -->
+            <line id="link-ruijie-zabbix" x1="295" y1="273" x2="295" y2="73" class="link-line active" />
+
+            <!-- Link 3: Ruijie -> Huawei Core -->
+            <line id="link-ruijie-huawei" x1="295" y1="273" x2="500" y2="273" class="link-line active" />
+
+            <!-- Link 4: Huawei Core -> Juniper SRX -->
+            <line id="link-huawei-juniper" x1="500" y1="273" x2="705" y2="273" class="link-line active" />
+
+            <!-- Link 5: Juniper SRX -> MikroTik CCR -->
+            <line id="link-juniper-mikrotik" x1="705" y1="273" x2="910" y2="273" class="link-line active" />
+
+            <!-- Link 6: MikroTik CCR -> ISP Primary -->
+            <line id="linkPrimary" x1="910" y1="273" x2="1125" y2="73" class="link-line active" />
+
+            <!-- Link 7: MikroTik CCR -> ISP Backup -->
+            <line id="linkBackup" x1="910" y1="273" x2="1125" y2="273" class="link-line backup" />
+
+            <!-- 2. INLINE COMPACT LINK BADGES (ZERO OVERFLOW / ZERO CLIPPING) -->
+            <!-- Badge 1: VLAN 10 -->
+            <g>
+              <rect x="165" y="263" width="55" height="20" rx="4" fill="#090d14" stroke="#38bdf8" stroke-width="1" />
+              <text x="192.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#38bdf8" font-weight="600" text-anchor="middle">VLAN 10</text>
+            </g>
+
+            <!-- Badge 2: SNMP (Gi0/2) -->
+            <g>
+              <rect x="255" y="163" width="80" height="20" rx="4" fill="#090d14" stroke="#f46800" stroke-width="1" />
+              <text x="295" y="176" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f46800" font-weight="600" text-anchor="middle">SNMP · Gi0/2</text>
+            </g>
+
+            <!-- Badge 3: 802.1Q Trunk -->
+            <g>
+              <rect x="370" y="263" width="55" height="20" rx="4" fill="#090d14" stroke="#38bdf8" stroke-width="1" />
+              <text x="397.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#38bdf8" font-weight="600" text-anchor="middle">802.1Q</text>
+            </g>
+
+            <!-- Badge 4: 10.0.1.0/30 (Trust Uplink) -->
+            <g>
+              <rect x="573" y="263" width="58" height="20" rx="4" fill="#090d14" stroke="#10b981" stroke-width="1" />
+              <text x="602" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981" font-weight="600" text-anchor="middle">10.0.1.0/30</text>
+            </g>
+
+            <!-- Badge 5: 10.0.0.0/30 (Untrust to CCR) -->
+            <g>
+              <rect x="778" y="263" width="58" height="20" rx="4" fill="#090d14" stroke="#a3e635" stroke-width="1" />
+              <text x="807" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#a3e635" font-weight="600" text-anchor="middle">10.0.0.0/30</text>
+            </g>
+
+            <!-- Badge 6: Primary WAN BGP -->
+            <g>
+              <rect x="972" y="163" width="90" height="20" rx="4" fill="#090d14" stroke="#22c55e" stroke-width="1.2" />
+              <text x="1017.5" y="176.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#22c55e" font-weight="700" text-anchor="middle">Primary (BGP)</text>
+            </g>
+
+            <!-- Badge 7: Failover WAN -->
+            <g>
+              <rect x="985" y="263" width="60" height="20" rx="4" fill="#090d14" stroke="#f59e0b" stroke-width="1" />
+              <text x="1015" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f59e0b" font-weight="600" text-anchor="middle">Failover</text>
+            </g>
+
+            <!-- 3. ANIMATED GLOWING CYBER DATA PACKET / PHOTON ENTITY -->
+            <g id="packetGroup" style="opacity: 0; pointer-events: none;">
+              <!-- Outer glowing pulse halo -->
+              <circle id="packetHalo" cx="0" cy="0" r="14" class="packet-halo" />
+              <!-- Trailing comet tail particles -->
+              <circle id="packetTail2" cx="-12" cy="0" r="4" class="packet-tail" opacity="0.4" />
+              <circle id="packetTail1" cx="-6" cy="0" r="6" class="packet-tail" opacity="0.7" />
+              <!-- High-energy core -->
+              <circle id="packetCore" cx="0" cy="0" r="7" class="packet-core" />
+              <circle id="packetCenter" cx="0" cy="0" r="3.5" fill="#ffffff" />
+              <!-- Mini floating payload badge -->
+              <g id="packetBadge" transform="translate(10, -18)">
+                <rect width="66" height="18" rx="4" class="packet-badge-bg" />
+                <text id="packetBadgeText" x="33" y="12" class="packet-badge-text">ICMP</text>
+              </g>
+            </g>
+
+            <!-- Firewall Block Shockwave Burst -->
+            <g id="dropEffect" style="opacity: 0; pointer-events: none;">
+              <circle cx="705" cy="273" r="15" class="drop-shockwave" />
+              <circle cx="705" cy="273" r="28" class="drop-shockwave delay" />
+              <rect x="665" y="222" width="80" height="20" rx="4" fill="#180c0e" stroke="#ef4444" stroke-width="1.2" />
+              <text x="705" y="236" class="drop-badge-text">🚫 REJECTED</text>
+            </g>
+
+            <!-- 4. NODES (SPACIOUS ENTERPRISE CARDS) -->
+            <!-- Node 1: Host-01 -->
+            <g class="node-group" data-device-id="client" data-name="Host-01 (Workstation)" data-ip="192.168.10.101/24" data-os="Linux Ubuntu 24.04" data-vlan="VLAN 10" data-role="Client Endpoint">
+              <rect x="25" y="240" width="135" height="66" class="node-bg" />
+              <rect x="33" y="254" width="34" height="34" class="node-icon-box" />
+              <text x="50" y="277" fill="#38bdf8" text-anchor="middle" font-size="16">💻</text>
+              <text x="73" y="261" class="node-name">Host-01</text>
+              <text x="73" y="276" class="node-ip">192.168.10.101</text>
+              <text x="73" y="291" class="node-tag" fill="#a3e635">VLAN 10</text>
+            </g>
+
+            <!-- Node 2: Ruijie Access Switch -->
+            <g class="node-group" data-device-id="ruijie" data-name="Ruijie Access Switch" data-ip="10.0.0.3" data-os="Ruijie RGOS" data-vlan="VLAN 10, 20" data-role="L2 Access & PoE Switch">
+              <rect x="225" y="240" width="140" height="66" class="node-bg" />
+              <rect x="233" y="254" width="34" height="34" class="node-icon-box" />
+              <text x="250" y="277" fill="#0066cc" text-anchor="middle" font-size="16">🔀</text>
+              <text x="273" y="261" class="node-name">Ruijie Switch</text>
+              <text x="273" y="276" class="node-ip">RG-NBS3100</text>
+              <text x="273" y="291" class="node-tag" fill="#38bdf8">VLAN 10/20</text>
+            </g>
+
+            <!-- Node 3: NOC Zabbix Server -->
+            <g class="node-group" data-device-id="zabbix" data-name="NOC Zabbix Server" data-ip="192.168.10.50/24" data-os="Debian 12 / Zabbix 7.0 LTS" data-vlan="VLAN 10" data-role="NOC Monitoring & SNMP">
+              <rect x="225" y="40" width="140" height="66" class="node-bg" />
+              <rect x="233" y="54" width="34" height="34" class="node-icon-box" />
+              <text x="250" y="77" fill="#f87171" text-anchor="middle" font-size="16">🖥️</text>
+              <text x="273" y="61" class="node-name">NOC Zabbix</text>
+              <text x="273" y="76" class="node-ip">192.168.10.50</text>
+              <text x="273" y="91" class="node-tag" fill="#f46800">SNMP Server</text>
+            </g>
+
+            <!-- Node 4: Huawei Core Switch -->
+            <g class="node-group" data-device-id="huawei" data-name="Huawei Core Switch" data-ip="10.0.1.1/30" data-os="Huawei VRP 8.0" data-vlan="VLAN 10, 20, 99" data-role="L3 Core & Inter-VLAN Routing">
+              <rect x="430" y="240" width="140" height="66" class="node-bg" />
+              <rect x="438" y="254" width="34" height="34" class="node-icon-box" />
+              <text x="455" y="277" fill="#e41e2b" text-anchor="middle" font-size="16">🏢</text>
+              <text x="478" y="261" class="node-name">Huawei Core</text>
+              <text x="478" y="276" class="node-ip">S5735-L (L3)</text>
+              <text x="478" y="291" class="node-tag" fill="#a3e635">10.0.1.1/30</text>
+            </g>
+
+            <!-- Node 5: Juniper SRX Gateway -->
+            <g class="node-group" data-device-id="juniper" data-name="Juniper SRX300 Gateway" data-ip="10.0.1.2/30 & 10.0.0.2/30" data-os="Junos OS 23.4R1" data-vlan="Trust / Untrust Zones" data-role="Next-Gen Firewall & Security">
+              <rect x="635" y="240" width="140" height="66" class="node-bg" />
+              <rect x="643" y="254" width="34" height="34" class="node-icon-box" />
+              <text x="660" y="277" fill="#10b981" text-anchor="middle" font-size="16">🌲</text>
+              <text x="683" y="261" class="node-name">Juniper SRX</text>
+              <text x="683" y="276" class="node-ip">SRX300 (Junos)</text>
+              <text x="683" y="291" class="node-tag" fill="#10b981">FW · Zone Sec</text>
+            </g>
+
+            <!-- Node 6: MikroTik Core Router -->
+            <g class="node-group" data-device-id="mikrotik" data-name="MikroTik CCR Router" data-ip="10.0.0.1/30 & 203.0.113.2" data-os="RouterOS v7.15" data-vlan="BGP, NAT, OSPF" data-role="Edge BGP Gateway & Firewall">
+              <rect x="840" y="240" width="140" height="66" class="node-bg" />
+              <rect x="848" y="254" width="34" height="34" class="node-icon-box" />
+              <text x="865" y="277" fill="#cc0000" text-anchor="middle" font-size="16">🛡️</text>
+              <text x="888" y="261" class="node-name">MikroTik CCR</text>
+              <text x="888" y="276" class="node-ip">CCR2004-1G</text>
+              <text x="888" y="291" class="node-tag" fill="#f59e0b">BGP · NAT · FW</text>
+            </g>
+
+            <!-- Node 7: ISP Primary -->
+            <g class="node-group" data-device-id="ispPrimary" data-name="Primary ISP Gateway" data-ip="203.0.113.1 (AS65001)" data-os="BGP Core Gateway" data-vlan="Public WAN" data-role="Primary Upstream Gateway">
+              <rect x="1055" y="40" width="140" height="66" class="node-bg" />
+              <rect x="1063" y="54" width="34" height="34" class="node-icon-box" />
+              <text x="1080" y="77" fill="#22c55e" text-anchor="middle" font-size="16">🌐</text>
+              <text x="1103" y="61" class="node-name">ISP Primary</text>
+              <text x="1103" y="76" class="node-ip">203.0.113.1</text>
+              <text x="1103" y="91" class="node-tag" fill="#22c55e">WAN Active</text>
+            </g>
+
+            <!-- Node 8: ISP Backup -->
+            <g class="node-group" data-device-id="ispBackup" data-name="Secondary Backup ISP" data-ip="198.51.100.1 (AS65002)" data-os="Secondary Upstream Gateway" data-vlan="Public WAN" data-role="Redundant Backup Route">
+              <rect x="1055" y="240" width="140" height="66" class="node-bg" />
+              <rect x="1063" y="254" width="34" height="34" class="node-icon-box" />
+              <text x="1080" y="277" fill="#f59e0b" text-anchor="middle" font-size="16">☁️</text>
+              <text x="1103" y="261" class="node-name">ISP Backup</text>
+              <text x="1103" y="276" class="node-ip">198.51.100.1</text>
+              <text x="1103" y="291" class="node-tag" fill="#f59e0b">Standby WAN</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- CONSOLE & INSPECTOR -->
+      <aside class="sidebar">
+        <!-- CONSOLE -->
+        <div class="console-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span style="color:#4ade80">●</span> <span>NOC ROUTE &amp; PACKET LOG</span>
+            </div>
+            <button type="button" class="clear-btn" id="btnClearLog" data-id="Bersihkan" data-en="Clear">Bersihkan</button>
+          </div>
+          <div class="console-body" id="consoleBody">
+            <div class="log-line">
+              <span class="log-time">[00:00:00]</span>
+              <span class="log-host">[SYS-INIT]</span>
+              <span class="log-msg log-msg--info" data-id="Simulator topologi siap. Klik salah satu node pada diagram untuk melihat skrip konfigurasi &amp; modul belajar." data-en="Topology simulator ready. Click any node in the diagram to inspect real production configs &amp; learning guide.">Simulator topologi siap. Klik salah satu node pada diagram untuk melihat skrip konfigurasi &amp; modul belajar.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEVICE INSPECTOR -->
+        <div class="inspect-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span style="color:var(--cyan)">ℹ</span> <span data-id="Inspeksi Perangkat" data-en="Device Inspector">Inspeksi Perangkat</span>
+            </div>
+          </div>
+          <div class="inspect-body" id="inspectBody">
+            <div class="inspect-top">
+              <div>
+                <div class="inspect-title" id="inspectName">MikroTik CCR Router</div>
+                <div style="font-size:12px;color:var(--text-dim);" id="inspectRole">Core Edge Router (CCR2004-1G-12S+)</div>
+              </div>
+              <button type="button" class="inspect-btn-full" id="btnOpenModal">
+                <span>⚙️</span> <span data-id="Lihat Settingan CLI" data-en="View CLI Config">Lihat Settingan CLI</span>
+              </button>
+            </div>
+            <div class="inspect-meta">
+              <div class="inspect-item">
+                <div class="inspect-item-label">IP Address</div>
+                <div class="inspect-item-val" id="inspectIp">10.0.0.1 / 203.0.113.2</div>
+              </div>
+              <div class="inspect-item">
+                <div class="inspect-item-label">Operating System</div>
+                <div class="inspect-item-val" id="inspectOs">RouterOS v7.15</div>
+              </div>
+              <div class="inspect-item">
+                <div class="inspect-item-label">Segment / VLAN</div>
+                <div class="inspect-item-val" id="inspectVlan">BGP · NAT · OSPF</div>
+              </div>
+              <div class="inspect-item">
+                <div class="inspect-item-label">Interface Status</div>
+                <div class="inspect-item-val" style="color:#22c55e;">UP (10 Gbps SFP+)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- MODAL: DEVICE CONFIG & LEARNING MODULE -->
+  <div class="modal-overlay" id="deviceModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-dots">
+            <span class="modal-dot modal-dot--r"></span>
+            <span class="modal-dot modal-dot--y"></span>
+            <span class="modal-dot modal-dot--g"></span>
+          </div>
+          <div class="modal-title">
+            <span id="modalDeviceName">MikroTik CCR2004</span>
+            <span class="modal-tag" id="modalDeviceOs">RouterOS v7.15</span>
+          </div>
+        </div>
+        <button type="button" class="modal-close" id="modalClose">✕</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button type="button" class="modal-tab-btn active" data-tab="configTab">
+          <span>💻</span> <span data-id="Script Konfigurasi (CLI)" data-en="Configuration Script (CLI)">Script Konfigurasi (CLI)</span>
+        </button>
+        <button type="button" class="modal-tab-btn" data-tab="theoryTab">
+          <span>📖</span> <span data-id="Penjelasan & Cara Kerja" data-en="Concept & Packet Flow">Penjelasan &amp; Cara Kerja</span>
+        </button>
+        <button type="button" class="modal-tab-btn" data-tab="specsTab">
+          <span>🔍</span> <span data-id="Interface & Status Port" data-en="Interfaces & Ports">Interface &amp; Status Port</span>
+        </button>
+      </div>
+
+      <div class="modal-content">
+        <!-- TAB 1: CLI CONFIG -->
+        <div class="tab-pane active" id="configTab">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span id="codeBoxTitle">MikroTik RouterOS 7.x Script</span>
+              <button type="button" class="copy-btn" id="btnCopyConfig" data-id="Salin Script" data-en="Copy Script">Salin Script</button>
+            </div>
+            <pre><code id="codeBoxContent"># Loading config...</code></pre>
+          </div>
+        </div>
+
+        <!-- TAB 2: THEORY / CONCEPT -->
+        <div class="tab-pane" id="theoryTab">
+          <div class="edu-card">
+            <div class="edu-card-title">
+              <span>💡</span> <span id="theoryTitle">Fungsi &amp; Arsitektur dalam Topologi</span>
+            </div>
+            <div class="edu-card-body" id="theoryContent">
+              <p>Penjelasan konfigurasi...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: SPECS & INTERFACES -->
+        <div class="tab-pane" id="specsTab">
+          <div class="edu-card">
+            <div class="edu-card-title">
+              <span>⚡</span> <span>Spesifikasi Hardware &amp; Mapping Interface</span>
+            </div>
+            <div class="edu-card-body" id="specsContent">
+              <p>Hardware specs...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Angga — Network Engineer &amp; NOC Specialist. <a href="/">anggatok.my.id</a> · <a href="/terminal">/terminal</a> · <a href="/network-lab">/network-lab</a></p>
+  </footer>
+
+  <script>
+    let currentLang = 'id';
+    let isFailover = false;
+    let isSimulating = false;
+    let selectedDeviceId = 'mikrotik';
+
+    const consoleBody = document.getElementById('consoleBody');
+    const statusText = document.getElementById('statusText');
+    const statusDot = document.getElementById('statusDot');
+    const linkPrimary = document.getElementById('linkPrimary');
+    const linkBackup = document.getElementById('linkBackup');
+    const packetDot = document.getElementById('packetDot');
+
+    // MODAL ELEMENTS
+    const deviceModal = document.getElementById('deviceModal');
+    const modalClose = document.getElementById('modalClose');
+    const btnOpenModal = document.getElementById('btnOpenModal');
+    const modalDeviceName = document.getElementById('modalDeviceName');
+    const modalDeviceOs = document.getElementById('modalDeviceOs');
+    const codeBoxTitle = document.getElementById('codeBoxTitle');
+    const codeBoxContent = document.getElementById('codeBoxContent');
+    const theoryTitle = document.getElementById('theoryTitle');
+    const theoryContent = document.getElementById('theoryContent');
+    const specsContent = document.getElementById('specsContent');
+    const btnCopyConfig = document.getElementById('btnCopyConfig');
+
+    // REAL-WORLD CONFIG DATABASE FOR ALL 7 DEVICES
+    const deviceDatabase = {
+      mikrotik: {
+        name: 'MikroTik CCR2004-1G-12S+2XS',
+        os: 'RouterOS v7.15',
+        role_id: 'Core Edge Router, BGP Gateway, NAT, Stateful Firewall',
+        role_en: 'Core Edge Router, BGP Gateway, NAT, Stateful Firewall',
+        ip: '10.0.0.1/30 (L3 Core) & 203.0.113.2 (WAN Primary)',
+        vlan: 'BGP (AS65000), NAT Masquerade, OSPF Area 0',
+        cli_title: 'MikroTik RouterOS 7.x Production Script',
+        config: `/interface ethernet set [ find default-name=ether1 ] name=ether1-WAN-Primary
+/interface ethernet set [ find default-name=ether2 ] name=ether2-WAN-Backup
+/interface ethernet set [ find default-name=sfp-sfpplus1 ] name=sfp1-Core-Huawei
+
+# 1. IP Addressing
+/ip address add address=203.0.113.2/30 interface=ether1-WAN-Primary comment="ISP Primary Link"
+/ip address add address=198.51.100.2/30 interface=ether2-WAN-Backup comment="ISP Backup Link"
+/ip address add address=10.0.0.1/30 interface=sfp1-Core-Huawei comment="Link to Huawei Core Switch"
+
+# 2. Dynamic Routing (OSPF Area 0 to Core Switch)
+/routing ospf instance add name=ospf-instance-1 router-id=10.0.0.1
+/routing ospf area add name=backbone-area instance=ospf-instance-1 area-id=0.0.0.0
+/routing ospf interface-template add area=backbone-area networks=10.0.0.0/30
+
+# 3. Dynamic WAN Failover (BGP Multi-homing with distance failover)
+/routing bgp template add name=bgp-core-template as=65000 router-id=10.0.0.1
+/routing bgp connection add name=BGP-ISP-PRIMARY remote.address=203.0.113.1 .as=65001 templates=bgp-core-template routing-table=main output.default-originate=always
+/routing bgp connection add name=BGP-ISP-BACKUP remote.address=198.51.100.1 .as=65002 templates=bgp-core-template routing-table=main
+
+# 4. Source NAT (Masquerade for Local LAN)
+/ip firewall nat add chain=srcnat out-interface=ether1-WAN-Primary action=masquerade comment="NAT Masquerade Primary"
+/ip firewall nat add chain=srcnat out-interface=ether2-WAN-Backup action=masquerade comment="NAT Masquerade Backup"
+
+# 5. Security & Firewall Rules (Stateful Drop)
+/ip firewall filter add chain=input connection-state=established,related action=accept comment="Accept Established/Related"
+/ip firewall filter add chain=input connection-state=invalid action=drop comment="Drop Invalid Connections"
+/ip firewall filter add chain=forward in-interface=sfp1-Core-Huawei dst-port=22 protocol=tcp action=drop comment="FIREWALL DROP: Unauthorized SSH to WAN"`,
+        theory_id: `
+          <p><span class="badge-pill">BGP Failover</span> <strong>MikroTik CCR2004</strong> bertindak sebagai <em>Edge Gateway BGP</em> yang menghubungkan seluruh jaringan internal ke upstream provider (ISP Primary & Backup). Router ini menjalankan BGP Peering untuk mendistribusikan route secara dinamis.</p>
+          <p><span class="badge-pill">NAT Masquerade</span> Seluruh traffic dari client (VLAN 10: <code>192.168.10.0/24</code>) yang ingin mengakses internet akan diterjemahkan (SNAT) menjadi IP Public WAN yang aktif.</p>
+          <p><span class="badge-pill">Firewall Filter</span> Rule <code>chain=forward action=drop</code> memfilter scanning/koneksi ilegal (seperti port 22 SSH pada simulasi) agar tidak tembus ke internet.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">BGP Failover</span> <strong>MikroTik CCR2004</strong> acts as an <em>Edge BGP Gateway</em> connecting the internal enterprise network to multi-homed upstream ISPs. It handles dynamic route failover in sub-second SLA.</p>
+          <p><span class="badge-pill">NAT Masquerade</span> All traffic originating from local clients (<code>192.168.10.0/24</code>) is translated via SNAT Masquerade to the active public WAN IP.</p>
+          <p><span class="badge-pill">Firewall Filter</span> Stateful filter rules drop unauthorized SSH probes (Port 22) and suspicious packets before reaching upstream links.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Model:</strong> MikroTik CCR2004-1G-12S+2XS (Annapurna Labs Alpine AL32400 Quad Core 1.7GHz)</li>
+            <li><strong>Port ether1:</strong> 203.0.113.2/30 (Connected to Primary ISP AS65001) - 10G Active</li>
+            <li><strong>Port ether2:</strong> 198.51.100.2/30 (Connected to Backup ISP AS65002) - 10G Standby</li>
+            <li><strong>Port sfp-sfpplus1:</strong> 10.0.0.1/30 (SFP+ 10Gbps to Huawei Core Switch)</li>
+            <li><strong>Throughput:</strong> Up to 15 Gbps wire-speed forwarding with Hardware Offloading</li>
+          </ul>
+        `
+      },
+      juniper: {
+        name: 'Juniper SRX300 Services Gateway',
+        os: 'Junos OS 23.4R1-S1',
+        role_id: 'Next-Gen Firewall, Zone Security, IPsec VPN, IDP/IPS Filter',
+        role_en: 'Next-Gen Firewall, Zone Security, IPsec VPN, IDP/IPS Filter',
+        ip: '10.0.1.2/30 (Trust Uplink) & 10.0.0.2/30 (Untrust to CCR)',
+        vlan: 'Security Zones: trust (LAN), untrust (Edge), junos-host',
+        cli_title: 'Juniper Junos OS Production Configuration (CLI / Set Format)',
+        config: `# Juniper Junos OS Configuration Hierarchy (Set Format)
+# 1. Interface Configuration & IP Assignment
+set interfaces ge-0/0/0 description "Uplink to MikroTik Core Router (Untrust Zone)"
+set interfaces ge-0/0/0 unit 0 family inet address 10.0.0.2/30
+
+set interfaces ge-0/0/1 description "Downlink to Huawei Core Switch (Trust Zone)"
+set interfaces ge-0/0/1 unit 0 family inet address 10.0.1.2/30
+
+# 2. Security Zones & Interface Binding
+set security zones security-zone trust interfaces ge-0/0/1.0 host-inbound-traffic system-services all
+set security zones security-zone trust interfaces ge-0/0/1.0 host-inbound-traffic protocols all
+
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic system-services ping
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic protocols bgp
+
+# 3. Security Policy (Stateful Flow Inspection)
+set security policies from-zone trust to-zone untrust policy ALLOW-LAN-INTERNET match source-address any
+set security policies from-zone trust to-zone untrust policy ALLOW-LAN-INTERNET match destination-address any
+set security policies from-zone trust to-zone untrust policy ALLOW-LAN-INTERNET match application any
+set security policies from-zone trust to-zone untrust policy ALLOW-LAN-INTERNET then permit
+
+set security policies from-zone trust to-zone untrust policy DROP-UNAUTHORIZED-SSH match source-address any
+set security policies from-zone trust to-zone untrust policy DROP-UNAUTHORIZED-SSH match destination-address any
+set security policies from-zone trust to-zone untrust policy DROP-UNAUTHORIZED-SSH match application junos-ssh
+set security policies from-zone trust to-zone untrust policy DROP-UNAUTHORIZED-SSH then reject
+
+# 4. Static / Default Route to Core Edge
+set routing-options static route 0.0.0.0/0 next-hop 10.0.0.1
+set routing-options static route 192.168.10.0/24 next-hop 10.0.1.1
+
+# 5. Commit Candidate Configuration with Automatic Safety Rollback
+commit confirmed 5 comment "Deploy Enterprise Security Policies & Routing"`,
+        theory_id: `
+          <p><span class="badge-pill">Zone-based Security</span> <strong>Juniper SRX300</strong> memisahkan interface ke dalam <em>Security Zones</em> (misal: <code>trust</code> untuk internal LAN dan <code>untrust</code> untuk jalur keluar router). Semua traffic yang melintas antar-zone wajib diatur lewat Security Policy.</p>
+          <p><span class="badge-pill">Stateful Flow Engine</span> Junos memeriksa session flow paket secara stateful (SYN, ACK, FIN) dan melakukan deep packet inspection (DPI) untuk mencegah serangan cyber sebelum paket mencapai Core Edge.</p>
+          <p><span class="badge-pill">Commit Confirmed</span> Junos memiliki fitur keamanan unggulan <code>commit confirmed</code> yang otomatis melakukan rollback jika koneksi terputus saat konfigurasi remote dilakukan.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">Zone-based Architecture</span> <strong>Juniper SRX300</strong> segments network interfaces into distinct <em>Security Zones</em> (<code>trust</code> vs <code>untrust</code>). Inter-zone packet flows are governed strictly by stateful firewall policies.</p>
+          <p><span class="badge-pill">Flow-based Processing</span> Junos processes sessions through stateful hardware acceleration and IDP/IPS application filters before routing frames upstream.</p>
+          <p><span class="badge-pill">Commit Safety</span> The legendary <code>commit confirmed</code> mechanism guarantees automatic rollback protection against misconfigurations during remote maintenance.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Model:</strong> Juniper SRX300 Services Gateway (Octeon III Dual-Core 1GHz, 4GB RAM)</li>
+            <li><strong>Port ge-0/0/0:</strong> 10.0.0.2/30 (Connected to MikroTik CCR Core Router)</li>
+            <li><strong>Port ge-0/0/1:</strong> 10.0.1.2/30 (Connected to Huawei Core Switch)</li>
+            <li><strong>Firewall Performance:</strong> 1 Gbps stateful throughput, 300 Mbps IPsec VPN, 64,000 concurrent sessions</li>
+          </ul>
+        `
+      },
+      huawei: {
+        name: 'Huawei Core Switch S5735-L',
+        os: 'Huawei VRP (Versatile Routing Platform) 8.0',
+        role_id: 'L3 Core Routing, SVI Default Gateway, Inter-VLAN Routing, OSPF Core',
+        role_en: 'L3 Core Routing, SVI Default Gateway, Inter-VLAN Routing, OSPF Core',
+        ip: '10.0.0.2/30 (L3 Uplink) & 192.168.10.1/24 (VLAN 10 Gateway)',
+        vlan: 'VLAN 10 (Users), VLAN 20 (Management), VLAN 99 (Transit)',
+        cli_title: 'Huawei VRP Command Script',
+        config: `# System Name & Global VLAN Creation
+<Huawei> system-view
+[Huawei] sysname Core-Switch-S5735
+[Core-Switch-S5735] vlan batch 10 20 99
+
+# 1. Switch Virtual Interface (SVI / Default Gateways)
+[Core-Switch-S5735] interface Vlanif 10
+[Core-Switch-S5735-Vlanif10] description "Default Gateway for User Subnet (VLAN 10)"
+[Core-Switch-S5735-Vlanif10] ip address 192.168.10.1 255.255.255.0
+[Core-Switch-S5735-Vlanif10] quit
+
+[Core-Switch-S5735] interface Vlanif 20
+[Core-Switch-S5735-Vlanif20] description "Management Network (VLAN 20)"
+[Core-Switch-S5735-Vlanif20] ip address 192.168.20.1 255.255.255.0
+[Core-Switch-S5735-Vlanif20] quit
+
+# 2. L3 Uplink to MikroTik Core Router
+[Core-Switch-S5735] interface GigabitEthernet 0/0/1
+[Core-Switch-S5735-GigabitEthernet0/0/1] description "Uplink to MikroTik CCR (10.0.0.0/30)"
+[Core-Switch-S5735-GigabitEthernet0/0/1] undo portswitch
+[Core-Switch-S5735-GigabitEthernet0/0/1] ip address 10.0.0.2 255.255.255.252
+[Core-Switch-S5735-GigabitEthernet0/0/1] quit
+
+# 3. Downlink 802.1Q Trunk to Ruijie Access Switch
+[Core-Switch-S5735] interface GigabitEthernet 0/0/24
+[Core-Switch-S5735-GigabitEthernet0/0/24] description "Trunk to Ruijie RG-NBS3100"
+[Core-Switch-S5735-GigabitEthernet0/0/24] port link-type trunk
+[Core-Switch-S5735-GigabitEthernet0/0/24] port trunk allow-pass vlan 10 20
+[Core-Switch-S5735-GigabitEthernet0/0/24] quit
+
+# 4. OSPF Routing Configuration
+[Core-Switch-S5735] ospf 1 router-id 10.0.0.2
+[Core-Switch-S5735-ospf-1] area 0
+[Core-Switch-S5735-ospf-1-area-0.0.0.0] network 10.0.0.0 0.0.0.3
+[Core-Switch-S5735-ospf-1-area-0.0.0.0] network 192.168.10.0 0.0.0.255
+[Core-Switch-S5735-ospf-1-area-0.0.0.0] quit`,
+        theory_id: `
+          <p><span class="badge-pill">Inter-VLAN Routing</span> <strong>Huawei S5735-L</strong> berfungsi sebagai <em>Layer 3 Core Switch</em>. SVI <code>Vlanif 10</code> (192.168.10.1) berperan sebagai <em>Default Gateway</em> untuk semua komputer di VLAN 10.</p>
+          <p><span class="badge-pill">Trunk 802.1Q</span> Port Gi0/0/24 dikonfigurasi sebagai <code>port link-type trunk</code> untuk melewatkan multi-VLAN (VLAN 10 & 20) menuju switch access Ruijie dengan header tag 802.1Q.</p>
+          <p><span class="badge-pill">OSPF Dynamic Route</span> Switch bertukar tabel routing dengan MikroTik CCR secara otomatis via OSPF Area 0.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">Inter-VLAN Routing</span> <strong>Huawei S5735-L</strong> operates as the <em>Layer 3 Core Switch</em>. SVI <code>Vlanif 10</code> (192.168.10.1) acts as the active <em>Default Gateway</em> for all client workstations.</p>
+          <p><span class="badge-pill">802.1Q Trunking</span> Port Gi0/0/24 is provisioned as an 802.1Q trunk allowing VLANs 10 & 20 to transit seamlessly to Ruijie access switches.</p>
+          <p><span class="badge-pill">OSPF Routing</span> Shares subnets dynamically with MikroTik Core Edge using OSPF Area 0 backbone.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Model:</strong> Huawei CloudEngine S5735-L24T4S-A-V2</li>
+            <li><strong>Port Gi0/0/1:</strong> Routed L3 Port (10.0.0.2/30 to MikroTik CCR)</li>
+            <li><strong>Port Gi0/0/24:</strong> 802.1Q Trunk Port (Allow VLAN 10, 20 to Ruijie Switch)</li>
+            <li><strong>Forwarding Capacity:</strong> 42 Mpps / 56 Gbps switching fabric</li>
+          </ul>
+        `
+      },
+      ruijie: {
+        name: 'Ruijie Access Switch RG-NBS3100',
+        os: 'Ruijie RGOS / Reyee Cloud Managed',
+        role_id: 'L2 Access Switch, 802.1Q Trunking, Port Security, VLAN Segmentation',
+        role_en: 'L2 Access Switch, 802.1Q Trunking, Port Security, VLAN Segmentation',
+        ip: '10.0.0.3/24 (Management IP)',
+        vlan: 'VLAN 10 (Access Port Gi0/1 & Gi0/2), Trunk Port Gi0/24',
+        cli_title: 'Ruijie RGOS CLI Command Script',
+        config: `# Ruijie RGOS Configuration
+Ruijie> enable
+Ruijie# configure terminal
+Ruijie(config)# hostname Ruijie-Access-NBS3100
+
+# 1. VLAN Database Creation
+Ruijie-Access-NBS3100(config)# vlan 10
+Ruijie-Access-NBS3100(config-vlan)# name User-LAN
+Ruijie-Access-NBS3100(config-vlan)# vlan 20
+Ruijie-Access-NBS3100(config-vlan)# name Management-LAN
+Ruijie-Access-NBS3100(config-vlan)# exit
+
+# 2. Port Gi0/1 (Access Port to Host-01 Workstation)
+Ruijie-Access-NBS3100(config)# interface GigabitEthernet 0/1
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/1)# description "Connect to Host-01"
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/1)# switchport mode access
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/1)# switchport access vlan 10
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/1)# exit
+
+# 3. Port Gi0/2 (Access Port to NOC Zabbix Server)
+Ruijie-Access-NBS3100(config)# interface GigabitEthernet 0/2
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/2)# description "Connect to NOC Zabbix Server"
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/2)# switchport mode access
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/2)# switchport access vlan 10
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/2)# exit
+
+# 4. Port Gi0/24 (Uplink 802.1Q Trunk to Huawei Core Switch)
+Ruijie-Access-NBS3100(config)# interface GigabitEthernet 0/24
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/24)# description "Trunk Uplink to Huawei Core Switch"
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/24)# switchport mode trunk
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/24)# switchport trunk allowed vlan 10,20
+Ruijie-Access-NBS3100(config-if-GigabitEthernet 0/24)# end
+Ruijie-Access-NBS3100# write memory`,
+        theory_id: `
+          <p><span class="badge-pill">VLAN Segmentation</span> <strong>Ruijie RG-NBS3100</strong> mengisolasi domain broadcast layer 2. Port Gi0/1 (Host-01) dan Gi0/2 (Server Zabbix) dimasukkan ke dalam <code>VLAN 10</code>.</p>
+          <p><span class="badge-pill">Untagged vs Tagged</span> Frame yang datang dari Host-01 adalah <em>untagged</em>. Switch akan menyematkan tag 802.1Q (VLAN ID 10) saat frame dikirim melewati port trunk Gi0/24 menuju Huawei Core Switch.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">VLAN Segmentation</span> <strong>Ruijie RG-NBS3100</strong> isolates Layer 2 broadcast domains. Ports Gi0/1 & Gi0/2 are bound to <code>VLAN 10</code>.</p>
+          <p><span class="badge-pill">802.1Q Encapsulation</span> Untagged frames from endpoint hosts are encapsulated with an 802.1Q tag header before traversing the Gi0/24 trunk uplink.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Model:</strong> Ruijie Reyee RG-NBS3100-24GT4SFP Managed Switch</li>
+            <li><strong>Port Gi0/1:</strong> 10/100/1000 Mbps Access Port (VLAN 10 to Client)</li>
+            <li><strong>Port Gi0/2:</strong> 10/100/1000 Mbps Access Port (VLAN 10 to Zabbix Server)</li>
+            <li><strong>Port Gi0/24:</strong> 1 Gbps GigabitEthernet Trunk to Huawei Core</li>
+          </ul>
+        `
+      },
+      zabbix: {
+        name: 'NOC Zabbix Monitoring Server',
+        os: 'Debian 12 Bookworm / Zabbix Server 7.0 LTS',
+        role_id: 'Centralized SNMP Network Monitoring, Syslog Collector, Alerting',
+        role_en: 'Centralized SNMP Network Monitoring, Syslog Collector, Alerting',
+        ip: '192.168.10.50/24 (Static IP / VLAN 10)',
+        vlan: 'VLAN 10 (Subnet 192.168.10.0/24)',
+        cli_title: 'Linux Netplan & SNMP Daemon Config',
+        config: `# 1. /etc/netplan/01-netcfg.yaml (Static IP Configuration)
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses:
+        - 192.168.10.50/24
+      routes:
+        - to: default
+          via: 192.168.10.1
+      nameservers:
+        addresses: [1.1.1.1, 8.8.8.8]
+
+# 2. /etc/snmp/snmpd.conf (SNMP Monitoring Target)
+rocommunity angga_noc_readonly 192.168.10.0/24
+sysLocation "Malang NOC Server Room Rack 02"
+sysContact "Angga <anggatok120@gmail.com>"
+
+# 3. Zabbix ICMP Ping & SNMP Poll Test (CLI Command)
+# zabbix_get -s 10.0.0.1 -k "icmpping[10.0.0.1,5,1000,64,500]"
+# snmpwalk -v 2c -c angga_noc_readonly 10.0.0.1 1.3.6.1.2.1.2.2.1.10`,
+        theory_id: `
+          <p><span class="badge-pill">SNMP Monitoring</span> <strong>NOC Zabbix Server</strong> bertugas memantau seluruh perangkat jaringan secara <em>real-time 24/7</em> menggunakan protokol SNMP (Simple Network Management Protocol) dan ICMP ping poller.</p>
+          <p><span class="badge-pill">Proactive Alerting</span> Jika salah satu interface switch atau ISP mengalami down (seperti pada simulasi failover), Zabbix mendeteksi kenaikan packet loss dan langsung men-trigger notifikasi alarm ke tim NOC.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">SNMP Polling</span> <strong>NOC Zabbix Server</strong> performs 24/7 real-time monitoring across all switches, routers, and gateways using SNMPv2c/v3 OID polling and ICMP pings.</p>
+          <p><span class="badge-pill">Proactive Alerting</span> Instantly triggers NOC alerts whenever packet loss spikes or interface link-down traps are detected.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Hardware:</strong> 1U Rackmount Server (Intel Xeon, 32GB ECC RAM, SSD RAID-1)</li>
+            <li><strong>IP Address:</strong> 192.168.10.50/24 (Gateway: 192.168.10.1)</li>
+            <li><strong>Services:</strong> Zabbix Server 7.0 LTS, PostgreSQL 16, Grafana Dashboard, SNMPd</li>
+          </ul>
+        `
+      },
+      client: {
+        name: 'Host-01 (Client Workstation)',
+        os: 'Linux Ubuntu 24.04 LTS / Windows 11',
+        role_id: 'User Workstation Endpoint (VLAN 10)',
+        role_en: 'User Workstation Endpoint (VLAN 10)',
+        ip: '192.168.10.101/24 (VLAN 10 Subnet)',
+        vlan: 'VLAN 10 (Gateway: 192.168.10.1)',
+        cli_title: 'Linux Client Network & Diagnostic Commands',
+        config: `# 1. Set IP Address & Default Gateway manually
+sudo ip addr add 192.168.10.101/24 dev eth0
+sudo ip link set eth0 up
+sudo ip route add default via 192.168.10.1 dev eth0
+
+# 2. Verify Routing Table & ARP Resolution
+ip route show
+# default via 192.168.10.1 dev eth0 proto static metric 100
+# 192.168.10.0/24 dev eth0 proto kernel scope link src 192.168.10.101
+
+ip neigh show
+# 192.168.10.1 dev eth0 lladdr 48:8f:5a:12:34:56 REACHABLE
+
+# 3. Test End-to-End ICMP Ping & Traceroute
+ping -c 4 203.0.113.1
+traceroute 203.0.113.1
+mtr --report 203.0.113.1`,
+        theory_id: `
+          <p><span class="badge-pill">L3 Gateway Resolution</span> <strong>Host-01</strong> mengirimkan paket menuju IP luar. Host memeriksa tabel routing dan menyadari bahwa IP tujuan berada di luar subnet lokal (<code>192.168.10.0/24</code>), sehingga paket diteruskan ke <em>Default Gateway</em> (192.168.10.1).</p>
+          <p><span class="badge-pill">ARP Cache</span> Sebelum frame Ethernet dikirim, Host melakukan broadcast <em>ARP Request</em> untuk mencari MAC address milik Default Gateway pada port switch Ruijie.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">Gateway Lookup</span> <strong>Host-01</strong> compares the destination IP against its local subnet mask. Since the destination is remote, it routes all frames to the Default Gateway (192.168.10.1).</p>
+          <p><span class="badge-pill">ARP Protocol</span> Resolves the MAC address of the L3 gateway before pushing 802.3 Ethernet frames across the access port.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Interface:</strong> eth0 (Gigabit Ethernet RJ-45)</li>
+            <li><strong>IP Address:</strong> 192.168.10.101/24</li>
+            <li><strong>Default Gateway:</strong> 192.168.10.1 (Huawei Core Switch)</li>
+            <li><strong>DNS Servers:</strong> 1.1.1.1, 8.8.8.8</li>
+          </ul>
+        `
+      },
+      ispPrimary: {
+        name: 'Primary ISP Gateway (AS65001)',
+        os: 'Carrier Grade BGP Core Gateway',
+        role_id: 'Primary Upstream Internet Provider (AS65001), BGP Peer',
+        role_en: 'Primary Upstream Internet Provider (AS65001), BGP Peer',
+        ip: '203.0.113.1/30 (WAN Gateway)',
+        vlan: 'Public BGP Autonomous System AS65001',
+        cli_title: 'BGP Upstream Peering Config',
+        config: `# Upstream Provider BGP Configuration (AS65001)
+router bgp 65001
+ bgp router-id 203.0.113.1
+ neighbor 203.0.113.2 remote-as 65000
+ neighbor 203.0.113.2 description "Peering with Angga Enterprise Core"
+ neighbor 203.0.113.2 route-map RM-DEFAULT-OUT out
+
+route-map RM-DEFAULT-OUT permit 10
+ set ip default-network 0.0.0.0`,
+        theory_id: `
+          <p><span class="badge-pill">Active Path</span> <strong>ISP Primary (AS65001)</strong> adalah jalur internet utama berkapasitas tinggi. BGP memberikan bobot metric/local preference lebih tinggi sehingga seluruh traffic internet diprioritaskan melalui link ini.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">Active Route</span> <strong>ISP Primary (AS65001)</strong> is the high-bandwidth primary internet gateway. BGP policies assign higher local-preference to route all production traffic here under normal operations.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Autonomous System:</strong> AS65001 (Tier-1 Upstream)</li>
+            <li><strong>Interface IP:</strong> 203.0.113.1/30</li>
+            <li><strong>Connection:</strong> 10 Gbps Dedicated Metro-E / Fiber Optic</li>
+          </ul>
+        `
+      },
+      ispBackup: {
+        name: 'Secondary Backup ISP (AS65002)',
+        os: 'Redundant Carrier BGP Gateway',
+        role_id: 'Redundant Failover WAN Provider (AS65002), Standby Route',
+        role_en: 'Redundant Failover WAN Provider (AS65002), Standby Route',
+        ip: '198.51.100.1/30 (Backup Gateway)',
+        vlan: 'Public BGP Autonomous System AS65002',
+        cli_title: 'BGP Backup Peering Config',
+        config: `# Backup Upstream Provider BGP Configuration (AS65002)
+router bgp 65002
+ bgp router-id 198.51.100.1
+ neighbor 198.51.100.2 remote-as 65000
+ neighbor 198.51.100.2 description "Standby Peering with Angga Enterprise Core"
+ neighbor 198.51.100.2 route-map RM-BACKUP-OUT out`,
+        theory_id: `
+          <p><span class="badge-pill">Hot Standby</span> <strong>ISP Backup (AS65002)</strong> beroperasi dalam status <em>Hot Standby</em>. Jika ISP Primary putus, router otomatis mengalirkan traffic ke jalur backup ini dalam waktu < 1 detik.</p>
+        `,
+        theory_en: `
+          <p><span class="badge-pill">Hot Standby</span> <strong>ISP Backup (AS65002)</strong> operates in <em>Hot Standby</em> mode, ready to instantly take over full network traffic if the primary link experiences outage.</p>
+        `,
+        specs: `
+          <ul>
+            <li><strong>Autonomous System:</strong> AS65002 (Redundant Backup Tier-1)</li>
+            <li><strong>Interface IP:</strong> 198.51.100.1/30</li>
+            <li><strong>Connection:</strong> 10 Gbps Redundant Fiber Path</li>
+          </ul>
+        `
+      }
+    };
+
+    function updateInspector(devId) {
+      selectedDeviceId = devId;
+      const data = deviceDatabase[devId];
+      if (!data) return;
+
+      document.getElementById('inspectName').textContent = data.name;
+      document.getElementById('inspectRole').textContent = currentLang === 'id' ? data.role_id : data.role_en;
+      document.getElementById('inspectIp').textContent = data.ip;
+      document.getElementById('inspectOs').textContent = data.os;
+      document.getElementById('inspectVlan').textContent = data.vlan;
+    }
+
+    function openModalForDevice(devId) {
+      selectedDeviceId = devId;
+      updateInspector(devId);
+      const data = deviceDatabase[devId];
+      if (!data) return;
+
+      modalDeviceName.textContent = data.name;
+      modalDeviceOs.textContent = data.os;
+      codeBoxTitle.textContent = data.cli_title;
+      codeBoxContent.textContent = data.config;
+      theoryTitle.textContent = currentLang === 'id' ? 'Konsep & Alur Paket di Jaringan' : 'Concept & Packet Flow Architecture';
+      theoryContent.innerHTML = currentLang === 'id' ? data.theory_id : data.theory_en;
+      specsContent.innerHTML = data.specs;
+
+      deviceModal.classList.add('active');
+    }
+
+    function closeModal() {
+      deviceModal.classList.remove('active');
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    deviceModal.addEventListener('click', (e) => {
+      if (e.target === deviceModal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    btnOpenModal.addEventListener('click', () => {
+      openModalForDevice(selectedDeviceId);
+    });
+
+    // COPY CONFIG BUTTON
+    btnCopyConfig.addEventListener('click', () => {
+      const text = codeBoxContent.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btnCopyConfig.textContent = currentLang === 'id' ? '✓ Tersalin!' : '✓ Copied!';
+        setTimeout(() => {
+          btnCopyConfig.textContent = currentLang === 'id' ? 'Salin Script' : 'Copy Script';
+        }, 2000);
+      });
+    });
+
+    // MODAL TAB SWITCHING
+    document.querySelectorAll('.modal-tab-btn').forEach(tabBtn => {
+      tabBtn.addEventListener('click', () => {
+        document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        tabBtn.classList.add('active');
+        const targetTab = document.getElementById(tabBtn.dataset.tab);
+        if (targetTab) targetTab.classList.add('active');
+      });
+    });
+
+    function getNow() {
+      return new Date().toTimeString().split(' ')[0];
+    }
+
+    function log(host, msg, type = 'info') {
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      const typeClass = type === 'ok' ? 'log-msg--ok' : type === 'warn' ? 'log-msg--warn' : type === 'err' ? 'log-msg--err' : 'log-msg--info';
+      line.innerHTML = `<span class="log-time">[${getNow()}]</span> <span class="log-host">[${host}]</span> <span class="log-msg ${typeClass}">${msg}</span>`;
+      consoleBody.appendChild(line);
+      consoleBody.scrollTop = consoleBody.scrollHeight;
+    }
+
+    function clearLog() {
+      consoleBody.innerHTML = '';
+    }
+
+    // Node coordinates on SVG viewBox 0 0 1280 360
+    const coords = {
+      client: { x: 92.5, y: 273 },
+      ruijie: { x: 295, y: 273 },
+      zabbix: { x: 295, y: 73 },
+      huawei: { x: 500, y: 273 },
+      juniper: { x: 705, y: 273 },
+      mikrotik: { x: 910, y: 273 },
+      ispPrimary: { x: 1125, y: 73 },
+      ispBackup: { x: 1125, y: 273 }
+    };
+
+    const packetGroup = document.getElementById('packetGroup');
+    const packetBadgeText = document.getElementById('packetBadgeText');
+    const dropEffect = document.getElementById('dropEffect');
+
+    function flashNode(nodeId, theme = 'green') {
+      const nodeEl = document.querySelector(`.node-group[data-device-id="${nodeId}"]`);
+      if (!nodeEl) return;
+      const flashClass = theme === 'cyan' ? 'node-flash-cyan' : theme === 'amber' ? 'node-flash-amber' : theme === 'red' ? 'node-flash-red' : 'node-flash-green';
+      nodeEl.classList.add(flashClass);
+      setTimeout(() => nodeEl.classList.remove(flashClass), 600);
+    }
+
+    function clearAllCableFlows() {
+      document.querySelectorAll('.link-line').forEach(l => {
+        l.classList.remove('flowing', 'cyan', 'amber', 'red');
+      });
+    }
+
+    function movePacket(points, colorType, badgeText, linkIds, nodeIds, durationPerLeg, onLeg, onComplete) {
+      if (!packetGroup || points.length < 2) {
+        if (onComplete) onComplete();
+        return;
+      }
+
+      // Configure packet appearance
+      packetGroup.className.baseVal = `packet-theme-${colorType}`;
+      if (packetBadgeText) packetBadgeText.textContent = badgeText || 'DATA';
+      packetGroup.style.opacity = '1';
+      clearAllCableFlows();
+
+      let leg = 0;
+
+      function runLeg() {
+        if (leg >= points.length - 1) {
+          packetGroup.style.opacity = '0';
+          clearAllCableFlows();
+          if (onComplete) onComplete();
+          return;
+        }
+
+        const pStart = points[leg];
+        const pEnd = points[leg + 1];
+
+        // Activate flowing energy laser along current cable
+        clearAllCableFlows();
+        if (linkIds && linkIds[leg]) {
+          const currentCable = document.getElementById(linkIds[leg]);
+          if (currentCable) {
+            currentCable.classList.add('flowing');
+            if (colorType === 'vlan' || colorType === 'cyan') currentCable.classList.add('cyan');
+            if (colorType === 'failover' || colorType === 'amber') currentCable.classList.add('amber');
+            if (colorType === 'drop' || colorType === 'red') currentCable.classList.add('red');
+          }
+        }
+
+        // Calculate travel angle for packet comet tail
+        const dx = pEnd.x - pStart.x;
+        const dy = pEnd.y - pStart.y;
+        const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI;
+
+        if (onLeg) onLeg(leg, pStart, pEnd);
+
+        const startTime = performance.now();
+        function step(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / durationPerLeg, 1);
+          const curX = pStart.x + dx * progress;
+          const curY = pStart.y + dy * progress;
+
+          packetGroup.setAttribute('transform', `translate(${curX}, ${curY}) rotate(${angleDeg})`);
+
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            // Flash arrival node
+            if (nodeIds && nodeIds[leg + 1]) {
+              flashNode(nodeIds[leg + 1], colorType);
+            }
+            leg++;
+            setTimeout(runLeg, 40);
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      runLeg();
+    }
+
+    // 1. PING ACTION
+    document.getElementById('btnPing').addEventListener('click', () => {
+      if (isSimulating) return;
+      isSimulating = true;
+      clearLog();
+      const targetISP = isFailover ? coords.ispBackup : coords.ispPrimary;
+      const targetLink = isFailover ? 'linkBackup' : 'linkPrimary';
+      const targetNode = isFailover ? 'ispBackup' : 'ispPrimary';
+
+      log('Host-01', `PING ${isFailover ? '198.51.100.1' : '203.0.113.1'}: 64 data bytes (ICMP Echo Request)`, 'info');
+
+      const outbound = [coords.client, coords.ruijie, coords.huawei, coords.juniper, coords.mikrotik, targetISP];
+      const outboundLinks = ['link-client-ruijie', 'link-ruijie-huawei', 'link-huawei-juniper', 'link-juniper-mikrotik', targetLink];
+      const outboundNodes = ['client', 'ruijie', 'huawei', 'juniper', 'mikrotik', targetNode];
+
+      movePacket(outbound, 'green', 'ICMP REQ', outboundLinks, outboundNodes, 200, (leg) => {
+        if (leg === 0) log('Ruijie-SW', 'Forwarding frame via 802.1Q Trunk (VLAN 10 Tagged)', 'info');
+        if (leg === 1) log('Huawei-Core', 'Inter-VLAN Route lookup -> Next-hop 10.0.1.2 (Juniper SRX)', 'info');
+        if (leg === 2) log('Juniper-SRX', 'Stateful Security Policy: trust -> untrust (Action: PERMIT)', 'ok');
+        if (leg === 3) log('MikroTik-CCR', `NAT Masquerade -> Out Interface: ${isFailover ? 'ether2 (Backup)' : 'ether1 (Primary)'}`, 'ok');
+        if (leg === 4) log('ISP-Gateway', 'ICMP Echo Received. Generating Echo-Reply packet.', 'ok');
+      }, () => {
+        const inbound = [targetISP, coords.mikrotik, coords.juniper, coords.huawei, coords.ruijie, coords.client];
+        const inboundLinks = [targetLink, 'link-juniper-mikrotik', 'link-huawei-juniper', 'link-ruijie-huawei', 'link-client-ruijie'];
+        const inboundNodes = [targetNode, 'mikrotik', 'juniper', 'huawei', 'ruijie', 'client'];
+
+        movePacket(inbound, 'cyan', 'ICMP REP', inboundLinks, inboundNodes, 180, null, () => {
+          log('Host-01', `64 bytes from ${isFailover ? '198.51.100.1' : '203.0.113.1'}: icmp_seq=1 ttl=57 time=8.14 ms`, 'ok');
+          log('Host-01', '--- Ping statistics: 1 packets transmitted, 1 received, 0% packet loss (RTT avg=8.14ms) ---', 'ok');
+          isSimulating = false;
+        });
+      });
+    });
+
+    // 2. FAILOVER ACTION
+    document.getElementById('btnFailover').addEventListener('click', () => {
+      if (isSimulating) return;
+      isFailover = !isFailover;
+      if (isFailover) {
+        linkPrimary.classList.remove('active', 'flowing');
+        linkPrimary.classList.add('down');
+        linkBackup.classList.add('active', 'flowing', 'amber');
+        statusText.textContent = currentLang === 'id' ? 'Status: FAILOVER (Backup WAN Aktif)' : 'Status: FAILOVER (Backup WAN Active)';
+        statusDot.className = 'status-dot failover';
+        log('BGP-DAEMON', 'ALERT: BGP Session to AS65001 (Primary ISP) DROPPED! Link Loss detected.', 'err');
+        log('MikroTik-CCR', 'Dynamic Route Failover: Default Route -> 198.51.100.1 (Metric 20)', 'warn');
+        log('MikroTik-CCR', 'Backup WAN UP (ether2). Traffic rerouted successfully in 0.84s.', 'ok');
+        flashNode('mikrotik', 'amber');
+        flashNode('ispBackup', 'amber');
+        setTimeout(() => linkBackup.classList.remove('flowing', 'amber'), 1500);
+      } else {
+        linkPrimary.classList.remove('down');
+        linkPrimary.classList.add('active', 'flowing');
+        linkBackup.classList.remove('active', 'flowing', 'amber');
+        statusText.textContent = currentLang === 'id' ? 'Status: Normal (Primary WAN Aktif)' : 'Status: Normal (Primary WAN Active)';
+        statusDot.className = 'status-dot';
+        log('BGP-DAEMON', 'Primary Link Restored. BGP Session Established to AS65001.', 'ok');
+        log('MikroTik-CCR', 'Default Route reverted to Primary Gateway 203.0.113.1 (Metric 10).', 'info');
+        flashNode('mikrotik', 'green');
+        flashNode('ispPrimary', 'green');
+        setTimeout(() => linkPrimary.classList.remove('flowing'), 1500);
+      }
+    });
+
+    // 3. VLAN ACTION
+    document.getElementById('btnVlan').addEventListener('click', () => {
+      if (isSimulating) return;
+      isSimulating = true;
+      clearLog();
+      log('Host-01', 'Host sending SNMP Query to Monitoring Server (192.168.10.50)', 'info');
+
+      const pathOut = [coords.client, coords.ruijie, coords.zabbix];
+      const linksOut = ['link-client-ruijie', 'link-ruijie-zabbix'];
+      const nodesOut = ['client', 'ruijie', 'zabbix'];
+
+      movePacket(pathOut, 'cyan', 'SNMP GET', linksOut, nodesOut, 260, (leg) => {
+        if (leg === 0) log('Ruijie-SW', 'Untagged Ethernet Frame received on Port Gi0/1 (Assigned PVID: 10)', 'info');
+        if (leg === 1) log('Zabbix-SRV', 'Frame received on eth0 (VLAN 10). SNMP Response generated.', 'ok');
+      }, () => {
+        const pathBack = [coords.zabbix, coords.ruijie, coords.client];
+        const linksBack = ['link-ruijie-zabbix', 'link-client-ruijie'];
+        const nodesBack = ['zabbix', 'ruijie', 'client'];
+
+        movePacket(pathBack, 'cyan', 'SNMP REP', linksBack, nodesBack, 240, null, () => {
+          log('Host-01', 'SNMP Response: Zabbix Server Status [UP] - 0 packet loss.', 'ok');
+          isSimulating = false;
+        });
+      });
+    });
+
+    // 4. FIREWALL ACTION
+    document.getElementById('btnFirewall').addEventListener('click', () => {
+      if (isSimulating) return;
+      isSimulating = true;
+      clearLog();
+      if (dropEffect) dropEffect.style.opacity = '0';
+
+      log('Host-01', 'Attempting unauthorized SSH connection to WAN IP: 203.0.113.1:22', 'warn');
+
+      const path = [coords.client, coords.ruijie, coords.huawei, coords.juniper];
+      const links = ['link-client-ruijie', 'link-ruijie-huawei', 'link-huawei-juniper'];
+      const nodes = ['client', 'ruijie', 'huawei', 'juniper'];
+
+      movePacket(path, 'red', 'TCP :22', links, nodes, 220, (leg) => {
+        if (leg === 2) log('Juniper-SRX', 'SECURITY POLICY MATCH: Policy DROP-UNAUTHORIZED-SSH (Port 22 / junos-ssh -> REJECT)', 'err');
+      }, () => {
+        if (dropEffect) {
+          dropEffect.style.opacity = '1';
+          setTimeout(() => { dropEffect.style.opacity = '0'; }, 2000);
+        }
+        flashNode('juniper', 'red');
+        log('Juniper-SRX', '[REJECT] Flow: trust:192.168.10.101:54322 -> untrust:203.0.113.1:22 (TCP-RST sent / Session Destroyed)', 'err');
+        log('Host-01', 'ssh: connect to host 203.0.113.1 port 22: Connection refused / Rejected by Juniper Junos Policy.', 'err');
+        isSimulating = false;
+      });
+    });
+
+    // 5. RESET ACTION
+    document.getElementById('btnReset').addEventListener('click', () => {
+      isFailover = false;
+      isSimulating = false;
+      linkPrimary.classList.remove('down', 'flowing');
+      linkPrimary.classList.add('active');
+      linkBackup.classList.remove('active', 'flowing', 'amber');
+      statusText.textContent = currentLang === 'id' ? 'Status: Normal (Primary WAN Aktif)' : 'Status: Normal (Primary WAN Active)';
+      statusDot.className = 'status-dot';
+      if (packetGroup) packetGroup.style.opacity = '0';
+      if (dropEffect) dropEffect.style.opacity = '0';
+      clearAllCableFlows();
+      clearLog();
+      log('SYS-RESET', 'Topology and links reset to default normal operational state.', 'ok');
+    });
+
+    // 6. CLEAR LOG
+    document.getElementById('btnClearLog').addEventListener('click', clearLog);
+
+    // 7. NODE CLICK (OPENS MODAL & UPDATES INSPECTOR)
+    document.querySelectorAll('.node-group').forEach(node => {
+      node.addEventListener('click', () => {
+        const devId = node.dataset.deviceId || 'mikrotik';
+        const name = node.dataset.name || 'Device';
+        const ip = node.dataset.ip || 'N/A';
+        const os = node.dataset.os || 'N/A';
+        const role = node.dataset.role || 'N/A';
+
+        updateInspector(devId);
+        openModalForDevice(devId);
+
+        log(name.split(' ')[0], `INSPECT: IP=${ip} | OS=${os} | Role=${role} | [Settingan CLI dibuka]`, 'info');
+      });
+    });
+
+    // LANGUAGE SWITCH
+    const btnLangId = document.getElementById('btnLangId');
+    const btnLangEn = document.getElementById('btnLangEn');
+
+    function setLanguage(l) {
+      currentLang = l;
+      btnLangId.classList.toggle('active', l === 'id');
+      btnLangEn.classList.toggle('active', l === 'en');
+      document.documentElement.lang = l;
+      document.querySelectorAll('[data-id][data-en]').forEach(el => {
+        el.textContent = l === 'id' ? el.dataset.id : el.dataset.en;
+      });
+      updateInspector(selectedDeviceId);
+      if (!isFailover) {
+        statusText.textContent = l === 'id' ? 'Status: Normal (Primary WAN Aktif)' : 'Status: Normal (Primary WAN Active)';
+      } else {
+        statusText.textContent = l === 'id' ? 'Status: FAILOVER (Backup WAN Aktif)' : 'Status: FAILOVER (Backup WAN Active)';
+      }
+    }
+
+    btnLangId.addEventListener('click', () => setLanguage('id'));
+    btnLangEn.addEventListener('click', () => setLanguage('en'));
+
+    // Initialize with default
+    updateInspector('mikrotik');
+  </script>
+</body>
+</html>

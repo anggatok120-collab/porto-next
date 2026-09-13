@@ -1,21 +1,12 @@
-'use client'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { ADMIN_COOKIE, verifyAdminToken } from '../../lib/admin-auth'
+import LogoutButton from './LogoutButton'
 
-export default function AdminDashboard() {
-  const router = useRouter()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && localStorage.getItem('admin_auth') !== 'true') {
-      router.push('/admin')
-    }
-  }, [])
-
-  function logout() {
-    localStorage.removeItem('admin_auth')
-    router.push('/admin')
-  }
+export default async function AdminDashboard() {
+  const session = (await cookies()).get(ADMIN_COOKIE)?.value
+  if (!verifyAdminToken(session)) redirect('/admin')
 
   return (
     <div className="admin-dash">
@@ -23,7 +14,7 @@ export default function AdminDashboard() {
         <span className="admin-dash__logo">AG Admin</span>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <Link href="/" className="admin-link">← Portfolio</Link>
-          <button className="admin-btn admin-btn--ghost" onClick={logout}>Logout</button>
+          <LogoutButton />
         </div>
       </div>
 

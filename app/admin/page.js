@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function AdminLogin() {
@@ -7,19 +7,26 @@ export default function AdminLogin() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && localStorage.getItem('admin_auth') === 'true') {
-      router.push('/admin/dashboard')
-    }
-  }, [])
+  const [pending, setPending] = useState(false)
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault()
-    if (password === 'portoadmin') {
-      localStorage.setItem('admin_auth', 'true')
-      router.push('/admin/dashboard')
-    } else {
-      setError('Password salah')
+    setPending(true)
+    setError('')
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error || 'Login gagal')
+      router.replace('/admin/dashboard')
+      router.refresh()
+    } catch (loginError) {
+      setError(loginError.message)
+    } finally {
+      setPending(false)
     }
   }
 
@@ -32,13 +39,16 @@ export default function AdminLogin() {
           <input
             className="admin-input"
             type="password"
+            name="password"
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             autoFocus
+            autoComplete="current-password"
+            required
           />
-          {error && <p className="admin-error">{error}</p>}
-          <button className="admin-btn admin-btn--primary" type="submit">Masuk</button>
+          {error && <p className="admin-error" role="alert">{error}</p>}
+          <button className="admin-btn admin-btn--primary" type="submit" disabled={pending}>{pending ? 'Memeriksa…' : 'Masuk'}</button>
         </form>
       </div>
     </div>

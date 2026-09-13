@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import profilePhoto from '../public/images/foto_HD.png'
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -29,6 +31,9 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const eventController = new AbortController()
+    const { signal } = eventController
+
     // NAV
     const toggle = document.getElementById('navToggle')
     const mobileMenu = document.getElementById('mobileMenu')
@@ -38,7 +43,7 @@ export default function Home() {
       document.body.style.overflow = open ? 'hidden' : ''
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
       mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true')
-    })
+    }, { signal })
     // ensure mobileMenu aria-hidden initially
     mobileMenu.setAttribute('aria-hidden', 'true')
     toggle.setAttribute('aria-expanded', 'false')
@@ -46,7 +51,9 @@ export default function Home() {
       a.addEventListener('click', () => {
         mobileMenu.classList.remove('open')
         document.body.style.overflow = ''
-      })
+        toggle.setAttribute('aria-expanded', 'false')
+        mobileMenu.setAttribute('aria-hidden', 'true')
+      }, { signal })
     })
 
     // THEME TOGGLE (light/dark)
@@ -65,7 +72,7 @@ export default function Home() {
           const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'
           applyTheme(next)
           themeToggle.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false')
-        })
+        }, { signal })
       }
     } catch (e) { }
 
@@ -82,7 +89,7 @@ export default function Home() {
         if (a.getAttribute('href') === '#' + current) a.classList.add('active')
       })
       document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 50)
-    })
+    }, { signal, passive: true })
 
     // FADE IN
     const observer = new IntersectionObserver((entries) => {
@@ -99,7 +106,7 @@ export default function Home() {
       currentLang = lang
       localStorage.setItem('lang', lang)
       document.querySelectorAll('[data-id][data-en]').forEach(el => {
-        el.innerHTML = lang === 'id' ? el.dataset.id : el.dataset.en
+        el.textContent = lang === 'id' ? el.dataset.id : el.dataset.en
       })
       document.querySelectorAll('[data-id-ph][data-en-ph]').forEach(el => {
         el.placeholder = lang === 'id' ? el.dataset.idPh : el.dataset.enPh
@@ -113,7 +120,7 @@ export default function Home() {
       const next = currentLang === 'id' ? 'en' : 'id'
       applyLang(next)
       setLang(next)
-    })
+    }, { signal })
     setLang(currentLang)
     applyLang(currentLang)
 
@@ -464,14 +471,19 @@ export default function Home() {
     // MODAL LOGIC
     const modal = document.getElementById('toolModal')
     const modalClose = document.getElementById('modalClose')
-
+    let modalTrigger = null
 
     function closeModal() {
       modal.classList.remove('active')
+      modal.setAttribute('aria-hidden', 'true')
       document.body.style.overflow = ''
+      modalTrigger?.focus()
     }
 
-    document.querySelectorAll('[data-tool]').forEach(el => {
+    const toolItems = document.querySelectorAll('[data-tool]')
+    toolItems.forEach(el => {
+      el.setAttribute('role', 'button')
+      el.setAttribute('tabindex', '0')
       el.addEventListener('click', () => {
         const toolName = el.dataset.tool
         const d = toolData[toolName]
@@ -482,13 +494,28 @@ export default function Home() {
         document.getElementById('modalCat').textContent = currentLang === 'id' ? d.cat_id : d.cat_en
         document.getElementById('modalScreen').innerHTML = d.mock
         document.getElementById('modalDesc').textContent = currentLang === 'id' ? d.desc_id : d.desc_en
+        modalTrigger = el
         modal.classList.add('active')
+        modal.setAttribute('aria-hidden', 'false')
         document.body.style.overflow = 'hidden'
-      })
+        modalClose.focus()
+      }, { signal })
+      el.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          el.click()
+        }
+      }, { signal })
     })
-    modalClose.addEventListener('click', closeModal)
-    modal.addEventListener('click', e => { if (e.target === modal) closeModal() })
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+    modalClose.addEventListener('click', closeModal, { signal })
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal() }, { signal })
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal() }, { signal })
+
+    return () => {
+      eventController.abort()
+      observer.disconnect()
+      document.body.style.overflow = ''
+    }
   }, [])
 
   return (
@@ -502,6 +529,7 @@ export default function Home() {
           <li><a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a></li>
           <li><a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a></li>
           <li><a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a></li>
+          <li><a href="#projects" data-id="Proyek" data-en="Projects">Proyek</a></li>
           <li><a href="/blog">Blog</a></li>
           <li><a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a></li>
         </ul>
@@ -525,6 +553,7 @@ export default function Home() {
         <a href="#skills" data-id="Kemampuan" data-en="Skills">Kemampuan</a>
         <a href="#experience" data-id="Pengalaman" data-en="Experience">Pengalaman</a>
         <a href="#education" data-id="Pendidikan" data-en="Education">Pendidikan</a>
+        <a href="#projects" data-id="Proyek" data-en="Projects">Proyek</a>
         <a href="/blog">Blog</a>
         <a href="#contact" className="nav__cta" data-id="Kontak" data-en="Contact">Kontak</a>
       </div>
@@ -556,11 +585,14 @@ export default function Home() {
           </div>
           <div className="hero__photo">
             <div className="hero__photo-wrap">
-              <picture>
-                <source type="image/avif" srcSet="/images/foto_HD-360.avif 360w, /images/foto_HD-768.avif 768w, /images/foto_HD-1200.avif 1200w, /images/foto_HD.avif 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
-                <source type="image/webp" srcSet="/images/foto_HD-360.webp 360w, /images/foto_HD-768.webp 768w, /images/foto_HD-1200.webp 1200w, /images/foto_HD.webp 1682w" sizes="(max-width:600px) 180px, (max-width:1200px) 240px, 360px" />
-                <img src="/images/foto_HD.png" alt="Angga" width="1682" height="2528" loading="eager" fetchPriority="high" decoding="sync" style={{width:'100%',height:'auto'}} />
-              </picture>
+              <Image
+                src={profilePhoto}
+                alt="Angga"
+                fill
+                preload
+                sizes="(max-width: 900px) 240px, 320px"
+                style={{ objectFit: 'cover', objectPosition: 'top center' }}
+              />
             </div>
             <aside className="hero__terminal" aria-label="Terminal profile summary">
               <div className="hero__terminal-bar">
@@ -1092,11 +1124,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section className="section section--alt" id="contact">
+      {/* PROJECTS — the three experiences now live in this Next.js deployment */}
+      <section className="section section--alt" id="projects">
         <div className="container">
           <div className="section__header">
-            <span className="section__tag">06 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
+            <span className="section__tag">06 / <span data-id="Proyek" data-en="Projects">Proyek</span></span>
+            <h2 className="section__title" data-id="Satu Website, Tiga Pengalaman" data-en="One Website, Three Experiences">Satu Website, Tiga Pengalaman</h2>
+          </div>
+          <p className="projects__intro" data-id="Portofolio utama, terminal interaktif, dan simulator jaringan kini berada dalam satu aplikasi dan satu domain." data-en="The main portfolio, interactive terminal, and network simulator now live in one app and one domain.">Portofolio utama, terminal interaktif, dan simulator jaringan kini berada dalam satu aplikasi dan satu domain.</p>
+          <div className="projects__grid">
+            <article className="project-card project-card--main">
+              <span className="project-card__eyebrow">01 · PORTONEXT</span>
+              <h3 data-id="Portofolio Utama" data-en="Main Portfolio">Portofolio Utama</h3>
+              <p data-id="Profil profesional, pengalaman kerja, pendidikan, kemampuan, blog, dan kontak dalam tampilan modern yang responsif." data-en="Professional profile, work history, education, skills, blog, and contact details in a modern responsive interface.">Profil profesional, pengalaman kerja, pendidikan, kemampuan, blog, dan kontak dalam tampilan modern yang responsif.</p>
+              <a href="#hero" className="project-card__link" data-id="Sedang dibuka ↑" data-en="Currently viewing ↑">Sedang dibuka ↑</a>
+            </article>
+            <article className="project-card project-card--terminal">
+              <span className="project-card__eyebrow">02 · TERMINAL</span>
+              <h3 data-id="Terminal Interaktif" data-en="Interactive Terminal">Terminal Interaktif</h3>
+              <p data-id="Jelajahi profil lewat perintah Linux, command history, autocomplete, utilitas jaringan, dan dukungan dua bahasa." data-en="Explore the profile using Linux commands, command history, autocomplete, network utilities, and bilingual support.">Jelajahi profil lewat perintah Linux, command history, autocomplete, utilitas jaringan, dan dukungan dua bahasa.</p>
+              <a href="/terminal" className="project-card__link" data-id="Buka Terminal →" data-en="Open Terminal →">Buka Terminal →</a>
+            </article>
+            <article className="project-card project-card--lab">
+              <span className="project-card__eyebrow">03 · NETWORK LAB</span>
+              <h3 data-id="Simulator Topologi" data-en="Topology Simulator">Simulator Topologi</h3>
+              <p data-id="Simulasikan ICMP, failover WAN, VLAN 802.1Q, firewall drop, serta inspeksi konfigurasi perangkat jaringan." data-en="Simulate ICMP, WAN failover, 802.1Q VLANs, firewall drops, and inspect network device configurations.">Simulasikan ICMP, failover WAN, VLAN 802.1Q, firewall drop, serta inspeksi konfigurasi perangkat jaringan.</p>
+              <a href="/network-lab" className="project-card__link" data-id="Buka Network Lab →" data-en="Open Network Lab →">Buka Network Lab →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section className="section" id="contact">
+        <div className="container">
+          <div className="section__header">
+            <span className="section__tag">07 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
             <h2 className="section__title" data-id="Hubungi Saya" data-en="Contact Me">Hubungi Saya</h2>
           </div>
           <div className="contact__grid">
@@ -1127,21 +1190,21 @@ export default function Home() {
                   </div>
                   <span>Malang, Jawa Timur, Indonesia</span>
                 </a>
-                <a href="https://portfolio.anggatok.my.id" target="_blank" rel="noopener noreferrer" className="contact__link">
+                <a href="/terminal" className="contact__link">
                   <div className="contact__link-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
                     </svg>
                   </div>
-                  <span data-id="Terminal Portfolio" data-en="Terminal Portfolio">portfolio.anggatok.my.id</span>
+                  <span data-id="Terminal Interaktif" data-en="Interactive Terminal">anggatok.my.id/terminal</span>
                 </a>
-                <a href="https://lab.anggatok.my.id" target="_blank" rel="noopener noreferrer" className="contact__link">
+                <a href="/network-lab" className="contact__link">
                   <div className="contact__link-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                     </svg>
                   </div>
-                  <span data-id="Network Lab Simulator" data-en="Network Lab Simulator">lab.anggatok.my.id</span>
+                  <span data-id="Simulator Network Lab" data-en="Network Lab Simulator">anggatok.my.id/network-lab</span>
                 </a>
                 <a href="/cv/CV_Angga.pdf" target="_blank" rel="noopener noreferrer" className="contact__link">
                   <div className="contact__link-icon">
@@ -1164,6 +1227,8 @@ export default function Home() {
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
+                    autoComplete="name"
+                    maxLength={80}
                     required
                   />
                 </div>
@@ -1178,6 +1243,8 @@ export default function Home() {
                     data-en-ph="angga@example.com"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
+                    autoComplete="email"
+                    maxLength={254}
                     required
                   />
                 </div>
@@ -1191,16 +1258,17 @@ export default function Home() {
                     data-en-ph="Hi Angga..."
                     value={formData.message}
                     onChange={e => setFormData({...formData, message: e.target.value})}
+                    maxLength={3000}
                     required
                   />
                 </div>
                 {formStatus === 'success' && (
-                  <p className="form__status form__status--success">
+                  <p className="form__status form__status--success" role="status">
                     {lang === 'id' ? 'Pesan terkirim! Saya akan segera membalas.' : "Message sent! I'll reply soon."}
                   </p>
                 )}
                 {formStatus === 'error' && (
-                  <p className="form__status form__status--error">Error: {formError || 'Gagal mengirim'}</p>
+                  <p className="form__status form__status--error" role="alert">Error: {formError || 'Gagal mengirim'}</p>
                 )}
                 <button
                   type="submit"
@@ -1218,9 +1286,9 @@ export default function Home() {
       </section>
 
       {/* TOOL MODAL */}
-      <div className="modal-overlay" id="toolModal">
-        <div className="modal-card">
-          <button className="modal__close" id="modalClose">×</button>
+      <div className="modal-overlay" id="toolModal" aria-hidden="true">
+        <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalName" aria-describedby="modalDesc">
+          <button type="button" className="modal__close" id="modalClose" aria-label="Tutup detail tool">×</button>
           <div className="modal__header">
             <div className="modal__tool-icon" id="modalIcon"></div>
             <div>
