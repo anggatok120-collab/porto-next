@@ -1171,6 +1171,13 @@ export default function Home() {
             <h2 className="section__title" data-id="Terminal Interaktif" data-en="Interactive Terminal">Terminal Interaktif</h2>
           </div>
           <p className="project-experience__intro" data-id="Ketik perintah seperti whoami, skills, experience, projects, atau help untuk menjelajahi profil saya melalui antarmuka CLI." data-en="Type commands such as whoami, skills, experience, projects, or help to explore my profile through a CLI interface.">Ketik perintah seperti whoami, skills, experience, projects, atau help untuk menjelajahi profil saya melalui antarmuka CLI.</p>
+          <div className="project-experience__notice">
+            <div>
+              <span className="project-experience__badge">PROJECT 02 · HALAMAN 07</span>
+              <p data-id="Ini adalah preview interaktif Project Terminal. Versi lengkapnya tersedia di halaman tersendiri agar seluruh fitur terminal lebih nyaman digunakan." data-en="This is an interactive preview of the Terminal Project. Its complete version is available on a dedicated page so every terminal feature is easier to use.">Ini adalah preview interaktif Project Terminal. Versi lengkapnya tersedia di halaman tersendiri agar seluruh fitur terminal lebih nyaman digunakan.</p>
+            </div>
+            <a className="project-experience__open" href="/terminal" target="_blank" rel="noreferrer" data-id="Buka project lengkap ↗" data-en="Open full project ↗">Buka project lengkap ↗</a>
+          </div>
           <div className="project-experience__window project-experience__window--terminal">
             <iframe src="/terminal?embed=1" title="Interactive Terminal Portfolio" loading="lazy" onLoad={fitEmbeddedFrame} />
           </div>
@@ -1185,6 +1192,13 @@ export default function Home() {
             <h2 className="section__title" data-id="Simulator Topologi Jaringan" data-en="Network Topology Simulator">Simulator Topologi Jaringan</h2>
           </div>
           <p className="project-experience__intro" data-id="Jalankan simulasi ping, failover WAN, VLAN tagging, dan firewall; klik perangkat untuk mempelajari konfigurasi produksinya." data-en="Run ping, WAN failover, VLAN tagging, and firewall simulations; click a device to inspect its production configuration.">Jalankan simulasi ping, failover WAN, VLAN tagging, dan firewall; klik perangkat untuk mempelajari konfigurasi produksinya.</p>
+          <div className="project-experience__notice">
+            <div>
+              <span className="project-experience__badge">PROJECT 03 · HALAMAN 08</span>
+              <p data-id="Ini adalah preview interaktif Project Network Lab. Buka halaman tersendirinya untuk memakai kanvas yang lebih luas dan melihat konfigurasi perangkat dengan lebih nyaman." data-en="This is an interactive preview of the Network Lab Project. Open its dedicated page for a wider canvas and a more comfortable view of device configurations.">Ini adalah preview interaktif Project Network Lab. Buka halaman tersendirinya untuk memakai kanvas yang lebih luas dan melihat konfigurasi perangkat dengan lebih nyaman.</p>
+            </div>
+            <a className="project-experience__open" href="/network-lab" target="_blank" rel="noreferrer" data-id="Buka project lengkap ↗" data-en="Open full project ↗">Buka project lengkap ↗</a>
+          </div>
           <div className="project-experience__window project-experience__window--lab">
             <iframe src="/network-lab?embed=1" title="Interactive Network Lab Simulator" loading="lazy" onLoad={fitEmbeddedFrame} />
           </div>

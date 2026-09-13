@@ -1756,6 +1756,52 @@ body {
     font-size: 17px;
     line-height: 1.7;
 }
+.project-experience__notice {
+    max-width: 1000px;
+    margin: 0 auto 24px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-dim), rgba(129, 140, 248, .055));
+}
+.project-experience__notice > div { min-width: 0; }
+.project-experience__badge {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--accent);
+    font: 600 11px/1.4 var(--mono);
+    letter-spacing: .11em;
+}
+.project-experience__notice p {
+    max-width: 720px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.project-experience__open {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 11px 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--accent-mid);
+    border-radius: 999px;
+    color: var(--text);
+    background: rgba(255, 255, 255, .035);
+    font: 500 12px/1.4 var(--mono);
+    text-decoration: none;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.project-experience__open:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    transform: translateY(-2px);
+}
 .project-experience__window {
     position: relative;
     overflow: hidden;
@@ -1796,11 +1842,11 @@ body {
     .nav, .nav.scrolled { width: calc(100% - 24px); top: 10px; padding: 11px 14px 11px 16px; }
     .hero { padding-top: 120px; }
     .hero__inner { flex-direction: column; gap: 48px; }
-    .hero__content { flex-basis: auto; text-align: center !important; }
+    .hero__content { min-width: 0; flex-basis: auto; text-align: center !important; }
     .hero__name { margin-inline: auto !important; text-align: center !important; }
     .hero__roles, .hero__actions, .hero__badges { justify-content: center !important; }
     .hero__desc { margin-inline: auto; text-align: center; }
-    .hero__photo { flex-basis: auto; }
+    .hero__photo { min-width: 0; flex-basis: auto; }
     .hero__photo-wrap { width: 240px !important; height: 310px !important; border-radius: 90px 90px 24px 24px; }
     .hero__photo-wrap::after { border-radius: 80px 80px 17px 17px; }
     .hero__terminal { position: relative; left: auto; bottom: auto; width: min(100%, 280px); margin: -34px auto 18px; transform: rotate(-1deg); }
@@ -1810,6 +1856,7 @@ body {
     .project-card { min-height: 250px; }
     .projects__intro { margin-left: 0; }
     .project-experience__intro { margin-left: 0; }
+    .project-experience__notice { max-width: none; }
     .project-experience__window { border-radius: 18px; }
     .project-experience__window--terminal iframe { height: 680px; }
     .project-experience__window--lab iframe { height: 1080px; }
@@ -1821,12 +1868,13 @@ body {
 }
 
 @media (max-width: 768px) {
-    .container { padding-inline: 20px; }
+    .container { padding-inline: 18px; }
     .nav__right { gap: 7px; }
     .nav__links { border-radius: 24px; top: 76px; inset-inline: 12px; bottom: 12px; background: rgba(4, 7, 18, .96); }
     .mobile-menu { background: rgba(4, 7, 18, .96); }
-    .section { padding: 86px 0; }
+    .section { padding: 76px 0; }
     .section__header { grid-template-columns: 1fr; gap: 7px; margin-bottom: 38px; }
+    .section__title { font-size: clamp(32px, 11vw, 48px); line-height: 1.05; }
     .hero__name { font-size: clamp(60px, 22vw, 90px) !important; }
     .hero__roles { gap: 7px; }
     .hero__actions { flex-direction: column; align-items: stretch; }
@@ -1839,6 +1887,27 @@ body {
     .timeline__dot { left: -31px; }
     .project-experience__window--terminal iframe { height: 650px; }
     .project-experience__window--lab iframe { height: 1180px; }
+    .project-experience__intro { margin-top: -14px; margin-bottom: 24px; font-size: 15px; }
+    .project-experience__notice { padding: 16px; flex-direction: column; align-items: stretch; gap: 15px; }
+    .project-experience__open { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .container { padding-inline: 14px; }
+    .section { padding: 64px 0; }
+    .section__header { margin-bottom: 30px; }
+    .section__tag { font-size: 11px; }
+    .hero { padding-top: 106px; }
+    .hero__name { font-size: clamp(54px, 21vw, 76px) !important; }
+    .hero__roles { font-size: 14px; flex-wrap: wrap; }
+    .hero__desc { font-size: 15px; }
+    .about__text, .service-card, .skill-group, .timeline__card, .edu__card, .contact__card, .project-card { padding: 20px; }
+    .project-card { min-height: 230px; }
+    .project-card h3 { margin-top: 40px; }
+    .project-experience__window { margin-inline: -4px; border-radius: 14px; }
+    .project-experience__window--terminal iframe { height: 610px; }
+    .project-experience__window--lab iframe { height: 1250px; }
+    .contact__link { min-width: 0; overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) {
