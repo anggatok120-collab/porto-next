@@ -1747,6 +1747,37 @@ body {
 .project-card__link:hover { color: var(--text); }
 [data-theme="light"] .project-card { background: rgba(255,255,255,.76); }
 
+.container--wide { max-width: 1380px; }
+.project-experience { scroll-margin-top: 84px; }
+.project-experience__intro {
+    max-width: 780px;
+    margin: -22px 0 34px 138px;
+    color: var(--text-muted);
+    font-size: 17px;
+    line-height: 1.7;
+}
+.project-experience__window {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: #090d16;
+    box-shadow: 0 34px 100px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.project-experience__window::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 auto;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--accent), #818cf8, transparent);
+}
+.project-experience__window iframe { display: block; width: 100%; border: 0; background: #090d16; }
+.project-experience__window--terminal { max-width: 920px; margin-inline: auto; }
+.project-experience__window--terminal iframe { height: 710px; }
+.project-experience__window--lab iframe { height: 980px; }
+
 .contact__grid { grid-template-columns: 1fr 430px; gap: 54px; }
 .contact__links { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
 .contact__link { padding: 10px; border: 1px solid transparent; border-radius: 14px; }
@@ -1778,6 +1809,10 @@ body {
     .projects__grid { grid-template-columns: 1fr; }
     .project-card { min-height: 250px; }
     .projects__intro { margin-left: 0; }
+    .project-experience__intro { margin-left: 0; }
+    .project-experience__window { border-radius: 18px; }
+    .project-experience__window--terminal iframe { height: 680px; }
+    .project-experience__window--lab iframe { height: 1080px; }
 }
 
 @media (max-width: 1050px) {
@@ -1802,6 +1837,8 @@ body {
     .timeline { padding-left: 30px; }
     .timeline::before { left: 6px; }
     .timeline__dot { left: -31px; }
+    .project-experience__window--terminal iframe { height: 650px; }
+    .project-experience__window--lab iframe { height: 1180px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

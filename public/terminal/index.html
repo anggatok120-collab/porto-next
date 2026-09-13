@@ -9,6 +9,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/terminal" />
 <title>&gt;_ Angga</title>
+<script>if(new URLSearchParams(location.search).has('embed'))document.documentElement.classList.add('is-embedded')</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%230a0a0d'/><text y='68' x='10' font-size='54' font-family='monospace' fill='%23a3e635'>%3E_</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,6 +42,10 @@
   .site-nav__links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;}
   .site-nav a{padding:7px 11px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:999px;transition:color .15s ease,border-color .15s ease;}
   .site-nav a:hover,.site-nav a:focus-visible{color:var(--text);border-color:var(--accent-border);}
+  .is-embedded body{padding:22px;background:#0a0a0d;}
+  .is-embedded .wrap{max-width:860px;margin:auto;}
+  .is-embedded .site-nav{display:none;}
+  .is-embedded .terminal{height:570px;}
   .terminal{
     background:var(--window);
     border:1px solid var(--border);
@@ -155,6 +160,8 @@
     .site-nav__brand{padding-top:7px;}
     .site-nav__links{gap:5px;}
     .site-nav a{padding:6px 8px;font-size:10px;}
+    .is-embedded body{padding:12px 10px;}
+    .is-embedded .terminal{height:500px;}
   }
 </style>
 </head>

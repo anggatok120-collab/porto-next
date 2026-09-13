@@ -30,6 +30,14 @@ export default function Home() {
     }
   }
 
+  function fitEmbeddedFrame(event) {
+    const frame = event.currentTarget
+    const documentElement = frame.contentDocument?.documentElement
+    if (!documentElement) return
+    const minimumHeight = frame.closest('.project-experience__window--lab') ? 900 : 620
+    frame.style.height = `${Math.max(minimumHeight, documentElement.scrollHeight)}px`
+  }
+
   useEffect(() => {
     const eventController = new AbortController()
     const { signal } = eventController
@@ -638,7 +646,7 @@ export default function Home() {
           </div>
           <div className="about__grid">
             <div className="about__text">
-              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan customer support." data-en="Network Engineer with 2.5+ years of experience — <strong>1.5 years as NOC employee</strong> and <strong>1 year Customer Support internship</strong>, covering network monitoring and customer support.">Network Engineer dengan pengalaman 2,5+ tahun — <strong>1,5 tahun karyawan di NOC</strong> dan <strong>1 tahun magang di Customer Support</strong>, mencakup monitoring jaringan dan customer support.</p>
+              <p data-id="Network Engineer dengan pengalaman 2,5+ tahun — 1,5 tahun karyawan di NOC dan 1 tahun magang di Customer Support, mencakup monitoring jaringan dan customer support." data-en="Network Engineer with 2.5+ years of experience — 1.5 years as NOC employee and 1 year Customer Support internship, covering network monitoring and customer support.">Network Engineer dengan pengalaman 2,5+ tahun — 1,5 tahun karyawan di NOC dan 1 tahun magang di Customer Support, mencakup monitoring jaringan dan customer support.</p>
               <p data-id="Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall." data-en="Skilled in network monitoring, network troubleshooting, MikroTik configuration, routing &amp; switching, Linux server administration, and VLAN and firewall management.">Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing &amp; switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.</p>
               <p data-id="Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan." data-en="Experienced working in dynamic network operational environments with strong analytical, problem-solving, and communication skills. Committed to maintaining IT infrastructure stability and improving service quality.">Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.</p>
               <div className="about__meta">
@@ -1143,14 +1151,42 @@ export default function Home() {
               <span className="project-card__eyebrow">02 · TERMINAL</span>
               <h3 data-id="Terminal Interaktif" data-en="Interactive Terminal">Terminal Interaktif</h3>
               <p data-id="Jelajahi profil lewat perintah Linux, command history, autocomplete, utilitas jaringan, dan dukungan dua bahasa." data-en="Explore the profile using Linux commands, command history, autocomplete, network utilities, and bilingual support.">Jelajahi profil lewat perintah Linux, command history, autocomplete, utilitas jaringan, dan dukungan dua bahasa.</p>
-              <a href="/terminal" className="project-card__link" data-id="Buka Terminal →" data-en="Open Terminal →">Buka Terminal →</a>
+              <a href="#terminal-project" className="project-card__link" data-id="Coba Terminal ↓" data-en="Try Terminal ↓">Coba Terminal ↓</a>
             </article>
             <article className="project-card project-card--lab">
               <span className="project-card__eyebrow">03 · NETWORK LAB</span>
               <h3 data-id="Simulator Topologi" data-en="Topology Simulator">Simulator Topologi</h3>
               <p data-id="Simulasikan ICMP, failover WAN, VLAN 802.1Q, firewall drop, serta inspeksi konfigurasi perangkat jaringan." data-en="Simulate ICMP, WAN failover, 802.1Q VLANs, firewall drops, and inspect network device configurations.">Simulasikan ICMP, failover WAN, VLAN 802.1Q, firewall drop, serta inspeksi konfigurasi perangkat jaringan.</p>
-              <a href="/network-lab" className="project-card__link" data-id="Buka Network Lab →" data-en="Open Network Lab →">Buka Network Lab →</a>
+              <a href="#network-lab-project" className="project-card__link" data-id="Coba Network Lab ↓" data-en="Try Network Lab ↓">Coba Network Lab ↓</a>
             </article>
+          </div>
+        </div>
+      </section>
+
+      {/* INTERACTIVE TERMINAL */}
+      <section className="section project-experience" id="terminal-project">
+        <div className="container">
+          <div className="section__header">
+            <span className="section__tag">07 / <span>TERMINAL</span></span>
+            <h2 className="section__title" data-id="Terminal Interaktif" data-en="Interactive Terminal">Terminal Interaktif</h2>
+          </div>
+          <p className="project-experience__intro" data-id="Ketik perintah seperti whoami, skills, experience, projects, atau help untuk menjelajahi profil saya melalui antarmuka CLI." data-en="Type commands such as whoami, skills, experience, projects, or help to explore my profile through a CLI interface.">Ketik perintah seperti whoami, skills, experience, projects, atau help untuk menjelajahi profil saya melalui antarmuka CLI.</p>
+          <div className="project-experience__window project-experience__window--terminal">
+            <iframe src="/terminal?embed=1" title="Interactive Terminal Portfolio" loading="lazy" onLoad={fitEmbeddedFrame} />
+          </div>
+        </div>
+      </section>
+
+      {/* NETWORK LAB */}
+      <section className="section section--alt project-experience" id="network-lab-project">
+        <div className="container container--wide">
+          <div className="section__header">
+            <span className="section__tag">08 / <span>NETWORK LAB</span></span>
+            <h2 className="section__title" data-id="Simulator Topologi Jaringan" data-en="Network Topology Simulator">Simulator Topologi Jaringan</h2>
+          </div>
+          <p className="project-experience__intro" data-id="Jalankan simulasi ping, failover WAN, VLAN tagging, dan firewall; klik perangkat untuk mempelajari konfigurasi produksinya." data-en="Run ping, WAN failover, VLAN tagging, and firewall simulations; click a device to inspect its production configuration.">Jalankan simulasi ping, failover WAN, VLAN tagging, dan firewall; klik perangkat untuk mempelajari konfigurasi produksinya.</p>
+          <div className="project-experience__window project-experience__window--lab">
+            <iframe src="/network-lab?embed=1" title="Interactive Network Lab Simulator" loading="lazy" onLoad={fitEmbeddedFrame} />
           </div>
         </div>
       </section>
@@ -1159,7 +1195,7 @@ export default function Home() {
       <section className="section" id="contact">
         <div className="container">
           <div className="section__header">
-            <span className="section__tag">07 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
+            <span className="section__tag">09 / <span data-id="Kontak" data-en="Contact">Kontak</span></span>
             <h2 className="section__title" data-id="Hubungi Saya" data-en="Contact Me">Hubungi Saya</h2>
           </div>
           <div className="contact__grid">
@@ -1189,22 +1225,6 @@ export default function Home() {
                     </svg>
                   </div>
                   <span>Malang, Jawa Timur, Indonesia</span>
-                </a>
-                <a href="/terminal" className="contact__link">
-                  <div className="contact__link-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
-                    </svg>
-                  </div>
-                  <span data-id="Terminal Interaktif" data-en="Interactive Terminal">anggatok.my.id/terminal</span>
-                </a>
-                <a href="/network-lab" className="contact__link">
-                  <div className="contact__link-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
-                  </div>
-                  <span data-id="Simulator Network Lab" data-en="Network Lab Simulator">anggatok.my.id/network-lab</span>
                 </a>
                 <a href="/cv/CV_Angga.pdf" target="_blank" rel="noopener noreferrer" className="contact__link">
                   <div className="contact__link-icon">
