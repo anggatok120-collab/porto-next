@@ -1,0 +1,5 @@
+# Preserve SHA-256 checks for the registered ThreeUI source on every platform.
+vendor/threeui/src/** -text
+vendor/threeui/compat/** -text
+public/landing-pages/meng-to-sketchbook.html -text
+public/landing-pages/meng-to-sketchbook/** -text

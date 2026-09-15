@@ -18,7 +18,20 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Portfolio theme
+
+The homepage renders the original ThreeUI `MengToSketchbookLandingPage`, pinned
+to source revision `e0330548b1ac`, with the configured Instrument Serif and
+Newsreader typography. Its HTML, images, fonts, page turns, zoom, and magnifier
+are served locally. The authored demo content is preserved.
+
+The registered source is packaged locally in `vendor/threeui` so the exact
+typography controls are used. See [integration details](vendor/threeui/README.md).
+
+```bash
+npm run threeui:verify
+npm run build
+```
 
 ## Learn More
 

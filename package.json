@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "images:convert": "node scripts/convert-images.mjs",
+    "threeui:verify": "node scripts/verify-threeui.mjs",
     "postinstall": "npm run images:convert"
   },
   "dependencies": {
+    "@designcodeio/threeui": "file:vendor/threeui",
     "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "next": "^16.3.5",

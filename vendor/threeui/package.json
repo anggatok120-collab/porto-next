@@ -1,0 +1,17 @@
+{
+  "name": "@designcodeio/threeui",
+  "version": "0.0.0-source.e0330548b1ac",
+  "private": true,
+  "description": "Local source-pinned subset of ThreeUI: MengToSketchbookLandingPage",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./index.tsx",
+    "./style.css": "./src/shaders/threeui.css"
+  },
+  "sideEffects": ["**/*.css"],
+  "peerDependencies": {
+    "react": ">=18 <20",
+    "react-dom": ">=18 <20"
+  }
+}
