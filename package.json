@@ -8,6 +8,8 @@
     "start": "next start",
     "images:convert": "node scripts/convert-images.mjs",
     "threeui:verify": "node scripts/verify-threeui.mjs",
+    "sketchbook:build": "node scripts/build-portfolio-sketchbook.mjs",
+    "portfolio:verify": "node scripts/verify-portfolio.mjs",
     "postinstall": "npm run images:convert"
   },
   "dependencies": {

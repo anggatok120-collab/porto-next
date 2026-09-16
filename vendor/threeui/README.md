@@ -42,7 +42,21 @@ Run `npm run threeui:verify` from the application root to verify the six
 registered sources, 17 required assets, supporting font, and component export.
 `.gitattributes` preserves the original source bytes on Windows checkouts.
 
-The visible name, biography, artwork, and links remain the authored Meng To
-demo. Personalizing that content is a separate change to the source contract.
+## Active portfolio presentation
+
+The application uses `PortfolioSketchbookLandingPage`, a content-adapted entry
+that shares the original frame, typography, page turns, zoom and magnifier.
+It serves `public/landing-pages/angga-sketchbook.html`. The original canonical
+document and export remain available as the immutable upstream reference.
+
+`scripts/build-portfolio-sketchbook.mjs` derives the active document from the
+canonical HTML, removes the demo header/biography/contact content, and replaces
+the nine artwork entries with bilingual plates generated from Angga's original
+portfolio and portrait. The full content remains accessible as regular text in
+`app/page.js`, with original section IDs, links and interactions. The book is
+a visual summary, not a replacement for the portfolio content.
+
+`npm run portfolio:verify` verifies the nine restored sections, original links,
+all bilingual copy, and the absence of the demo identity in the active document.
 
 Copyright and font licenses are included in this directory.

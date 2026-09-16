@@ -1,6 +1,6 @@
 'use client'
 
-import { MengToSketchbookLandingPage } from '@designcodeio/threeui'
+import { PortfolioSketchbookLandingPage } from '@designcodeio/threeui'
 
 const frameControllers = new WeakMap()
 
@@ -32,10 +32,12 @@ function prepareSketchbookFrame(frame) {
   document.head.append(style)
 }
 
-export default function SketchbookScene() {
+export default function SketchbookScene({ lang = 'id' }) {
   return (
     <div className="shader-frame">
-      <MengToSketchbookLandingPage
+      <PortfolioSketchbookLandingPage
+        lang={lang}
+        style={{ background: 'transparent' }}
         headingFont="instrument-serif"
         bodyFont="newsreader"
         headingWeight="400"

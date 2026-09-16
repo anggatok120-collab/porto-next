@@ -20,18 +20,24 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 ## Portfolio theme
 
-The homepage renders the original ThreeUI `MengToSketchbookLandingPage`, pinned
-to source revision `e0330548b1ac`, with the configured Instrument Serif and
-Newsreader typography. Its HTML, images, fonts, page turns, zoom, and magnifier
-are served locally. The authored demo content is preserved.
+The homepage preserves Angga's original portfolio content, links, bilingual
+copy, contact form, tool details, terminal and network lab. The presentation
+uses the ThreeUI paper/sketchbook theme with Instrument Serif and Newsreader.
+The book displays Angga's own portrait and content, using the registered
+page-turn, zoom and magnifier engine from revision `e0330548b1ac`.
 
 The registered source is packaged locally in `vendor/threeui` so the exact
 typography controls are used. See [integration details](vendor/threeui/README.md).
 
 ```bash
 npm run threeui:verify
+npm run portfolio:verify
 npm run build
 ```
+
+After intentionally editing portfolio content, run `npm run sketchbook:build`
+to regenerate the bilingual book plates and its local HTML document. The
+preservation check compares the restored content against commit `391a2da`.
 
 ## Learn More
 
