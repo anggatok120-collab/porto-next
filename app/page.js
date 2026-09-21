@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import SketchbookScene from './SketchbookScene'
+import { setupPortfolioMotion } from './portfolio-motion'
 import '@designcodeio/threeui/style.css'
 import './portfolio-theme.css'
 
@@ -43,27 +44,8 @@ export default function Home() {
     const eventController = new AbortController()
     const { signal } = eventController
 
-    // NAV
-    const toggle = document.getElementById('navToggle')
-    const mobileMenu = document.getElementById('mobileMenu')
+    const disposeMotion = setupPortfolioMotion(document.querySelector('.portfolio-theme'), signal)
     const themeToggle = document.getElementById('themeToggle')
-    toggle.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('open')
-      document.body.style.overflow = open ? 'hidden' : ''
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
-      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true')
-    }, { signal })
-    // ensure mobileMenu aria-hidden initially
-    mobileMenu.setAttribute('aria-hidden', 'true')
-    toggle.setAttribute('aria-expanded', 'false')
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        mobileMenu.classList.remove('open')
-        document.body.style.overflow = ''
-        toggle.setAttribute('aria-expanded', 'false')
-        mobileMenu.setAttribute('aria-hidden', 'true')
-      }, { signal })
-    })
 
     // THEME TOGGLE (light/dark)
     try {
@@ -72,8 +54,8 @@ export default function Home() {
         try { localStorage.setItem('theme', t) } catch (e) {}
       }
       // initialise from storage
-      const saved = localStorage.getItem('theme') || 'light'
-      document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light')
+      const saved = 'dark'
+      document.documentElement.setAttribute('data-theme', saved)
       if (themeToggle) {
         themeToggle.setAttribute('aria-pressed', document.documentElement.getAttribute('data-theme') === 'light' ? 'true' : 'false')
         themeToggle.addEventListener('click', () => {
@@ -84,29 +66,6 @@ export default function Home() {
       }
     } catch (e) { }
 
-
-    const sections = document.querySelectorAll('section[id]')
-    const navItems = document.querySelectorAll('.nav__links a')
-    window.addEventListener('scroll', () => {
-      let current = ''
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 80) current = s.getAttribute('id')
-      })
-      navItems.forEach(a => {
-        a.classList.remove('active')
-        if (a.getAttribute('href') === '#' + current) a.classList.add('active')
-      })
-      document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 50)
-    }, { signal, passive: true })
-
-    // FADE IN
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
-    }, { threshold: 0.1 })
-    document.querySelectorAll('.timeline__card, .skill-group, .stat, .edu__card, .contact__grid, .service-card').forEach(el => {
-      el.classList.add('fade-in')
-      observer.observe(el)
-    })
 
     // LANGUAGE
     let currentLang = localStorage.getItem('lang') || 'id'
@@ -521,7 +480,7 @@ export default function Home() {
 
     return () => {
       eventController.abort()
-      observer.disconnect()
+      disposeMotion()
       document.body.style.overflow = ''
     }
   }, [])
