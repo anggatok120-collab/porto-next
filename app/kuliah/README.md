@@ -25,4 +25,10 @@ TELEGRAM_BOT_TOKEN=token_bot_anda
 
 Token hanya dibaca oleh route server `/api/kuliah/telegram` dan tidak dikirim ke browser.
 
-Preferensi waktu harian disimpan untuk integrasi scheduler. Agar pengiriman tetap berjalan saat aplikasi tertutup, panggil endpoint dari cron platform deployment dengan penyimpanan data server yang sesuai.
+## Pengiriman otomatis di Vercel
+
+Tambahkan `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, dan `CRON_SECRET` pada environment Production Vercel. `CRON_SECRET` harus berupa nilai acak minimal 16 karakter.
+
+Konfigurasi `vercel.json` mengirim pengingat harian pukul 06.00 WIB dan pengingat mingguan setiap Minggu pukul 18.00 WIB. Vercel Cron menggunakan UTC, sehingga ekspresi cron sudah dikonversi dari zona waktu Asia/Jakarta.
+
+Endpoint cron dilindungi header `Authorization: Bearer <CRON_SECRET>` yang ditambahkan otomatis oleh Vercel.
