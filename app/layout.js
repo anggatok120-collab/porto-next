@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
 .hero__actions .btn{display:inline-flex;padding:12px 22px;border-radius:999px}
 @media(max-width:768px){.hero__content,.hero__name{text-align:center}.hero__roles,.hero__actions{justify-content:center}.hero__photo-wrap{width:220px;height:280px}}
 `}</style>
-        <script dangerouslySetInnerHTML={{__html: "document.documentElement.setAttribute('data-theme','dark')"}} />
+        <script dangerouslySetInnerHTML={{__html: "(function(){try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){} })()"}} />
       </head>
       <body>
         {children}

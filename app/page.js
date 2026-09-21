@@ -1,10 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import SketchbookScene from './SketchbookScene'
-import { setupPortfolioMotion } from './portfolio-motion'
-import '@designcodeio/threeui/style.css'
-import './portfolio-theme.css'
+import Image from 'next/image'
+import profilePhoto from '../public/images/foto_HD.png'
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -44,18 +42,38 @@ export default function Home() {
     const eventController = new AbortController()
     const { signal } = eventController
 
-    const disposeMotion = setupPortfolioMotion(document.querySelector('.portfolio-theme'), signal)
+    // NAV
+    const toggle = document.getElementById('navToggle')
+    const mobileMenu = document.getElementById('mobileMenu')
     const themeToggle = document.getElementById('themeToggle')
+    toggle.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open')
+      document.body.style.overflow = open ? 'hidden' : ''
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true')
+    }, { signal })
+    // ensure mobileMenu aria-hidden initially
+    mobileMenu.setAttribute('aria-hidden', 'true')
+    toggle.setAttribute('aria-expanded', 'false')
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open')
+        document.body.style.overflow = ''
+        toggle.setAttribute('aria-expanded', 'false')
+        mobileMenu.setAttribute('aria-hidden', 'true')
+      }, { signal })
+    })
 
     // THEME TOGGLE (light/dark)
     try {
       const applyTheme = (t) => {
-        document.documentElement.setAttribute('data-theme', t)
+        if (t === 'light') document.documentElement.setAttribute('data-theme', 'light')
+        else document.documentElement.removeAttribute('data-theme')
         try { localStorage.setItem('theme', t) } catch (e) {}
       }
       // initialise from storage
-      const saved = 'dark'
-      document.documentElement.setAttribute('data-theme', saved)
+      const saved = (typeof window !== 'undefined') ? localStorage.getItem('theme') : null
+      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light')
       if (themeToggle) {
         themeToggle.setAttribute('aria-pressed', document.documentElement.getAttribute('data-theme') === 'light' ? 'true' : 'false')
         themeToggle.addEventListener('click', () => {
@@ -66,6 +84,29 @@ export default function Home() {
       }
     } catch (e) { }
 
+
+    const sections = document.querySelectorAll('section[id]')
+    const navItems = document.querySelectorAll('.nav__links a')
+    window.addEventListener('scroll', () => {
+      let current = ''
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 80) current = s.getAttribute('id')
+      })
+      navItems.forEach(a => {
+        a.classList.remove('active')
+        if (a.getAttribute('href') === '#' + current) a.classList.add('active')
+      })
+      document.querySelector('.nav').classList.toggle('scrolled', window.scrollY > 50)
+    }, { signal, passive: true })
+
+    // FADE IN
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
+    }, { threshold: 0.1 })
+    document.querySelectorAll('.timeline__card, .skill-group, .stat, .edu__card, .contact__grid, .service-card').forEach(el => {
+      el.classList.add('fade-in')
+      observer.observe(el)
+    })
 
     // LANGUAGE
     let currentLang = localStorage.getItem('lang') || 'id'
@@ -480,13 +521,13 @@ export default function Home() {
 
     return () => {
       eventController.abort()
-      disposeMotion()
+      observer.disconnect()
       document.body.style.overflow = ''
     }
   }, [])
 
   return (
-    <main className="portfolio-theme">
+    <>
       {/* NAV */}
       <nav className="nav">
         <div className="nav__logo">AG</div>
@@ -551,8 +592,15 @@ export default function Home() {
             </div>
           </div>
           <div className="hero__photo">
-            <div className="hero__sketchbook">
-              <SketchbookScene lang={lang} />
+            <div className="hero__photo-wrap">
+              <Image
+                src={profilePhoto}
+                alt="Angga"
+                fill
+                preload
+                sizes="(max-width: 900px) 240px, 320px"
+                style={{ objectFit: 'cover', objectPosition: 'top center' }}
+              />
             </div>
             <aside className="hero__terminal" aria-label="Terminal profile summary">
               <div className="hero__terminal-bar">
@@ -1294,6 +1342,6 @@ export default function Home() {
           <p className="footer__sub" data-id="Dibuat dengan Next.js & React" data-en="Built with Next.js & React">Dibuat dengan Next.js &amp; React</p>
         </div>
       </footer>
-    </main>
+    </>
   )
 }
