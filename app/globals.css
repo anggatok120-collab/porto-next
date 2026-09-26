@@ -2041,3 +2041,37 @@ body { background: var(--bg); }
 [data-theme="light"] :is(.form__input, .form__textarea) { background: rgba(0, 0, 0, .04); }
 .footer { background: #0c0c0c; }
 [data-theme="light"] .footer { background: #ededed; }
+
+/* Keep the portfolio imagery and live project work in their original color.
+   They are content samples, not part of the monochrome interface chrome. */
+.hero__photo-wrap img {
+    filter: saturate(.86) contrast(1.04);
+}
+.hero__photo-wrap:hover img { filter: saturate(1) contrast(1.04); }
+
+.project-card.project-card {
+    background: linear-gradient(145deg, rgba(17, 27, 51, .9), rgba(9, 16, 32, .72));
+    border-color: rgba(125, 211, 252, .15);
+}
+.project-card::before { background: linear-gradient(90deg, #5eead4, #818cf8, transparent 85%); }
+.project-card--terminal::before { background: linear-gradient(90deg, #a3e635, #5eead4, transparent 85%); }
+.project-card--lab::before { background: linear-gradient(90deg, #38bdf8, #a3e635, transparent 85%); }
+.project-card__eyebrow,
+.project-card__link { color: #5eead4; }
+.project-card h3 { color: #f5f7ff; }
+.project-card p { color: #a3aec4; }
+.project-card:hover { border-color: rgba(94, 234, 212, .28); }
+
+.project-experience__notice {
+    border-color: rgba(125, 211, 252, .15);
+    background: linear-gradient(135deg, rgba(94, 234, 212, .10), rgba(129, 140, 248, .055));
+}
+.project-experience__badge { color: #5eead4; }
+.project-experience__window { background: #090d16; border-color: rgba(125, 211, 252, .15); }
+.project-experience__window::before { background: linear-gradient(90deg, transparent, #5eead4, #818cf8, transparent); }
+.project-experience__window iframe { background: #090d16; filter: none; }
+
+[data-theme="light"] .project-card.project-card { background: rgba(255, 255, 255, .88); border-color: rgba(15, 55, 90, .16); }
+[data-theme="light"] .project-card h3 { color: #0b1930; }
+[data-theme="light"] .project-card p { color: #4f5f77; }
+[data-theme="light"] .project-experience__notice { border-color: rgba(15, 55, 90, .14); background: linear-gradient(135deg, rgba(8, 127, 140, .08), rgba(129, 140, 248, .055)); }
