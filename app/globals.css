@@ -12,8 +12,8 @@
     --text: #eef7ff;
     --text-muted: #8ea0b7;
     --text-dim: #53647a;
-    --font: 'Inter', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
+    --font: var(--font-inter), sans-serif;
+    --mono: var(--font-jetbrains-mono), monospace;
     --radius: 14px;
     --transition: 0.2s ease;
 }
@@ -31,8 +31,8 @@
     --text: #0f172a;
     --text-muted: #475569;
     --text-dim: #64748b;
-    --font: 'Inter', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
+    --font: var(--font-inter), sans-serif;
+    --mono: var(--font-jetbrains-mono), monospace;
 }
 
 html { scroll-behavior: smooth; background: #05080e; }
@@ -701,6 +701,46 @@ button, a { -webkit-tap-highlight-color: rgba(0,0,0,0); }
     font-size: 13px;
     color: var(--text-dim);
     font-family: var(--mono);
+}
+.footer__privacy {
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 12px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.footer__privacy:hover { color: var(--accent); }
+
+/* PRIVACY */
+.privacy {
+    min-height: 100vh;
+    padding: 96px 0 64px;
+}
+.privacy__content {
+    max-width: 760px;
+}
+.privacy h1 {
+    font-size: clamp(36px, 7vw, 64px);
+    line-height: 1.05;
+    margin-bottom: 16px;
+}
+.privacy h2 {
+    font-size: 22px;
+    margin: 36px 0 10px;
+}
+.privacy p, .privacy li {
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+.privacy ul {
+    padding-left: 22px;
+}
+.privacy a { color: var(--accent); }
+.privacy__back {
+    display: inline-block;
+    margin-bottom: 32px;
+    font-family: var(--mono);
+    text-decoration: none;
 }
 
 /* FADE IN */

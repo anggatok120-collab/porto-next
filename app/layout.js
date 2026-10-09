@@ -1,5 +1,18 @@
 import './globals.css'
 import AnalyticsClient from './AnalyticsClient'
+import { Inter, JetBrains_Mono } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
 
 export const metadata = {
   title: 'Angga | Network Engineer',
@@ -12,11 +25,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id">
+    <html lang="id" className={`${inter.variable} ${jetBrainsMono.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
         <style>{`/* Critical hero + header CSS inlined for faster first paint */
 .hero__content{text-align:left}
 .hero__name{max-width:100%;font-size:clamp(60px,9vw,112px);font-weight:700;line-height:.94;margin:0 0 28px;display:block;padding:.08em .12em .1em .025em;overflow:visible;text-align:left}

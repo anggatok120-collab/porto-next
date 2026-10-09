@@ -1340,6 +1340,7 @@ export default function Home() {
         <div className="container footer__inner">
           <p data-id="© 2026 Angga. Semua hak dilindungi." data-en="© 2026 Angga. All rights reserved.">© 2026 Angga. Semua hak dilindungi.</p>
           <p className="footer__sub" data-id="Dibuat dengan Next.js & React" data-en="Built with Next.js & React">Dibuat dengan Next.js &amp; React</p>
+          <a className="footer__privacy" href="/privacy" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</a>
         </div>
       </footer>
     </>
