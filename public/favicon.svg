@@ -1,14 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="bg" x1="3" y1="2" x2="29" y2="30" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#10243a"/>
-      <stop offset="1" stop-color="#07101f"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0c1524"/>
+      <stop offset="100%" stop-color="#05080e"/>
     </linearGradient>
-    <linearGradient id="accent" x1="7" y1="7" x2="25" y2="25" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#5eead4"/>
-      <stop offset="1" stop-color="#7dd3fc"/>
+    <linearGradient id="borderGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5eead4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.35"/>
     </linearGradient>
+    <linearGradient id="textGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f0fdff"/>
+      <stop offset="45%" stop-color="#5eead4"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#5eead4" flood-opacity="0.5"/>
+    </filter>
   </defs>
-  <rect x="1" y="1" width="30" height="30" rx="8" fill="url(#bg)" stroke="#5eead4" stroke-opacity=".45"/>
-  <text x="16" y="17" dominant-baseline="middle" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="18" fill="url(#accent)">A</text>
+  
+  <!-- Sleek container matching website card and navbar theme -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)" stroke="url(#borderGrad)" stroke-width="2.5"/>
+  
+  <!-- Live network status dot (NOC / Network monitoring signature) -->
+  <circle cx="51" cy="13" r="5" fill="#38bdf8" fill-opacity="0.25"/>
+  <circle cx="51" cy="13" r="2.8" fill="#38bdf8"/>
+  
+  <!-- Brand monogram AG matching navbar -->
+  <text x="31" y="42" text-anchor="middle" font-family="'JetBrains Mono', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="28" letter-spacing="-1.5" fill="url(#textGrad)" filter="url(#glow)">AG</text>
 </svg>

@@ -18,8 +18,12 @@ export const metadata = {
   title: 'Angga | Network Engineer',
   description: 'Portfolio Angga — Network Engineer, NOC, dan IT Support.',
   icons: {
-    icon: [{ url: '/favicon.svg?v=4', type: 'image/svg+xml' }],
-    shortcut: '/favicon.svg?v=4',
+    icon: [
+      { url: '/favicon.svg?v=5', type: 'image/svg+xml' },
+      { url: '/favicon.ico?v=5', sizes: '32x32' },
+    ],
+    shortcut: '/favicon.svg?v=5',
+    apple: '/apple-touch-icon.png?v=5',
   },
 }
 
