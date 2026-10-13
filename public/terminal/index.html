@@ -22,7 +22,7 @@
     --accent:#37d6e6;
     --accent-soft:rgba(55,214,230,0.08);
     --accent-border:rgba(55,214,230,0.22);
-    --path:#818cf8;
+    --path:#37d6e6;
     --font:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono',monospace;
   }
   *{box-sizing:border-box;}
@@ -116,8 +116,8 @@
     padding:7px 14px;font-family:var(--font);font-size:12.5px;
     cursor:pointer;transition:background .15s ease;
   }
-  .chip:hover{background:rgba(94,234,212,.2);}
-  .chip:active{background:rgba(94,234,212,.3);}
+  .chip:hover{background:rgba(55,214,230,.18);}
+  .chip:active{background:rgba(55,214,230,.28);}
   .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .link{color:var(--accent);text-decoration:none;}
   .link:hover{text-decoration:underline;}
@@ -139,7 +139,7 @@
     padding:4px 10px;font-family:var(--font);font-size:12px;
     cursor:pointer;white-space:nowrap;
   }
-  #send-btn:active{background:rgba(94,234,212,.3);}
+  #send-btn:active{background:rgba(55,214,230,.28);}
   @media (max-width:480px){
     body{padding:12px 10px max(16px,env(safe-area-inset-bottom));}
     .wrap{min-width:0;gap:10px;}
@@ -255,17 +255,17 @@
   const dataID = {
     projects: `01. Porto Next — Website Portofolio
     Website portofolio pribadi berbasis Next.js.
-    anggatok.my.id
+    anggot.my.id
     github.com/anggatok120-collab/porto-next
 
 02. Terminal Portfolio — ini
     Portofolio interaktif berbasis terminal, vanilla HTML/CSS/JS.
-    anggatok.my.id/terminal
+    anggot.my.id/terminal
     github.com/anggatok120-collab/terminal-portfolio
 
 03. Network Lab — Simulator Topologi Jaringan
     Simulasi topologi jaringan enterprise & traceroute interaktif.
-    anggatok.my.id/network-lab
+    anggot.my.id/network-lab
     github.com/anggatok120-collab/network-lab`,
 
     netstat: `Proto  Lokal      Tujuan       Status
@@ -310,17 +310,17 @@ tcp    saya       whatsapp     DIBLOKIR (atas permintaan)`,
   const dataEN = {
     projects: `01. Porto Next — Portfolio Website
     Personal portfolio website built with Next.js.
-    anggatok.my.id
+    anggot.my.id
     github.com/anggatok120-collab/porto-next
 
 02. Terminal Portfolio — this one
     Interactive terminal-style portfolio, vanilla HTML/CSS/JS.
-    anggatok.my.id/terminal
+    anggot.my.id/terminal
     github.com/anggatok120-collab/terminal-portfolio
 
 03. Network Lab — Network Topology Simulator
     Interactive enterprise topology simulator & packet tracer.
-    anggatok.my.id/network-lab
+    anggot.my.id/network-lab
     github.com/anggatok120-collab/network-lab`,
 
     netstat: `Proto  Local      Foreign      State
@@ -582,29 +582,29 @@ tcp    me         whatsapp     FILTERED (by request)`,
       pre.innerHTML =
         '01. Porto Next — Website Portofolio\n' +
         '    Website portofolio pribadi berbasis Next.js.\n' +
-        '    <a href="/" class="link">anggatok.my.id</a>\n' +
+        '    <a href="/" class="link">anggot.my.id</a>\n' +
         '    <a href="https://github.com/anggatok120-collab/porto-next" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab/porto-next</a>\n\n' +
         '02. Terminal Portfolio — ini\n' +
         '    Portofolio interaktif berbasis terminal, vanilla HTML/CSS/JS.\n' +
-        '    <a href="/terminal" class="link">anggatok.my.id/terminal</a>\n' +
+        '    <a href="/terminal" class="link">anggot.my.id/terminal</a>\n' +
         '    <a href="https://github.com/anggatok120-collab/terminal-portfolio" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab/terminal-portfolio</a>\n\n' +
         '03. Network Lab — Simulator Topologi Jaringan\n' +
         '    Simulasi topologi jaringan enterprise & traceroute interaktif.\n' +
-        '    <a href="/network-lab" class="link">anggatok.my.id/network-lab</a>\n' +
+        '    <a href="/network-lab" class="link">anggot.my.id/network-lab</a>\n' +
         '    <a href="https://github.com/anggatok120-collab/network-lab" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab/network-lab</a>';
     } else {
       pre.innerHTML =
         '01. Porto Next — Portfolio Website\n' +
         '    Personal portfolio website built with Next.js.\n' +
-        '    <a href="/" class="link">anggatok.my.id</a>\n' +
+        '    <a href="/" class="link">anggot.my.id</a>\n' +
         '    <a href="https://github.com/anggatok120-collab/porto-next" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab/porto-next</a>\n\n' +
         '02. Terminal Portfolio — this one\n' +
         '    Interactive terminal-style portfolio, vanilla HTML/CSS/JS.\n' +
-        '    <a href="/terminal" class="link">anggatok.my.id/terminal</a>\n' +
+        '    <a href="/terminal" class="link">anggot.my.id/terminal</a>\n' +
         '    <a href="https://github.com/anggatok120-collab/terminal-portfolio" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab/terminal-portfolio</a>\n\n' +
         '03. Network Lab — Network Topology Simulator\n' +
         '    Interactive enterprise topology simulator & packet tracer.\n' +
-        '    <a href="/network-lab" class="link">anggatok.my.id/network-lab</a>\n' +
+        '    <a href="/network-lab" class="link">anggot.my.id/network-lab</a>\n' +
         '    <a href="https://github.com/anggatok120-collab/network-lab" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab/network-lab</a>';
     }
     output.appendChild(pre);
@@ -619,9 +619,9 @@ tcp    me         whatsapp     FILTERED (by request)`,
       'Email     <a href="mailto:anggatok120@gmail.com" class="link" target="_blank" rel="noopener">anggatok120@gmail.com</a>\n' +
       'LinkedIn  <a href="https://www.linkedin.com/in/angga-angga-1147b1369" class="link" target="_blank" rel="noopener">linkedin.com/in/angga-angga-1147b1369</a>\n' +
       'GitHub    <a href="https://github.com/anggatok120-collab" class="link" target="_blank" rel="noopener">github.com/anggatok120-collab</a>\n' +
-      'Network Lab <a href="/network-lab" class="link">anggatok.my.id/network-lab</a>\n' +
-      'Terminal  <a href="/terminal" class="link">anggatok.my.id/terminal</a>\n' +
-      'Portfolio <a href="/" class="link">anggatok.my.id</a>\n' +
+      'Network Lab <a href="/network-lab" class="link">anggot.my.id/network-lab</a>\n' +
+      'Terminal  <a href="/terminal" class="link">anggot.my.id/terminal</a>\n' +
+      'Portfolio <a href="/" class="link">anggot.my.id</a>\n' +
       loc + ' ' + locVal;
     output.appendChild(pre);
     scrollToBottom();

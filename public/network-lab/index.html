@@ -12,13 +12,13 @@
       --surface: #0c1420;
       --surface-hover: #111d2d;
       --border: rgba(84, 196, 221, 0.16);
-      --border-light: rgba(125, 211, 252, 0.28);
+      --border-light: rgba(84, 196, 221, 0.28);
       --accent: #37d6e6;
       --accent-glow: rgba(55, 214, 230, 0.25);
-      --cyan: #7dd3fc;
+      --cyan: #37d6e6;
       --amber: #f59e0b;
       --red: #ef4444;
-      --purple: #c084fc;
+      --purple: #37d6e6;
       --text: #eef7ff;
       --text-muted: #8ea0b7;
       --text-dim: #53647a;
@@ -54,7 +54,7 @@
     .header {
       position: relative;
       z-index: 10;
-      background: rgba(17, 24, 34, 0.9);
+      background: rgba(8, 16, 27, 0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 14px 24px;
@@ -74,7 +74,7 @@
       width: 38px;
       height: 38px;
       border-radius: 10px;
-      background: linear-gradient(135deg, rgba(55,214,230,0.2), rgba(125,211,252,0.18));
+      background: linear-gradient(135deg, rgba(55,214,230,0.2), rgba(55,214,230,0.08));
       border: 1.5px solid var(--accent);
       display: flex;
       align-items: center;
@@ -209,13 +209,13 @@
       color: var(--red);
     }
     .action-btn--info {
-      border-color: rgba(125,211,252,0.4);
-      color: var(--cyan);
+      border-color: rgba(55,214,230,0.35);
+      color: var(--accent);
     }
     .action-btn--info:hover {
-      background: rgba(125,211,252,0.15);
-      border-color: var(--cyan);
-      color: var(--cyan);
+      background: rgba(55,214,230,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .system-status {
@@ -334,13 +334,13 @@
       filter: drop-shadow(0 0 12px var(--accent-glow));
     }
     .node-bg {
-      fill: #0f1a29;
-      stroke: #21364a;
+      fill: var(--surface);
+      stroke: rgba(84, 196, 221, 0.24);
       stroke-width: 1.5;
       rx: 10;
       transition: all 0.25s ease;
     }
-    .node-icon-box { fill: #142338; rx: 6; }
+    .node-icon-box { fill: var(--surface-hover); rx: 6; }
     .node-name { font-family: var(--font); font-size: 12px; font-weight: 600; fill: #f8fafc; }
     .node-ip { font-family: var(--mono); font-size: 10px; fill: #94a3b8; }
     .node-tag { font-family: var(--mono); font-size: 9px; font-weight: 600; }
@@ -394,10 +394,10 @@
     }
 
     /* THEME VARIATIONS FOR PACKET */
-    .packet-theme-cyan .packet-halo { fill: rgba(125, 211, 252, 0.3); }
-    .packet-theme-cyan .packet-core, .packet-theme-cyan .packet-tail { fill: var(--cyan); filter: drop-shadow(0 0 10px var(--cyan)); }
-    .packet-theme-cyan .packet-badge-bg { stroke: var(--cyan); }
-    .packet-theme-cyan .packet-badge-text { fill: var(--cyan); }
+    .packet-theme-cyan .packet-halo { fill: rgba(55, 214, 230, 0.3); }
+    .packet-theme-cyan .packet-core, .packet-theme-cyan .packet-tail { fill: var(--accent); filter: drop-shadow(0 0 10px var(--accent)); }
+    .packet-theme-cyan .packet-badge-bg { stroke: var(--accent); }
+    .packet-theme-cyan .packet-badge-text { fill: var(--accent); }
 
     .packet-theme-amber .packet-halo { fill: rgba(245, 158, 11, 0.3); }
     .packet-theme-amber .packet-core, .packet-theme-amber .packet-tail { fill: var(--amber); filter: drop-shadow(0 0 10px var(--amber)); }
@@ -502,7 +502,7 @@
     .log-msg--ok { color: #4ade80; }
     .log-msg--warn { color: #fbbf24; }
     .log-msg--err { color: #f87171; }
-    .log-msg--info { color: #7dd3fc; }
+    .log-msg--info { color: var(--accent); }
 
     /* DEVICE INSPECT PANEL */
     .inspect-body {
@@ -531,9 +531,9 @@
       align-items: center;
       gap: 6px;
       padding: 6px 12px;
-      background: rgba(125, 211, 252, 0.12);
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
+      background: rgba(55, 214, 230, 0.12);
+      border: 1px solid var(--accent);
+      color: var(--accent);
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
@@ -542,9 +542,9 @@
       transition: var(--transition);
     }
     .inspect-btn-full:hover {
-      background: var(--cyan);
+      background: var(--accent);
       color: #05080e;
-      box-shadow: 0 0 12px rgba(125,211,252,0.3);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
     .inspect-meta {
       display: grid;
@@ -588,7 +588,7 @@
       max-height: 88vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(125, 211, 252, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(55, 214, 230, 0.12);
       transform: scale(0.96);
       transition: transform 0.25s ease;
       overflow: hidden;
@@ -733,22 +733,22 @@
       font-family: var(--mono);
       font-size: 12.5px;
       line-height: 1.65;
-      color: #7dd3fc;
+      color: var(--text);
       overflow-x: auto;
       white-space: pre;
     }
 
     /* CONCEPT / EDUCATIONAL NOTES */
     .edu-card {
-      background: rgba(125, 211, 252, 0.04);
-      border: 1px solid rgba(125, 211, 252, 0.2);
+      background: rgba(55, 214, 230, 0.04);
+      border: 1px solid rgba(84, 196, 221, 0.2);
       border-radius: 10px;
       padding: 16px 18px;
     }
     .edu-card-title {
       font-size: 14px;
       font-weight: 700;
-      color: var(--cyan);
+      color: var(--accent);
       margin-bottom: 8px;
       display: flex;
       align-items: center;
@@ -920,8 +920,8 @@
             <!-- 2. INLINE COMPACT LINK BADGES (ZERO OVERFLOW / ZERO CLIPPING) -->
             <!-- Badge 1: VLAN 10 -->
             <g>
-              <rect x="165" y="263" width="55" height="20" rx="4" fill="#05080e" stroke="#7dd3fc" stroke-width="1" />
-              <text x="192.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#7dd3fc" font-weight="600" text-anchor="middle">VLAN 10</text>
+              <rect x="165" y="263" width="55" height="20" rx="4" fill="#05080e" stroke="#37d6e6" stroke-width="1" />
+              <text x="192.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#37d6e6" font-weight="600" text-anchor="middle">VLAN 10</text>
             </g>
 
             <!-- Badge 2: SNMP (Gi0/2) -->
@@ -932,8 +932,8 @@
 
             <!-- Badge 3: 802.1Q Trunk -->
             <g>
-              <rect x="370" y="263" width="55" height="20" rx="4" fill="#05080e" stroke="#7dd3fc" stroke-width="1" />
-              <text x="397.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#7dd3fc" font-weight="600" text-anchor="middle">802.1Q</text>
+              <rect x="370" y="263" width="55" height="20" rx="4" fill="#05080e" stroke="#37d6e6" stroke-width="1" />
+              <text x="397.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#37d6e6" font-weight="600" text-anchor="middle">802.1Q</text>
             </g>
 
             <!-- Badge 4: 10.0.1.0/30 (Trust Uplink) -->
@@ -990,7 +990,7 @@
             <g class="node-group" data-device-id="client" data-name="Host-01 (Workstation)" data-ip="192.168.10.101/24" data-os="Linux Ubuntu 24.04" data-vlan="VLAN 10" data-role="Client Endpoint">
               <rect x="25" y="240" width="135" height="66" class="node-bg" />
               <rect x="33" y="254" width="34" height="34" class="node-icon-box" />
-              <text x="50" y="277" fill="#7dd3fc" text-anchor="middle" font-size="16">💻</text>
+              <text x="50" y="277" fill="#37d6e6" text-anchor="middle" font-size="16">💻</text>
               <text x="73" y="261" class="node-name">Host-01</text>
               <text x="73" y="276" class="node-ip">192.168.10.101</text>
               <text x="73" y="291" class="node-tag" fill="#37d6e6">VLAN 10</text>
@@ -1000,10 +1000,10 @@
             <g class="node-group" data-device-id="ruijie" data-name="Ruijie Access Switch" data-ip="10.0.0.3" data-os="Ruijie RGOS" data-vlan="VLAN 10, 20" data-role="L2 Access & PoE Switch">
               <rect x="225" y="240" width="140" height="66" class="node-bg" />
               <rect x="233" y="254" width="34" height="34" class="node-icon-box" />
-              <text x="250" y="277" fill="#0066cc" text-anchor="middle" font-size="16">🔀</text>
+              <text x="250" y="277" fill="#37d6e6" text-anchor="middle" font-size="16">🔀</text>
               <text x="273" y="261" class="node-name">Ruijie Switch</text>
               <text x="273" y="276" class="node-ip">RG-NBS3100</text>
-              <text x="273" y="291" class="node-tag" fill="#7dd3fc">VLAN 10/20</text>
+              <text x="273" y="291" class="node-tag" fill="#37d6e6">VLAN 10/20</text>
             </g>
 
             <!-- Node 3: NOC Zabbix Server -->
@@ -1200,7 +1200,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2026 Angga — Network Engineer &amp; NOC Specialist. <a href="/">anggatok.my.id</a> · <a href="/terminal">/terminal</a> · <a href="/network-lab">/network-lab</a></p>
+    <p>© 2026 Angga — Network Engineer &amp; NOC Specialist. <a href="/">anggot.my.id</a> · <a href="/terminal">/terminal</a> · <a href="/network-lab">/network-lab</a></p>
   </footer>
 
   <script>

@@ -1852,7 +1852,7 @@ body {
     overflow: hidden;
     border: 1px solid var(--border);
     border-radius: 24px;
-    background: #101010;
+    background: #05080e;
     box-shadow: 0 34px 100px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.04);
 }
 .project-experience__window::before {
@@ -1864,7 +1864,7 @@ body {
     pointer-events: none;
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
-.project-experience__window iframe { display: block; width: 100%; border: 0; background: #101010; }
+.project-experience__window iframe { display: block; width: 100%; border: 0; background: #05080e; }
 .project-experience__window--terminal { max-width: 920px; margin-inline: auto; }
 .project-experience__window--terminal iframe { height: 710px; }
 .project-experience__window--lab iframe { height: 980px; }
@@ -2075,7 +2075,7 @@ body { background: var(--bg); }
 .timeline::before { background: linear-gradient(var(--accent), transparent); }
 .tag { background: var(--accent-dim); border-color: var(--border); }
 .project-experience__window,
-.project-experience__window iframe { background: #101010; border-color: var(--border); }
+.project-experience__window iframe { background: #05080e; border-color: var(--border); }
 .form__input,
 .form__textarea { background: rgba(0, 0, 0, .24); border-color: var(--border); color: var(--text); }
 [data-theme="light"] :is(.form__input, .form__textarea) { background: rgba(0, 0, 0, .04); }
@@ -2109,9 +2109,9 @@ body { background: var(--bg); }
     background: linear-gradient(135deg, var(--accent-dim), var(--surface));
 }
 .project-experience__badge { color: var(--accent); }
-.project-experience__window { background: #101010; border-color: var(--border); }
+.project-experience__window { background: #05080e; border-color: var(--border); }
 .project-experience__window::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
-.project-experience__window iframe { background: #101010; filter: none; }
+.project-experience__window iframe { background: #05080e; filter: none; }
 
 [data-theme="light"] .project-card.project-card { background: var(--surface); border-color: var(--border); }
 [data-theme="light"] .project-card h3 { color: var(--text); }
