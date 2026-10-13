@@ -7,7 +7,7 @@
     "dev": "next dev",
     "start": "next start",
     "images:convert": "node scripts/convert-images.mjs",
-    "postinstall": "npm run images:convert",
+    "postinstall": "npm run images:convert && node scripts/patch-opennext.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
