@@ -39,6 +39,9 @@ const nextConfig = {
       { source: '/network-lab', destination: '/network-lab/index.html' },
     ];
   },
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
