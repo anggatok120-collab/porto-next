@@ -169,16 +169,16 @@ export default function Home() {
         </div>`
       },
       'Zabbix': {
-        color: '#5cacee', textColor: '#fff',
+        color: '#d40000', textColor: '#fff',
         cat_id: 'Network Monitoring · Alerting',
         cat_en: 'Network Monitoring · Alerting',
         desc_id: 'Zabbix adalah platform monitoring jaringan open-source yang digunakan untuk memantau host, layanan, dan threshold. Di NOC, Zabbix dipakai untuk deteksi dini gangguan, trigger alert otomatis, dan dashboard realtime status jaringan seluruh infrastruktur.',
         desc_en: 'Zabbix is an open-source network monitoring platform used to monitor hosts, services, and thresholds. In NOC, Zabbix is used for early incident detection, automatic alert triggering, and realtime network status dashboards across the entire infrastructure.',
-        iconBg: '#1a3a5c', iconText: '#5cacee', iconLabel: 'ZB',
-        mock: `<div class="mock-window" style="background:#0d1117">
+        iconBg: '#2a0e0e', iconText: '#ff6b6b', iconLabel: 'ZB',
+        mock: `<div class="mock-window" style="background:#0d0d0d">
           <div class="mock-zbx-header">
             <span class="mock-zbx-logo">ZABBIX</span>
-            <span style="color:#445;font-size:11px">Monitoring → Problems</span>
+            <span style="color:#666;font-size:11px">Monitoring → Problems</span>
             <span class="mock-zbx-nav">admin ▾ · Help · Sign out</span>
           </div>
           <div style="padding:8px 0">
@@ -233,7 +233,7 @@ export default function Home() {
               <div class="mock-panel-title">Bandwidth Usage — ether1 (Mbps)</div>
               <div class="mock-bars">
                 ${[45,60,55,80,70,40,90,75,85,60,95,70,50,65,88,72,60,78,85,90,65,55,70,80].map((h,i) =>
-                  `<div class="mock-bar-item" style="height:${h}%;background:${i===20?'#f46800':i===12?'#818cf8':'rgba(244,104,0,0.5)'}"></div>`
+                  `<div class="mock-bar-item" style="height:${h}%;background:${i===20?'#f46800':i===12?'#e5e5e5':'rgba(244,104,0,0.5)'}"></div>`
                 ).join('')}
               </div>
             </div>
@@ -263,7 +263,7 @@ export default function Home() {
             <span class="mock-title">admin@nms-server:~</span>
           </div>
           <div class="mock-terminal">
-            <div><span class="mock-prompt">admin@nms-server</span><span style="color:#555">:</span><span style="color:#818cf8">~</span><span style="color:#555">$ </span><span class="mock-cmd">uname -r && cat /etc/os-release | grep PRETTY</span></div>
+            <div><span class="mock-prompt">admin@nms-server</span><span style="color:#555">:</span><span style="color:#e5e5e5">~</span><span style="color:#555">$ </span><span class="mock-cmd">uname -r && cat /etc/os-release | grep PRETTY</span></div>
             <div class="mock-out">6.1.0-28-amd64</div>
             <div class="mock-out">PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"</div>
             <div style="margin-top:6px"><span class="mock-prompt">admin@nms-server</span><span style="color:#555">:~$ </span><span class="mock-cmd">ip addr show ens3 | grep inet</span></div>
@@ -279,20 +279,20 @@ export default function Home() {
         </div>`
       },
       'SSH': {
-        color: '#00d4ff', textColor: '#000',
+        color: '#ffffff', textColor: '#000',
         cat_id: 'Protokol Remote Access · Secure Shell',
         cat_en: 'Remote Access Protocol · Secure Shell',
         desc_id: 'SSH (Secure Shell) digunakan untuk remote login ke router, server, dan perangkat jaringan secara aman dan terenkripsi. Di NOC, SSH adalah tool utama untuk troubleshooting jarak jauh, eksekusi perintah, dan konfigurasi perangkat tanpa harus ke lokasi fisik.',
         desc_en: 'SSH (Secure Shell) is used for secure and encrypted remote login to routers, servers, and network devices. In NOC, SSH is the primary tool for remote troubleshooting, command execution, and device configuration without needing physical access.',
-        iconBg: '#0d2137', iconText: '#00d4ff', iconLabel: 'SSH',
-        mock: `<div class="mock-window" style="background:#090c12">
-          <div class="mock-bar" style="background:#111520">
+        iconBg: '#222', iconText: '#fff', iconLabel: 'SSH',
+        mock: `<div class="mock-window" style="background:#0d0d0d">
+          <div class="mock-bar" style="background:#1a1a1a">
             <span class="mock-dot" style="background:#ff5f56"></span>
             <span class="mock-dot" style="background:#ffbd2e"></span>
             <span class="mock-dot" style="background:#27c93f"></span>
             <span class="mock-title">ssh admin@10.0.0.1</span>
           </div>
-          <div class="mock-terminal" style="background:#090c12">
+          <div class="mock-terminal" style="background:#0d0d0d">
             <div><span class="mock-prompt">local@workstation</span><span style="color:#555">:~$ </span><span class="mock-cmd">ssh admin@10.0.0.1</span></div>
             <div class="mock-warn">The authenticity of host '10.0.0.1 (10.0.0.1)' can't be established.</div>
             <div class="mock-out">ED25519 key fingerprint is SHA256:xK9mP2qLr8TzWvNbY4...</div>
@@ -302,7 +302,7 @@ export default function Home() {
             <div class="mock-out" style="margin-top:4px">admin@10.0.0.1's password: </div>
             <div class="mock-ok" style="margin-top:6px">MikroTik 7.14.2 (stable)</div>
             <div class="mock-out">Login: admin, 2025-01-15 09:42:11</div>
-            <div style="margin-top:6px"><span style="color:#00d4ff">[admin@MikroTik]</span><span style="color:#555"> > </span><span class="mock-cmd">ip address print</span></div>
+            <div style="margin-top:6px"><span style="color:#e5e5e5">[admin@MikroTik]</span><span style="color:#555"> > </span><span class="mock-cmd">ip address print</span></div>
             <div class="mock-out">Flags: D - dynamic, X - disabled, I - invalid, G - global</div>
             <div class="mock-out">&nbsp;# &nbsp;ADDRESS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NETWORK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTERFACE</div>
             <div class="mock-out">&nbsp;0 &nbsp;10.0.0.1/24&nbsp;&nbsp;&nbsp;10.0.0.0&nbsp;&nbsp;&nbsp;ether1</div>
@@ -450,26 +450,26 @@ export default function Home() {
         </div>`
       },
       'Ruijie': {
-        color: '#0066cc', textColor: '#fff',
+        color: '#ffffff', textColor: '#000',
         cat_id: 'Network Equipment · Enterprise Switch & AP',
         cat_en: 'Network Equipment · Enterprise Switch & AP',
         desc_id: 'Ruijie Networks (RGOS) digunakan untuk manajemen switch, VLAN, PoE management, trunking, serta integrasi dengan Ruijie Cloud untuk pemantauan jaringan kampus dan bisnis secara terpusat.',
         desc_en: 'Ruijie Networks (RGOS) is used for switch management, VLANs, PoE management, trunking, and integration with Ruijie Cloud for centralized campus & business network monitoring.',
-        iconBg: '#05182a', iconText: '#0066cc', iconLabel: 'RJ',
-        mock: `<div class="mock-window" style="background:#050d14">
-          <div class="mock-bar" style="background:#0d1a29">
+        iconBg: '#222', iconText: '#fff', iconLabel: 'RJ',
+        mock: `<div class="mock-window" style="background:#0d0d0d">
+          <div class="mock-bar" style="background:#1a1a1a">
             <span class="mock-dot" style="background:#ff5f56"></span>
             <span class="mock-dot" style="background:#ffbd2e"></span>
             <span class="mock-dot" style="background:#27c93f"></span>
             <span class="mock-title">ssh admin@192.168.20.1 — Ruijie RGOS</span>
           </div>
-          <div class="mock-terminal" style="background:#050d14">
+          <div class="mock-terminal" style="background:#0d0d0d">
             <div><span class="mock-prompt">Ruijie#</span> <span class="mock-cmd">show interfaces status</span></div>
             <div class="mock-out">Interface&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;Vlan&nbsp;&nbsp;Duplex&nbsp;&nbsp;Speed&nbsp;&nbsp;Type</div>
-            <div class="mock-out">Gi0/1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0066cc">Connected</span>&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;Full&nbsp;&nbsp;&nbsp;&nbsp;1000M&nbsp;&nbsp;1000Base-T</div>
-            <div class="mock-out">Gi0/2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#0066cc">Connected</span>&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;Full&nbsp;&nbsp;&nbsp;&nbsp;1000M&nbsp;&nbsp;1000Base-T</div>
+            <div class="mock-out">Gi0/1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ade80">Connected</span>&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;Full&nbsp;&nbsp;&nbsp;&nbsp;1000M&nbsp;&nbsp;1000Base-T</div>
+            <div class="mock-out">Gi0/2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ade80">Connected</span>&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;Full&nbsp;&nbsp;&nbsp;&nbsp;1000M&nbsp;&nbsp;1000Base-T</div>
             <div class="mock-out" style="margin-top:6px"><span class="mock-prompt">Ruijie#</span> <span class="mock-cmd">show ruijie-cloud status</span></div>
-            <div class="mock-out">Cloud Status:&nbsp;&nbsp;<span style="color:#0066cc">ONLINE</span></div>
+            <div class="mock-out">Cloud Status:&nbsp;&nbsp;<span style="color:#4ade80">ONLINE</span></div>
             <div class="mock-out">Device Model:&nbsp;&nbsp;RG-NBS3100-24GT4FP-P</div>
           </div>
         </div>`

@@ -8,20 +8,20 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4">
   <style>
     :root {
-      --bg: #05080e;
-      --surface: #0c1420;
-      --surface-hover: #111d2d;
-      --border: rgba(84, 196, 221, 0.16);
-      --border-light: rgba(84, 196, 221, 0.28);
-      --accent: #37d6e6;
-      --accent-glow: rgba(55, 214, 230, 0.25);
-      --cyan: #37d6e6;
+      --bg: #090909;
+      --surface: #141414;
+      --surface-hover: #1e1e1e;
+      --border: rgba(255, 255, 255, 0.14);
+      --border-light: rgba(255, 255, 255, 0.22);
+      --accent: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.15);
+      --cyan: #ffffff;
       --amber: #f59e0b;
       --red: #ef4444;
-      --purple: #37d6e6;
-      --text: #eef7ff;
-      --text-muted: #8ea0b7;
-      --text-dim: #53647a;
+      --purple: #ffffff;
+      --text: #f7f7f7;
+      --text-muted: #b6b6b6;
+      --text-dim: #777777;
       --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --mono: 'JetBrains Mono', monospace;
       --transition: all 0.2s ease;
@@ -43,8 +43,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(55, 214, 230, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(55, 214, 230, 0.035) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
       z-index: 0;
@@ -54,7 +54,7 @@
     .header {
       position: relative;
       z-index: 10;
-      background: rgba(8, 16, 27, 0.92);
+      background: rgba(18, 18, 18, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 14px 24px;
@@ -74,8 +74,8 @@
       width: 38px;
       height: 38px;
       border-radius: 10px;
-      background: linear-gradient(135deg, rgba(55,214,230,0.2), rgba(55,214,230,0.08));
-      border: 1.5px solid var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-light);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -83,7 +83,7 @@
       box-shadow: 0 0 14px var(--accent-glow);
     }
     .brand__title { font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
-    .brand__subtitle { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+    .brand__subtitle { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
 
     .nav-links {
       display: flex;
@@ -131,8 +131,8 @@
       transition: var(--transition);
     }
     .lang-btn.active {
-      background: var(--accent);
-      color: #05080e;
+      background: #ffffff;
+      color: #090909;
     }
 
     /* MAIN CONTAINER */
@@ -184,20 +184,20 @@
       color: var(--text);
     }
     .action-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #ffffff;
       transform: translateY(-1px);
     }
     .action-btn--primary {
-      background: var(--accent);
-      color: #05080e;
-      border-color: var(--accent);
+      background: #ffffff;
+      color: #090909;
+      border-color: #ffffff;
     }
     .action-btn--primary:hover {
-      background: #67e8f9;
-      border-color: #67e8f9;
-      color: #05080e;
-      box-shadow: 0 0 16px var(--accent-glow);
+      background: #e5e5e5;
+      border-color: #e5e5e5;
+      color: #090909;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.2);
     }
     .action-btn--danger {
       border-color: rgba(239,68,68,0.4);
@@ -209,13 +209,13 @@
       color: var(--red);
     }
     .action-btn--info {
-      border-color: rgba(55,214,230,0.35);
-      color: var(--accent);
+      border-color: var(--border-light);
+      color: var(--text);
     }
     .action-btn--info:hover {
-      background: rgba(55,214,230,0.12);
-      border-color: var(--accent);
-      color: var(--accent);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #ffffff;
     }
 
     .system-status {
@@ -274,7 +274,7 @@
       letter-spacing: 1px;
     }
     .canvas-body {
-      background: #05080e;
+      background: #0d0d0d;
       position: relative;
       flex: 1;
       min-height: 440px;
@@ -334,13 +334,13 @@
       filter: drop-shadow(0 0 12px var(--accent-glow));
     }
     .node-bg {
-      fill: var(--surface);
-      stroke: rgba(84, 196, 221, 0.24);
+      fill: #161616;
+      stroke: rgba(255, 255, 255, 0.18);
       stroke-width: 1.5;
       rx: 10;
       transition: all 0.25s ease;
     }
-    .node-icon-box { fill: var(--surface-hover); rx: 6; }
+    .node-icon-box { fill: #222222; rx: 6; }
     .node-name { font-family: var(--font); font-size: 12px; font-weight: 600; fill: #f8fafc; }
     .node-ip { font-family: var(--mono); font-size: 10px; fill: #94a3b8; }
     .node-tag { font-family: var(--mono); font-size: 9px; font-weight: 600; }
@@ -381,7 +381,7 @@
       filter: drop-shadow(0 0 6px #22c55e);
     }
     .packet-badge-bg {
-      fill: #05080e;
+      fill: #0d0d0d;
       stroke: #22c55e;
       stroke-width: 1.2;
     }
@@ -394,7 +394,7 @@
     }
 
     /* THEME VARIATIONS FOR PACKET */
-    .packet-theme-cyan .packet-halo { fill: rgba(55, 214, 230, 0.3); }
+    .packet-theme-cyan .packet-halo { fill: rgba(255, 255, 255, 0.25); }
     .packet-theme-cyan .packet-core, .packet-theme-cyan .packet-tail { fill: var(--accent); filter: drop-shadow(0 0 10px var(--accent)); }
     .packet-theme-cyan .packet-badge-bg { stroke: var(--accent); }
     .packet-theme-cyan .packet-badge-text { fill: var(--accent); }
@@ -493,7 +493,7 @@
       display: flex;
       flex-direction: column;
       gap: 5px;
-      background: #05080e;
+      background: #0d0d0d;
     }
     .log-line { display: flex; gap: 8px; word-break: break-all; }
     .log-time { color: var(--text-dim); flex-shrink: 0; }
@@ -502,7 +502,7 @@
     .log-msg--ok { color: #4ade80; }
     .log-msg--warn { color: #fbbf24; }
     .log-msg--err { color: #f87171; }
-    .log-msg--info { color: var(--accent); }
+    .log-msg--info { color: #f7f7f7; }
 
     /* DEVICE INSPECT PANEL */
     .inspect-body {
@@ -531,9 +531,9 @@
       align-items: center;
       gap: 6px;
       padding: 6px 12px;
-      background: rgba(55, 214, 230, 0.12);
-      border: 1px solid var(--accent);
-      color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: var(--text);
       border-radius: 6px;
       font-size: 12px;
       font-weight: 600;
@@ -542,9 +542,9 @@
       transition: var(--transition);
     }
     .inspect-btn-full:hover {
-      background: var(--accent);
-      color: #05080e;
-      box-shadow: 0 0 12px var(--accent-glow);
+      background: #ffffff;
+      color: #090909;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     }
     .inspect-meta {
       display: grid;
@@ -588,7 +588,7 @@
       max-height: 88vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(55, 214, 230, 0.12);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.08);
       transform: scale(0.96);
       transition: transform 0.25s ease;
       overflow: hidden;
@@ -635,9 +635,9 @@
       font-size: 11px;
       padding: 2px 8px;
       border-radius: 4px;
-      background: rgba(55,214,230,0.15);
-      color: var(--accent);
-      border: 1px solid var(--accent);
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      border: 1px solid var(--border-light);
     }
     .modal-close {
       background: none;
@@ -696,7 +696,7 @@
 
     /* CODE BLOCK / SCRIPT VIEW */
     .code-box {
-      background: #06090e;
+      background: #0d0d0d;
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
@@ -724,9 +724,9 @@
       transition: var(--transition);
     }
     .copy-btn:hover {
-      background: var(--accent);
-      color: #05080e;
-      border-color: var(--accent);
+      background: #ffffff;
+      color: #090909;
+      border-color: #ffffff;
     }
     .code-box pre {
       padding: 16px;
@@ -740,8 +740,8 @@
 
     /* CONCEPT / EDUCATIONAL NOTES */
     .edu-card {
-      background: rgba(55, 214, 230, 0.04);
-      border: 1px solid rgba(84, 196, 221, 0.2);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px 18px;
     }
@@ -765,9 +765,9 @@
     .badge-pill {
       display: inline-block;
       padding: 2px 8px;
-      background: rgba(55, 214, 230, 0.15);
-      border: 1px solid var(--accent);
-      color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-light);
+      color: var(--text);
       border-radius: 12px;
       font-family: var(--mono);
       font-size: 11px;
@@ -823,7 +823,7 @@
       .code-box pre { padding: 12px; font-size: 11px; }
       .footer { padding: 14px 12px; }
     }
-    .is-embedded body { background: #05080e; }
+    .is-embedded body { background: #090909; }
     .is-embedded .header { position: relative; }
     .is-embedded .nav-links > a { display: none; }
     .is-embedded .container { max-width: 1320px; }
@@ -920,43 +920,43 @@
             <!-- 2. INLINE COMPACT LINK BADGES (ZERO OVERFLOW / ZERO CLIPPING) -->
             <!-- Badge 1: VLAN 10 -->
             <g>
-              <rect x="165" y="263" width="55" height="20" rx="4" fill="#05080e" stroke="#37d6e6" stroke-width="1" />
-              <text x="192.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#37d6e6" font-weight="600" text-anchor="middle">VLAN 10</text>
+              <rect x="165" y="263" width="55" height="20" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+              <text x="192.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f7f7f7" font-weight="600" text-anchor="middle">VLAN 10</text>
             </g>
 
             <!-- Badge 2: SNMP (Gi0/2) -->
             <g>
-              <rect x="255" y="163" width="80" height="20" rx="4" fill="#05080e" stroke="#f46800" stroke-width="1" />
+              <rect x="255" y="163" width="80" height="20" rx="4" fill="#0d0d0d" stroke="#f46800" stroke-width="1" />
               <text x="295" y="176" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f46800" font-weight="600" text-anchor="middle">SNMP · Gi0/2</text>
             </g>
 
             <!-- Badge 3: 802.1Q Trunk -->
             <g>
-              <rect x="370" y="263" width="55" height="20" rx="4" fill="#05080e" stroke="#37d6e6" stroke-width="1" />
-              <text x="397.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#37d6e6" font-weight="600" text-anchor="middle">802.1Q</text>
+              <rect x="370" y="263" width="55" height="20" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+              <text x="397.5" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f7f7f7" font-weight="600" text-anchor="middle">802.1Q</text>
             </g>
 
             <!-- Badge 4: 10.0.1.0/30 (Trust Uplink) -->
             <g>
-              <rect x="573" y="263" width="58" height="20" rx="4" fill="#05080e" stroke="#10b981" stroke-width="1" />
+              <rect x="573" y="263" width="58" height="20" rx="4" fill="#0d0d0d" stroke="#10b981" stroke-width="1" />
               <text x="602" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#10b981" font-weight="600" text-anchor="middle">10.0.1.0/30</text>
             </g>
 
             <!-- Badge 5: 10.0.0.0/30 (Untrust to CCR) -->
             <g>
-              <rect x="778" y="263" width="58" height="20" rx="4" fill="#05080e" stroke="#37d6e6" stroke-width="1" />
-              <text x="807" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#37d6e6" font-weight="600" text-anchor="middle">10.0.0.0/30</text>
+              <rect x="778" y="263" width="58" height="20" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
+              <text x="807" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f7f7f7" font-weight="600" text-anchor="middle">10.0.0.0/30</text>
             </g>
 
             <!-- Badge 6: Primary WAN BGP -->
             <g>
-              <rect x="972" y="163" width="90" height="20" rx="4" fill="#05080e" stroke="#22c55e" stroke-width="1.2" />
+              <rect x="972" y="163" width="90" height="20" rx="4" fill="#0d0d0d" stroke="#22c55e" stroke-width="1.2" />
               <text x="1017.5" y="176.5" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#22c55e" font-weight="700" text-anchor="middle">Primary (BGP)</text>
             </g>
 
             <!-- Badge 7: Failover WAN -->
             <g>
-              <rect x="985" y="263" width="60" height="20" rx="4" fill="#05080e" stroke="#f59e0b" stroke-width="1" />
+              <rect x="985" y="263" width="60" height="20" rx="4" fill="#0d0d0d" stroke="#f59e0b" stroke-width="1" />
               <text x="1015" y="276" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f59e0b" font-weight="600" text-anchor="middle">Failover</text>
             </g>
 
@@ -990,20 +990,20 @@
             <g class="node-group" data-device-id="client" data-name="Host-01 (Workstation)" data-ip="192.168.10.101/24" data-os="Linux Ubuntu 24.04" data-vlan="VLAN 10" data-role="Client Endpoint">
               <rect x="25" y="240" width="135" height="66" class="node-bg" />
               <rect x="33" y="254" width="34" height="34" class="node-icon-box" />
-              <text x="50" y="277" fill="#37d6e6" text-anchor="middle" font-size="16">💻</text>
+              <text x="50" y="277" fill="#ffffff" text-anchor="middle" font-size="16">💻</text>
               <text x="73" y="261" class="node-name">Host-01</text>
               <text x="73" y="276" class="node-ip">192.168.10.101</text>
-              <text x="73" y="291" class="node-tag" fill="#37d6e6">VLAN 10</text>
+              <text x="73" y="291" class="node-tag" fill="#b6b6b6">VLAN 10</text>
             </g>
 
             <!-- Node 2: Ruijie Access Switch -->
             <g class="node-group" data-device-id="ruijie" data-name="Ruijie Access Switch" data-ip="10.0.0.3" data-os="Ruijie RGOS" data-vlan="VLAN 10, 20" data-role="L2 Access & PoE Switch">
               <rect x="225" y="240" width="140" height="66" class="node-bg" />
               <rect x="233" y="254" width="34" height="34" class="node-icon-box" />
-              <text x="250" y="277" fill="#37d6e6" text-anchor="middle" font-size="16">🔀</text>
+              <text x="250" y="277" fill="#ffffff" text-anchor="middle" font-size="16">🔀</text>
               <text x="273" y="261" class="node-name">Ruijie Switch</text>
               <text x="273" y="276" class="node-ip">RG-NBS3100</text>
-              <text x="273" y="291" class="node-tag" fill="#37d6e6">VLAN 10/20</text>
+              <text x="273" y="291" class="node-tag" fill="#b6b6b6">VLAN 10/20</text>
             </g>
 
             <!-- Node 3: NOC Zabbix Server -->
@@ -1023,7 +1023,7 @@
               <text x="455" y="277" fill="#e41e2b" text-anchor="middle" font-size="16">🏢</text>
               <text x="478" y="261" class="node-name">Huawei Core</text>
               <text x="478" y="276" class="node-ip">S5735-L (L3)</text>
-              <text x="478" y="291" class="node-tag" fill="#37d6e6">10.0.1.1/30</text>
+              <text x="478" y="291" class="node-tag" fill="#b6b6b6">10.0.1.1/30</text>
             </g>
 
             <!-- Node 5: Juniper SRX Gateway -->
