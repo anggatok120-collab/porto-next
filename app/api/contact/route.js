@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const DEFAULT_TG_BOT_TOKEN = "8856211941:AAHQoTn_6wqlmCJEO0PCevCJ2KfYoWj8fmI"
+const DEFAULT_TG_BOT_TOKEN = "8807596669:AAFy3cV14E2uh0kRIaI9OXNXtPU8uAg3cWw"
 const DEFAULT_TG_ADMIN_CHAT_ID = "7633699633"
 
 function escapeHtml(value) {
@@ -17,7 +17,7 @@ function escapeHtml(value) {
  * Mengirim notifikasi pesan baru kontak langsung ke Telegram Admin
  */
 async function sendTelegramContactAlert({ name, email, message }) {
-  const token = process.env.TELEGRAM_BOT_TOKEN || DEFAULT_TG_BOT_TOKEN
+  const token = process.env.TELEGRAM_LOGS_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || DEFAULT_TG_BOT_TOKEN
   const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID || DEFAULT_TG_ADMIN_CHAT_ID
   if (!token || !chatId) return
 
@@ -52,7 +52,7 @@ async function sendTelegramContactAlert({ name, email, message }) {
  * Mengirim notifikasi error kontak ke Telegram Admin
  */
 async function sendTelegramErrorAlert(detail) {
-  const token = process.env.TELEGRAM_BOT_TOKEN || DEFAULT_TG_BOT_TOKEN
+  const token = process.env.TELEGRAM_LOGS_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || DEFAULT_TG_BOT_TOKEN
   const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID || DEFAULT_TG_ADMIN_CHAT_ID
   if (!token || !chatId) return
 
