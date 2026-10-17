@@ -110,7 +110,7 @@ export async function POST(request) {
       timeZone: 'Asia/Jakarta',
     }).format(new Date())
 
-    const token = process.env.TELEGRAM_LOGS_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN || DEFAULT_TG_BOT_TOKEN
+    const token = process.env.TELEGRAM_LOGS_BOT_TOKEN || DEFAULT_TG_BOT_TOKEN
     const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID || DEFAULT_TG_ADMIN_CHAT_ID
 
     if (token && chatId) {
