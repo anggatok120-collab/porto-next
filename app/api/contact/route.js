@@ -92,7 +92,7 @@ export async function POST(request) {
     }
 
     // Kirim notifikasi Telegram secara instan
-    sendTelegramContactAlert({ name, email, message }).catch(() => {})
+    await sendTelegramContactAlert({ name, email, message })
 
     // Kirim via Resend jika API key tersedia
     if (process.env.RESEND_API_KEY) {
@@ -122,7 +122,7 @@ export async function POST(request) {
     return Response.json({ success: true })
   } catch (error) {
     console.error('Contact form error:', error)
-    sendTelegramErrorAlert(error?.message || String(error)).catch(() => {})
+    await sendTelegramErrorAlert(error?.message || String(error))
     const status = error instanceof SyntaxError ? 400 : 500
     const message = status === 400 ? 'Format permintaan tidak valid' : 'Pesan gagal dikirim. Silakan coba lagi.'
     return Response.json({ error: message }, { status })

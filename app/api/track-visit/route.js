@@ -1,9 +1,9 @@
 const DEFAULT_TG_BOT_TOKEN = "8856211941:AAHQoTn_6wqlmCJEO0PCevCJ2KfYoWj8fmI"
 const DEFAULT_TG_ADMIN_CHAT_ID = "7633699633"
 
-// Cache per-IP throttle di runtime (maksimal 1 alert per IP per 5 menit)
+// Cache per-IP throttle di runtime (maksimal 1 alert per IP per 1 menit)
 const ipThrottleMap = new Map()
-const THROTTLE_MS = 5 * 60 * 1000
+const THROTTLE_MS = 60 * 1000
 
 function escapeHtml(value) {
   return String(value ?? "").replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
@@ -82,7 +82,7 @@ export async function POST(request) {
     const ip = getClientIp(request)
     const now = Date.now()
 
-    // Throttle alert jika IP yang sama berulang kali refresh/klik dalam 5 menit
+    // Throttle alert jika IP yang sama berulang kali refresh/klik dalam 1 menit
     const lastSeen = ipThrottleMap.get(ip) || 0
     if (now - lastSeen < THROTTLE_MS) {
       return Response.json({ ignored: true, reason: 'throttled' })
@@ -123,17 +123,23 @@ export async function POST(request) {
         + `───────────────────────────\n`
         + `🕒 <i>${nowWib} WIB</i>`
 
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text,
-          parse_mode: 'HTML',
-        }),
-      }).catch((err) => {
+      try {
+        const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text,
+            parse_mode: 'HTML',
+          }),
+        })
+        const tgJson = await tgRes.json()
+        if (!tgJson.ok) {
+          console.error('Telegram API error:', tgJson)
+        }
+      } catch (err) {
         console.error('Gagal kirim alert pengunjung Telegram:', err)
-      })
+      }
     }
 
     return Response.json({ success: true })

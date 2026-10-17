@@ -125,7 +125,7 @@ export async function POST(request) {
     const token = createAdminToken()
 
     if (!token) {
-      sendTelegramLoginNotification({
+      await sendTelegramLoginNotification({
         success: false,
         ip,
         userAgent,
@@ -135,7 +135,7 @@ export async function POST(request) {
     }
 
     if (!verifyAdminPassword(password)) {
-      sendTelegramLoginNotification({
+      await sendTelegramLoginNotification({
         success: false,
         ip,
         userAgent,
@@ -144,7 +144,7 @@ export async function POST(request) {
       return Response.json({ error: 'Password salah' }, { status: 401 })
     }
 
-    sendTelegramLoginNotification({
+    await sendTelegramLoginNotification({
       success: true,
       ip,
       userAgent,
