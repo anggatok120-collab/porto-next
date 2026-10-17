@@ -1,4 +1,6 @@
-import 'server-only'
+if (process.env.NODE_ENV !== 'test') {
+  import('server-only').catch(() => {})
+}
 import { createHmac, timingSafeEqual } from 'crypto'
 
 export const ADMIN_COOKIE = 'angga_admin_session'
