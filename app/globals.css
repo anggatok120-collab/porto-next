@@ -151,7 +151,7 @@ html.dark body::before {
    ========================================================================== */
 .nav-bar {
   position: fixed;
-  top: 24px;
+  top: 36px;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 48px);
@@ -177,7 +177,7 @@ html.dark .nav-bar {
 }
 
 .nav-bar.scrolled {
-  top: 14px;
+  top: 18px;
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
 }
 
@@ -2252,7 +2252,7 @@ html.dark .trait-card {
   }
   .nav-bar {
     width: calc(100% - 28px);
-    top: 16px;
+    top: 22px;
     height: 50px;
     padding: 0 14px;
   }
