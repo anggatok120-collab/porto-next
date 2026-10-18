@@ -2319,11 +2319,73 @@ html.dark .trait-card {
     gap: 6px;
     z-index: 105;
   }
-  .hero-right-box {
-    display: none;
-  }
   .hero-term-badge {
-    display: none;
+    display: block;
+    position: absolute;
+    top: 190px;
+    bottom: auto;
+    left: 14px;
+    width: 165px;
+    z-index: 110;
+    background: rgba(15, 17, 23, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    transform: rotate(-3deg);
+    pointer-events: auto;
+  }
+  .hero-term-badge .hero-term-topbar {
+    padding: 5px 8px;
+    gap: 5px;
+  }
+  .hero-term-badge .term-dot {
+    width: 6px;
+    height: 6px;
+  }
+  .hero-term-badge .term-win-title {
+    font-size: 8px;
+  }
+  .hero-term-badge .hero-term-console {
+    padding: 6px 8px;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .hero-right-box {
+    display: flex;
+    position: absolute;
+    top: 310px;
+    right: 14px;
+    z-index: 110;
+  }
+  .hero-stat-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+  html.dark .hero-stat-box {
+    background: rgba(26, 29, 35, 0.85);
+  }
+  .hero-stat-val {
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .hero-stat-lbl {
+    font-size: 7px;
+    letter-spacing: 0.5px;
+  }
+  .hero-stat-bar {
+    height: 14px;
   }
   .hero-bio-summary {
     display: block;

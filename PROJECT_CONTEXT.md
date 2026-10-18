@@ -25,6 +25,9 @@
   - Result: 100% overflow-free layout across all mobile resolutions down to 320px screen width.
 - Typography & Content:
   - Bio summary (`.hero-bio-summary`): Shown on mobile (`display: block; font-size: 12px; line-height: 1.45; max-width: 100%;`) to provide immediate context without clutter.
+- **Desktop Parity on Mobile**:
+  - Terminal Badge (`.hero-term-badge`): Enabled on mobile, floating on upper-left chest of portrait (`top: 190px; left: 14px; width: 165px; transform: rotate(-3deg);`) with compact typography.
+  - Stats Pill (`.hero-stat-box`): Enabled on mobile, positioned on right torso (`top: 310px; right: 14px;`) displaying 2.5+ TAHUN / 4 PERUSAHAAN / 24/7 NOC to match desktop credibility aesthetic.
 
 #### 3. Floating Pill Navbar (`.nav-bar`)
 - **Desktop**:
