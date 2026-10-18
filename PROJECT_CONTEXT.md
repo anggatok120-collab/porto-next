@@ -36,9 +36,11 @@
 - **Mobile**:
   - `top: 22px` (previously `16px`): Leaves comfortable margin below mobile status bar / notch / dynamic island.
 
-### Deployments
-- **VPS PM2 Service**: `porto-next` on `45.66.153.146:20132` (`/var/www/porto-next`).
-- **Cloudflare Pages / OpenNext**: Live at [anggot.my.id](https://anggot.my.id/).
+### Deployments & Architecture
+- **Primary Host**: Standalone VPS Linux `45.66.153.146:20132` (`/var/www/porto-next`).
+- **Process Manager**: PM2 daemon (`porto-next`, port `3005`).
+- **Web Server / Reverse Proxy**: Nginx with SSL termination, HTTP to HTTPS 301 redirection, static Next.js asset caching (`/_next/static/`), and instant HTTP 444 Drop on scanner attacks (`.env`, `.git`, `wp-login`, etc.).
+- **Cloudflare Retired**: Cloudflare Pages / OpenNext is no longer used; all routing is served directly by the VPS Nginx and Node.js.
 
 ### Security & Secrets Management (Telegram Bots & Resend Email)
 - **Zero Raw Secrets in Git**: No raw tokens allowed in source code or unit test fixtures.
