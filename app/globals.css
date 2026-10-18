@@ -524,6 +524,7 @@ html.dark .profile-image {
   display: flex;
   flex-direction: column;
   gap: 11px;
+  margin-left: 80px;
 }
 
 .hero-greeting-tag {
@@ -2213,6 +2214,9 @@ html.dark .trait-card {
   .hero-stat-box {
     margin-right: 24px;
   }
+  .hero-left-box {
+    margin-left: 0;
+  }
   .capabilities-grid {
     grid-template-columns: 1fr;
   }
@@ -2342,6 +2346,7 @@ html.dark .trait-card {
     flex-wrap: wrap;
   }
   .hero-left-box {
+    margin-left: 0;
     max-width: 100%;
     width: 100%;
     gap: 7px;
