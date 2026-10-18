@@ -7,8 +7,8 @@
 #### 1. Desktop Layout (`min-width: 769px`)
 - **Composition**:
   - Left column (`.hero-left-box`): Greeting, Name, Role, Bio summary, Buttons (`.hero-actions-group` flex row), Location.
-  - Portrait (`.profile-wrap`) and Floating Terminal (`.hero-term-badge--photo-left`): Shifted to the right preserving the relative ~310px distance between them (Commit `bde7044`).
-  - Radar circles (`.concentric-circles`): Shifted alongside portrait to maintain concentric halo effect behind head.
+  - Portrait (`.profile-wrap`) at `left: calc(50% + 350px)` and Floating Terminal (`.hero-term-badge`) at `left: calc(50% + 40px)`: Shifted further to the right preserving the relative 310px distance between them.
+  - Radar circles (`.concentric-circles`): Shifted alongside portrait to `left: calc(50% + 350px)` to maintain concentric halo effect behind head.
   - Buttons subgroup (`.hero-actions-subgroup`): Uses `display: contents;` on desktop so all three buttons align horizontally in a single flex row without modifying desktop styling.
 
 #### 2. Mobile Layout (`max-width: 768px`)
