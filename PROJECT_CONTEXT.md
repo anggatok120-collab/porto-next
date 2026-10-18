@@ -7,8 +7,9 @@
 #### 1. Desktop Layout (`min-width: 769px`)
 - **Composition**:
   - Left column (`.hero-left-box`): Greeting, Name, Role, Bio summary, Buttons (`.hero-actions-group` flex row), Location. Shifted slightly to the right with `margin-left: 80px` on desktop for a centered, well-balanced left-stage composition (reset to `0` on tablet and mobile).
+  - Marquee outline text (`.bg-name-marquee`): Raised to `top: 44%` on desktop to fill upper vertical negative space below the navbar. Left-column text automatically synchronizes its vertical position via baseline calculation in `alignWithMarquee`. Mobile remains centered at `top: 50%`.
   - Portrait (`.profile-wrap`) at `left: calc(50% + 350px)` and Floating Terminal (`.hero-term-badge`) at `left: calc(50% + 40px)`: Shifted further to the right preserving the relative 310px distance between them.
-  - Radar circles (`.concentric-circles`): Shifted alongside portrait to `left: calc(50% + 350px)` to maintain concentric halo effect behind head.
+  - Radar circles (`.concentric-circles`): Positioned at `top: 46%; left: calc(50% + 350px)` to maintain concentric halo effect directly behind head.
   - Buttons subgroup (`.hero-actions-subgroup`): Uses `display: contents;` on desktop so all three buttons align horizontally in a single flex row without modifying desktop styling.
 
 #### 2. Mobile Layout (`max-width: 768px`)
