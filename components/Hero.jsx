@@ -124,7 +124,7 @@ export default function Hero() {
       <div
         className="profile-wrap"
         style={{
-          transform: `translate(${mouse.x * 12}px, ${mouse.y * 8}px)`,
+          transform: `translateX(-50%) translate(${mouse.x * 12}px, ${mouse.y * 8}px)`,
           transition: "transform 0.15s ease-out",
         }}
       >
