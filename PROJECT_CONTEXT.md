@@ -35,6 +35,7 @@
   - `scrolled`: `top: 18px` (previously `14px`).
 - **Mobile**:
   - `top: 22px` (previously `16px`): Leaves comfortable margin below mobile status bar / notch / dynamic island.
+  - Action buttons (`🌙` theme toggle & `☰` hamburger menu) pushed to the far right via `.nav-mobile-header { width: 100%; justify-content: space-between; }` and `.nav-mobile-actions { margin-left: auto; }`, eliminating dead space on the right of the navbar pill.
 
 ### Deployments & Architecture
 - **Primary Host**: Standalone VPS Linux `45.66.153.146:20132` (`/var/www/porto-next`).
@@ -55,7 +56,11 @@
 ### Golden Releases
 - **v1.2.0-golden** (Current Golden Snapshot):
   - Hero desktop layout: photo & terminal shifted right, left box shifted +80px for centered balance, raised marquee text to `top: 44%` and radar circles to `top: 46%`.
-  - Hero mobile layout: 2-column secondary button grid, 100% overflow-free responsive layout on all resolutions (320px–420px).
+  - Hero mobile layout:
+    - Navbar pill: Hamburger menu and theme toggle moved to the far right edge (`width: 100%; justify-content: space-between`).
+    - Center alignment: All content (tag, name, role, bio) and objects (action buttons, location pill) centered.
+    - Moving marquee text: Raised to `top: 36%` (behind neck/shoulders) with opacity increased to `0.45` and stroke `1.6px` for crisp legibility.
+    - Floating badges: Terminal card (`top: 212px; left: 14px`) and stat card (`top: 328px; right: 14px`) flanking photo symmetrically without overflowing.
   - Floating pill navbar lowered slightly (`top: 36px` desktop, `top: 22px` mobile, `top: 18px` scrolled).
   - Contact form integration: Dual notification enabled (Telegram bot + Resend transactional email to `anggatok120@gmail.com`).
   - Interactive Showcase Projects:
