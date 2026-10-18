@@ -124,7 +124,7 @@ export default function Hero() {
       <div
         className="profile-wrap"
         style={{
-          transform: `translate(${mouse.x * 12}px, ${mouse.y * 8}px)`,
+          transform: `translateX(-50%) translate(${mouse.x * 12}px, ${mouse.y * 8}px)`,
           transition: "transform 0.15s ease-out",
         }}
       >
@@ -175,31 +175,32 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right column: Terminal card & Mini Stats */}
-        <div className="hero-right-box">
-          <div className="hero-term-badge">
-            <div className="hero-term-topbar">
-              <span className="term-dot term-dot-red" />
-              <span className="term-dot term-dot-yellow" />
-              <span className="term-dot term-dot-green" />
-              <span className="term-win-title">angga@portfolio ~</span>
-            </div>
-            <div className="hero-term-console">
-              <div className="term-row">
-                <span className="term-prompt">$</span> whoami
-              </div>
-              <div className="term-output">Angga</div>
-              <div className="term-row">
-                <span className="term-prompt">$</span> role
-              </div>
-              <div className="term-output">Network Engineer</div>
-              <div className="term-row">
-                <span className="term-prompt">$</span> status
-              </div>
-              <div className="term-output term-output--highlight">Monitoring jaringan 24/7</div>
-            </div>
+        {/* Floating Terminal Card on left side of center photo */}
+        <div className="hero-term-badge hero-term-badge--photo-left">
+          <div className="hero-term-topbar">
+            <span className="term-dot term-dot-red" />
+            <span className="term-dot term-dot-yellow" />
+            <span className="term-dot term-dot-green" />
+            <span className="term-win-title">angga@portfolio ~</span>
           </div>
+          <div className="hero-term-console">
+            <div className="term-row">
+              <span className="term-prompt">$</span> whoami
+            </div>
+            <div className="term-output">Angga</div>
+            <div className="term-row">
+              <span className="term-prompt">$</span> role
+            </div>
+            <div className="term-output">Network Engineer</div>
+            <div className="term-row">
+              <span className="term-prompt">$</span> status
+            </div>
+            <div className="term-output term-output--highlight">Monitoring jaringan 24/7</div>
+          </div>
+        </div>
 
+        {/* Right column: Mini Stats */}
+        <div className="hero-right-box">
           <div className="hero-stat-box">
             <div className="hero-stat-col">
               <span className="hero-stat-val">2.5+</span>
