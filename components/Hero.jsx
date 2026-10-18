@@ -41,9 +41,11 @@ export default function Hero() {
       {/* Background SVG grid */}
       <div className="hero-grid-pattern" aria-hidden="true" />
 
-      {/* Prominent center marquee outline text */}
+      {/* Prominent kinetic marquee outline text in background */}
       <div className="bg-name-marquee">
         <div className="bg-name-track" ref={marqueeTrackRef}>
+          <span className="bg-name-text">{marqueeText}</span>
+          <span className="bg-name-text">{marqueeText}</span>
           <span className="bg-name-text">{marqueeText}</span>
           <span className="bg-name-text">{marqueeText}</span>
         </div>
