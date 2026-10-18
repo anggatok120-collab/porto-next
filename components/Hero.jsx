@@ -34,6 +34,37 @@ export default function Hero() {
     return () => window.removeEventListener("resize", syncMarqueeSpeed);
   }, []);
 
+  useEffect(() => {
+    const alignWithMarquee = () => {
+      const marquee = marqueeTrackRef.current?.querySelector(".bg-name-text");
+      const name = heroRef.current?.querySelector(".hero-heading-name");
+      const leftBox = heroRef.current?.querySelector(".hero-left-box");
+      if (!marquee || !name || !leftBox) return;
+
+      if (window.innerWidth <= 768) {
+        leftBox.style.transform = "none";
+        return;
+      }
+
+      leftBox.style.transform = "none";
+      const mRect = marquee.getBoundingClientRect();
+      const nRect = name.getBoundingClientRect();
+      const diff = mRect.bottom - nRect.bottom;
+      leftBox.style.transform = `translateY(${diff}px)`;
+    };
+
+    alignWithMarquee();
+    window.addEventListener("resize", alignWithMarquee);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(alignWithMarquee);
+    }
+    const t = setTimeout(alignWithMarquee, 300);
+    return () => {
+      window.removeEventListener("resize", alignWithMarquee);
+      clearTimeout(t);
+    };
+  }, []);
+
   const marqueeText = "ANGGA · NETWORK ENGINEER · NOC · ";
 
   return (
