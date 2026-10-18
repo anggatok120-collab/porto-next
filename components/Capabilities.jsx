@@ -71,35 +71,43 @@ export default function Capabilities() {
 
       <div className="capabilities-grid">
         {/* Left Side: Interactive Tools Stack */}
-        <Reveal delay={100} className="capabilities-sidebar">
-          <div className="capabilities-sidebar-header">
-            <h4 className="capabilities-sidebar-title">Tools yang Saya Gunakan</h4>
-            <span className="capabilities-sidebar-hint">Klik tool untuk live preview ↗</span>
-          </div>
-          <p className="capabilities-sidebar-desc">
-            Alat dan platform yang saya gunakan sehari-hari dalam monitoring, konfigurasi, dan troubleshooting jaringan.
-          </p>
+        <Reveal delay={100} className="capabilities-sidebar-reveal">
+          <div className="capabilities-sidebar">
+            <div className="capabilities-sidebar-header">
+              <span className="capabilities-sidebar-badge">NOC STACK & TOOLS</span>
+              <h4 className="capabilities-sidebar-title">Tools yang Saya Gunakan</h4>
+              <span className="capabilities-sidebar-hint">Klik tool untuk live preview ↗</span>
+            </div>
+            <p className="capabilities-sidebar-desc">
+              Alat dan platform yang saya gunakan sehari-hari dalam monitoring, konfigurasi, dan troubleshooting jaringan.
+            </p>
 
-          <div className="capabilities-tools-grid">
-            {TOOLS_LIST.map((tool) => {
-              const data = TOOLS_DATA[tool.name] || {};
-              return (
-                <button
-                  key={tool.name}
-                  type="button"
-                  className={`capability-tool-badge ${activeTool === tool.name ? "active" : ""}`}
-                  onClick={() => setActiveTool(tool.name)}
-                  title={`Lihat simulasi antarmuka ${tool.name}`}
-                >
-                  <span
-                    className="tool-indicator-dot"
-                    style={{ backgroundColor: data.color || "#888" }}
-                  />
-                  <span className="tool-name">{tool.name}</span>
-                  <span className="tool-tag">{tool.tag}</span>
-                </button>
-              );
-            })}
+            <div className="capabilities-tools-grid">
+              {TOOLS_LIST.map((tool) => {
+                const data = TOOLS_DATA[tool.name] || {};
+                return (
+                  <button
+                    key={tool.name}
+                    type="button"
+                    className={`capability-tool-badge ${activeTool === tool.name ? "active" : ""}`}
+                    onClick={() => setActiveTool(tool.name)}
+                    title={`Lihat simulasi antarmuka ${tool.name}`}
+                  >
+                    <span
+                      className="tool-indicator-dot"
+                      style={{ backgroundColor: data.color || "#888" }}
+                    />
+                    <span className="tool-name">{tool.name}</span>
+                    <span className="tool-tag">{tool.tag}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="capabilities-sidebar-footer">
+              <span className="capabilities-status-dot" />
+              <span className="capabilities-status-text">Infrastructure: 24/7 Monitored</span>
+            </div>
           </div>
         </Reveal>
 
@@ -108,7 +116,7 @@ export default function Capabilities() {
           {SERVICES.map((srv, idx) => {
             const Icon = srv.icon;
             return (
-              <Reveal key={srv.num} delay={120 + idx * 50}>
+              <Reveal key={srv.num} delay={120 + idx * 50} className="capability-service-reveal">
                 <div className="capability-service-card">
                   <div className="capability-service-top">
                     <span className="capability-num">{srv.num}</span>
