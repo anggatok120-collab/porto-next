@@ -6,7 +6,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://vitals.vercel-insights.com https://*.vercel-insights.com",
+  "connect-src 'self' https://vitals.vercel-insights.com https://*.vercel-insights.com https://ipwho.is https://api.ipify.org https://api64.ipify.org",
   "frame-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",

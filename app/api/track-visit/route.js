@@ -62,6 +62,28 @@ function parseDeviceInfo(uaString) {
   return { isBot: false, label }
 }
 
+function isPrivateIp(ip) {
+  if (!ip || ip === 'unknown') return true
+  const trimmed = ip.trim()
+  if (
+    trimmed === '127.0.0.1' ||
+    trimmed === '::1' ||
+    trimmed.startsWith('10.') ||
+    trimmed.startsWith('192.168.') ||
+    trimmed.startsWith('169.254.')
+  ) {
+    return true
+  }
+  if (trimmed.startsWith('172.')) {
+    const parts = trimmed.split('.')
+    if (parts.length >= 2) {
+      const second = parseInt(parts[1], 10)
+      if (second >= 16 && second <= 31) return true
+    }
+  }
+  return false
+}
+
 function getClientIp(request) {
   return request.headers.get('cf-connecting-ip')
     || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
@@ -79,7 +101,22 @@ export async function POST(request) {
       return Response.json({ ignored: true, reason: 'bot_or_monitor' })
     }
 
-    const ip = getClientIp(request)
+    let body = {}
+    try {
+      body = await request.json()
+    } catch {}
+
+    let ip = getClientIp(request)
+
+    // Jika IP dari server terdeteksi privat/internal (misal gateway NAT 10.10.0.1)
+    // dan client browser mengirimkan public IP valid, gunakan clientIp
+    if (isPrivateIp(ip) && body.clientIp && typeof body.clientIp === 'string') {
+      const candidateIp = body.clientIp.trim()
+      if (!isPrivateIp(candidateIp)) {
+        ip = candidateIp
+      }
+    }
+
     const now = Date.now()
 
     // Throttle alert jika IP yang sama berulang kali refresh/klik dalam 1 menit
@@ -89,19 +126,23 @@ export async function POST(request) {
     }
     ipThrottleMap.set(ip, now)
 
-    let body = {}
-    try {
-      body = await request.json()
-    } catch {}
-
     const path = typeof body.path === 'string' ? body.path : '/'
     const referrer = typeof body.referrer === 'string' && body.referrer ? body.referrer : ''
 
-    const country = request.headers.get('cf-ipcountry') || ''
-    const city = request.headers.get('cf-ipcity') || ''
+    const cfCountry = request.headers.get('cf-ipcountry') || ''
+    const cfCity = request.headers.get('cf-ipcity') || ''
+    const country = cfCountry || (typeof body.clientCountry === 'string' ? body.clientCountry.trim() : '')
+    const city = cfCity || (typeof body.clientCity === 'string' ? body.clientCity.trim() : '')
+    const isp = typeof body.clientIsp === 'string' ? body.clientIsp.trim() : ''
+
     let locStr = ''
-    if (country || city) {
-      locStr = ` (${city ? city + ', ' : ''}${country})`
+    const locParts = []
+    if (city) locParts.push(city)
+    if (country && country !== city) locParts.push(country)
+    if (locParts.length > 0) {
+      locStr = ` (${locParts.join(', ')}${isp ? ` · ${isp}` : ''})`
+    } else if (isp) {
+      locStr = ` (${isp})`
     }
 
     const nowWib = new Intl.DateTimeFormat('id-ID', {

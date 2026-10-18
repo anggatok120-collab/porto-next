@@ -54,11 +54,41 @@ function parseDeviceInfo(uaString) {
   return { label }
 }
 
-function getClientIp(request) {
-  return request.headers.get('cf-connecting-ip')
+function isPrivateIp(ip) {
+  if (!ip || ip === 'unknown') return true
+  const trimmed = ip.trim()
+  if (
+    trimmed === '127.0.0.1' ||
+    trimmed === '::1' ||
+    trimmed.startsWith('10.') ||
+    trimmed.startsWith('192.168.') ||
+    trimmed.startsWith('169.254.')
+  ) {
+    return true
+  }
+  if (trimmed.startsWith('172.')) {
+    const parts = trimmed.split('.')
+    if (parts.length >= 2) {
+      const second = parseInt(parts[1], 10)
+      if (second >= 16 && second <= 31) return true
+    }
+  }
+  return false
+}
+
+function getClientIp(request, body) {
+  const headerIp = request.headers.get('cf-connecting-ip')
     || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || request.headers.get('x-real-ip')
     || 'unknown'
+
+  if (isPrivateIp(headerIp) && body?.clientIp && typeof body.clientIp === 'string') {
+    const candidate = body.clientIp.trim()
+    if (!isPrivateIp(candidate)) {
+      return candidate
+    }
+  }
+  return headerIp
 }
 
 async function sendTelegramLoginNotification({ success, ip, userAgent, details }) {
@@ -116,10 +146,13 @@ export async function POST(request) {
       return Response.json({ error: 'Content-Type tidak didukung' }, { status: 415 })
     }
 
-    const ip = getClientIp(request)
-    const userAgent = request.headers.get('user-agent') || ''
+    let body = {}
+    try {
+      body = await request.json()
+    } catch {}
 
-    const body = await request.json()
+    const ip = getClientIp(request, body)
+    const userAgent = request.headers.get('user-agent') || ''
     const password = typeof body.password === 'string' ? body.password : ''
     const token = createAdminToken()
 

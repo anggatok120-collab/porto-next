@@ -47,7 +47,13 @@
   - Removed `initOpenNextCloudflareForDev()` from `next.config.mjs` to eliminate background Wrangler dev processes.
   - Neutralized `npm run deploy` script in `package.json` so no accidental uploads to Cloudflare occur.
   - Automatic builds on Cloudflare Pages disabled at repo level (no OpenNext configuration exists).
-  - Production traffic routes 100% directly to Linux VPS IP `45.66.153.146`.
+  - **Visitor Tracking & Real IP Resolution Architecture**:
+  - **Issue Diagnosed**: VPS network sits on a private interface (`10.10.0.134/22`) behind an upstream gateway router (`10.10.0.1`). Direct incoming traffic undergoes SNAT (masquerade), making `$remote_addr = 10.10.0.1`.
+  - **Resolution**:
+    - `AnalyticsClient.jsx` asynchronously queries visitor public IP & Geo location (`https://ipwho.is/`, fallback `https://api.ipify.org`) with a 2.5s timeout, cached in `sessionStorage` (`__visitor_geo`) so it only runs once per visitor session with zero navigation lag.
+    - `next.config.mjs` allows `https://ipwho.is` and `https://api.ipify.org` in CSP `connect-src`.
+    - Server routes (`/api/track-visit` & `/api/admin/login`) check `isPrivateIp(ip)`. If server sees private gateway IP (`10.10.0.1`), it seamlessly resolves to the validated client public IP, displaying: `IP Address: <clientIp> (City, Country · ISP)`.
+    - If Cloudflare Proxy (Orange Cloud) is ever re-enabled, `cf-connecting-ip` is automatically prioritized.
 
 ### Security & Secrets Management (Telegram Bots & Resend Email)
 - **Zero Raw Secrets in Git**: No raw tokens allowed in source code or unit test fixtures.
