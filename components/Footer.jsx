@@ -29,6 +29,7 @@ export default function Footer() {
           <div className="footer-links">
             <Link href="/terminal" className="footer-link">Terminal</Link>
             <Link href="/network-lab" className="footer-link">Network Lab</Link>
+            <Link href="/aquaculture" className="footer-link">Aquaculture IoT</Link>
             <Link href="/blog" className="footer-link">Blog</Link>
             <Link href="/admin" className="footer-link">Admin</Link>
             <Link href="/privacy" className="footer-link">Privacy</Link>

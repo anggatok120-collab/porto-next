@@ -193,7 +193,7 @@ export default function About() {
             <div>
               <span className="currently-label">BUILDING</span>
               <div className="currently-title">PortoNext & Network Lab Simulator</div>
-              <p className="currently-desc">Mengembangkan platform simulasi topologi jaringan dan terminal CLI berbasis web.</p>
+              <p className="currently-desc">Mengembangkan platform simulasi topologi jaringan dan terminal CLI berbasis web. <a href="/network-lab" style={{ color: "var(--accent)", textDecoration: "underline", marginLeft: 4 }}>Buka Network Lab ↗</a></p>
             </div>
           </div>
 
@@ -204,7 +204,7 @@ export default function About() {
             <div>
               <span className="currently-label">EXPLORING</span>
               <div className="currently-title">Smart Aquaculture IoT & Telemetri</div>
-              <p className="currently-desc">Riset otomasi sensor parameter air tambak real-time berbasis ESP32 dan MQTT.</p>
+              <p className="currently-desc">Riset otomasi sensor parameter air tambak real-time berbasis ESP32 dan MQTT. <a href="/aquaculture" style={{ color: "var(--accent)", textDecoration: "underline", marginLeft: 4 }}>Buka Simulator IoT ↗</a></p>
             </div>
           </div>
 

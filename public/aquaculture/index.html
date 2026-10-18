@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angga | Smart Aquaculture IoT & Telemetri</title>
+  <meta name="description" content="Sistem monitoring dan otomasi kualitas air budidaya perairan modern berbasis sensor IoT, telemetri mikrokontroler ESP32, MQTT broker, dan dashboard analisis presisi UMM.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4">
+  <style>
+    :root {
+      --bg: #090909;
+      --surface: #121316;
+      --surface-card: #181a1f;
+      --surface-hover: #22262e;
+      --border: rgba(255, 255, 255, 0.12);
+      --border-light: rgba(255, 255, 255, 0.2);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.25);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: all 0.2s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Grid Background Pattern */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 14, 18, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+    .brand-title {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.2px;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .nav-btn:hover {
+      border-color: var(--border-light);
+      color: var(--text);
+      background: var(--surface-hover);
+    }
+    .lang-toggle {
+      display: flex;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px;
+    }
+    .lang-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      font-family: var(--mono);
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lang-btn.active {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* CONTAINER */
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* HERO STATUS BANNER */
+    .status-banner {
+      background: linear-gradient(135deg, rgba(24, 26, 31, 0.95), rgba(18, 19, 22, 0.95));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+    .status-banner-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      width: fit-content;
+    }
+    .status-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.5; }
+    }
+    .banner-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .banner-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 680px;
+    }
+    .status-banner-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .metric-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .metric-pill-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .metric-pill-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* SENSOR GRID */
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+    }
+
+    .sensors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .sensor-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .sensor-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .sensor-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--card-color, var(--cyan));
+    }
+    .sensor-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .sensor-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .sensor-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .sensor-tech {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+    }
+    .sensor-badge {
+      font-size: 10px;
+      font-family: var(--mono);
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .sensor-badge.warn {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    .sensor-badge.danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .sensor-value-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .sensor-val {
+      font-size: 32px;
+      font-weight: 700;
+      font-family: var(--mono);
+      letter-spacing: -1px;
+      color: var(--text);
+    }
+    .sensor-unit {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .sensor-gauge {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .sensor-gauge-fill {
+      height: 100%;
+      background: var(--card-color, var(--cyan));
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
+
+    .sensor-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+    }
+
+    /* TWO-COL LAYOUT FOR ACTUATOR & TELEMETRY */
+    .dashboard-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 960px) {
+      .dashboard-split { grid-template-columns: 1fr; }
+    }
+
+    .panel-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ACTUATORS */
+    .actuators-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .actuator-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .actuator-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .actuator-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .actuator-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .actuator-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .actuator-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toggle-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-family: var(--mono);
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .toggle-btn.active {
+      background: var(--emerald);
+      color: #052e16;
+      border-color: var(--emerald);
+      box-shadow: 0 0 12px var(--emerald-glow);
+    }
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--border-light);
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .action-btn:hover {
+      background: var(--cyan);
+      color: #032b44;
+    }
+
+    /* TELEMETRY CONSOLE */
+    .telemetry-console {
+      background: #090a0d;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.5;
+      height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .telemetry-console::-webkit-scrollbar { width: 6px; }
+    .telemetry-console::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .telemetry-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      word-break: break-all;
+    }
+    .telemetry-ts {
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .telemetry-topic {
+      color: var(--cyan);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .telemetry-payload {
+      color: #cbd5e1;
+    }
+    .telemetry-alert {
+      color: #f87171;
+      background: rgba(239, 68, 68, 0.12);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* SIMULATION CONTROLLER */
+    .sim-bar {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .sim-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sim-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sim-btn:hover {
+      border-color: var(--border-light);
+      background: var(--surface-hover);
+    }
+    .sim-btn.danger-sim:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* ARCHITECTURE SCHEMATIC */
+    .arch-panel {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .arch-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .arch-node {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .arch-node-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .arch-node-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .arch-node-specs {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      margin-top: 4px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 640px) {
+      .header { padding: 12px 16px; }
+      .container { padding: 16px 14px 40px; gap: 18px; }
+      .brand-title { font-size: 14px; }
+      .brand-sub { display: none; }
+      .nav-btn span { display: none; }
+      .banner-title { font-size: 17px; }
+      .status-banner { padding: 16px; }
+      .status-banner-metrics { width: 100%; justify-content: space-between; }
+      .metric-pill { flex: 1; min-width: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="/" class="brand">
+      <div class="brand-icon">🐟</div>
+      <div>
+        <div class="brand-title" id="txtBrandTitle">Smart Aquaculture IoT & Telemetri</div>
+        <div class="brand-sub">UMM Precision Aquatech · ESP32 Node-01</div>
+      </div>
+    </a>
+
+    <div class="nav-actions">
+      <a href="/" class="nav-btn">🌐 <span>Portofolio Utama</span></a>
+      <a href="/terminal" class="nav-btn">&gt;_ <span>Terminal</span></a>
+      <a href="/network-lab" class="nav-btn">⚡ <span>Network Lab</span></a>
+      <div class="lang-toggle">
+        <button type="button" class="lang-btn active" id="btnLangId">ID</button>
+        <button type="button" class="lang-btn" id="btnLangEn">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+    <!-- STATUS BANNER -->
+    <section class="status-banner">
+      <div class="status-banner-left">
+        <div class="status-badge">
+          <span class="status-pulse-dot"></span>
+          <span id="txtTelemetryStatus">TELEMETRI AKTIF · MQTT CONNECTED (24/7)</span>
+        </div>
+        <h1 class="banner-title" id="txtBannerTitle">Sistem Monitoring & Otomasi Kualitas Air Kolam</h1>
+        <p class="banner-desc" id="txtBannerDesc">
+          Implementasi IoT terpadu berbasis mikrokontroler ESP32, sensor kualitas air industri (pH, Suhu, DO, Kekeruhan), dan telemetri MQTT untuk budidaya perikanan modern di Universitas Muhammadiyah Malang (UMM).
+        </p>
+      </div>
+
+      <div class="status-banner-metrics">
+        <div class="metric-pill">
+          <span class="metric-pill-label" id="lblPondId">KOLAM RISET</span>
+          <span class="metric-pill-val">Pond-01 (Nila & Patin)</span>
+        </div>
+        <div class="metric-pill">
+          <span class="metric-pill-label">EDGE GATEWAY</span>
+          <span class="metric-pill-val">MikroTik + MQTT</span>
+        </div>
+        <div class="metric-pill">
+          <span class="metric-pill-label">SIGNAL / RSSI</span>
+          <span class="metric-pill-val" id="valRssi">-58 dBm (Kuat)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE SENSORS -->
+    <section>
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span>📊</span>
+          <span id="txtSensorsTitle">Parameter Kualitas Air Real-time</span>
+        </h2>
+        <span class="section-sub" id="txtUpdateInterval">Pembaruan data setiap ~2 detik</span>
+      </div>
+
+      <div class="sensors-grid">
+        <!-- pH Card -->
+        <div class="sensor-card" style="--card-color: #38bdf8;">
+          <div class="sensor-top">
+            <div class="sensor-meta">
+              <span class="sensor-name">Derajat Keasaman (pH)</span>
+              <span class="sensor-tech">Industrial Glass Probe · DFRobot</span>
+            </div>
+            <span class="sensor-badge" id="badgePh">Optimal</span>
+          </div>
+          <div class="sensor-value-wrap">
+            <span class="sensor-val" id="valPh">7.42</span>
+            <span class="sensor-unit">pH</span>
+          </div>
+          <div class="sensor-gauge">
+            <div class="sensor-gauge-fill" id="gaugePh" style="width: 53%;"></div>
+          </div>
+          <div class="sensor-footer">
+            <span>Ambang: 6.5 - 8.5</span>
+            <span id="statPh">Netral Aman</span>
+          </div>
+        </div>
+
+        <!-- DO Card -->
+        <div class="sensor-card" style="--card-color: #10b981;">
+          <div class="sensor-top">
+            <div class="sensor-meta">
+              <span class="sensor-name">Oksigen Terlarut (DO)</span>
+              <span class="sensor-tech">Galvanic DO Sensor · Telemetri ADC</span>
+            </div>
+            <span class="sensor-badge" id="badgeDo">Sangat Baik</span>
+          </div>
+          <div class="sensor-value-wrap">
+            <span class="sensor-val" id="valDo">6.85</span>
+            <span class="sensor-unit">mg/L</span>
+          </div>
+          <div class="sensor-gauge">
+            <div class="sensor-gauge-fill" id="gaugeDo" style="width: 68%;"></div>
+          </div>
+          <div class="sensor-footer">
+            <span>Target: &gt; 4.5 mg/L</span>
+            <span id="statDo">Respirasi Optimal</span>
+          </div>
+        </div>
+
+        <!-- Temp Card -->
+        <div class="sensor-card" style="--card-color: #f59e0b;">
+          <div class="sensor-top">
+            <div class="sensor-meta">
+              <span class="sensor-name">Suhu Air (Water Temp)</span>
+              <span class="sensor-tech">DS18B20 Waterproof Stainless Probe</span>
+            </div>
+            <span class="sensor-badge" id="badgeTemp">Stabil</span>
+          </div>
+          <div class="sensor-value-wrap">
+            <span class="sensor-val" id="valTemp">28.3</span>
+            <span class="sensor-unit">°C</span>
+          </div>
+          <div class="sensor-gauge">
+            <div class="sensor-gauge-fill" id="gaugeTemp" style="width: 62%;"></div>
+          </div>
+          <div class="sensor-footer">
+            <span>Ideal: 26.0 - 31.0 °C</span>
+            <span id="statTemp">Metabolisme Bagus</span>
+          </div>
+        </div>
+
+        <!-- Turbidity Card -->
+        <div class="sensor-card" style="--card-color: #a855f7;">
+          <div class="sensor-top">
+            <div class="sensor-meta">
+              <span class="sensor-name">Kekeruhan Air (Turbidity)</span>
+              <span class="sensor-tech">Optical Nephelometric Sensor</span>
+            </div>
+            <span class="sensor-badge" id="badgeTurb">Jernih</span>
+          </div>
+          <div class="sensor-value-wrap">
+            <span class="sensor-val" id="valTurb">11.8</span>
+            <span class="sensor-unit">NTU</span>
+          </div>
+          <div class="sensor-gauge">
+            <div class="sensor-gauge-fill" id="gaugeTurb" style="width: 32%;"></div>
+          </div>
+          <div class="sensor-footer">
+            <span>Maks: &lt; 25.0 NTU</span>
+            <span id="statTurb">Transparansi Tinggi</span>
+          </div>
+        </div>
+
+        <!-- TDS Card -->
+        <div class="sensor-card" style="--card-color: #06b6d4;">
+          <div class="sensor-top">
+            <div class="sensor-meta">
+              <span class="sensor-name">Zat Terlarut (TDS)</span>
+              <span class="sensor-tech">Conductivity Analog Probe</span>
+            </div>
+            <span class="sensor-badge" id="badgeTds">Ideal</span>
+          </div>
+          <div class="sensor-value-wrap">
+            <span class="sensor-val" id="valTds">435</span>
+            <span class="sensor-unit">ppm</span>
+          </div>
+          <div class="sensor-gauge">
+            <div class="sensor-gauge-fill" id="gaugeTds" style="width: 48%;"></div>
+          </div>
+          <div class="sensor-footer">
+            <span>Rentang: 300 - 650 ppm</span>
+            <span id="statTds">Kondisi Mineral Stabil</span>
+          </div>
+        </div>
+
+        <!-- Water Level Card -->
+        <div class="sensor-card" style="--card-color: #6366f1;">
+          <div class="sensor-top">
+            <div class="sensor-meta">
+              <span class="sensor-name">Ketinggian Air (Water Level)</span>
+              <span class="sensor-tech">Ultrasonic Hydrostatic JSN-SR04T</span>
+            </div>
+            <span class="sensor-badge" id="badgeLevel">Normal</span>
+          </div>
+          <div class="sensor-value-wrap">
+            <span class="sensor-val" id="valLevel">1.45</span>
+            <span class="sensor-unit">meter</span>
+          </div>
+          <div class="sensor-gauge">
+            <div class="sensor-gauge-fill" id="gaugeLevel" style="width: 72%;"></div>
+          </div>
+          <div class="sensor-footer">
+            <span>Kapasitas Kolam: 2.0 m</span>
+            <span id="statLevel">Volume Aman</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULATION ACTION BAR -->
+    <section class="sim-bar">
+      <div>
+        <div style="font-size: 13px; font-weight: 600;" id="txtSimTitle">🧪 Uji Simulasi & Anomali Sistem</div>
+        <div style="font-size: 11px; color: var(--text-dim);" id="txtSimDesc">Klik skenario di bawah untuk memicu reaksi otomatis aktuator & notifikasi Telegram NOC:</div>
+      </div>
+      <div class="sim-buttons">
+        <button type="button" class="sim-btn" id="btnSimNormal">
+          <span>🔄</span>
+          <span id="txtSimNormal">Kondisi Normal</span>
+        </button>
+        <button type="button" class="sim-btn danger-sim" id="btnSimDropDo">
+          <span>⚠️</span>
+          <span id="txtSimDropDo">Uji Oksigen Kritis (&lt;4.0 mg/L)</span>
+        </button>
+        <button type="button" class="sim-btn danger-sim" id="btnSimAcidPh">
+          <span>🧪</span>
+          <span id="txtSimAcidPh">Uji Air Asam (pH 5.4)</span>
+        </button>
+        <button type="button" class="sim-btn" id="btnSimFeed">
+          <span>🦐</span>
+          <span id="txtSimFeed">Beri Pakan Sekarang</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- DASHBOARD SPLIT: ACTUATORS & MQTT CONSOLE -->
+    <section class="dashboard-split">
+      <!-- Actuators Panel -->
+      <div class="panel-box">
+        <div class="section-title-wrap" style="margin-bottom: 0;">
+          <h3 class="section-title">
+            <span>⚙️</span>
+            <span id="txtActuatorsTitle">Kontrol Aktuator Otomatis</span>
+          </h3>
+          <span class="section-sub">Relay Optocoupler 220V</span>
+        </div>
+
+        <div class="actuators-list">
+          <!-- Aerator 1 -->
+          <div class="actuator-item">
+            <div class="actuator-info">
+              <span class="actuator-name" id="txtAerator1">Pompa Aerator Utama (#1)</span>
+              <span class="actuator-desc" id="txtAerator1Desc">Injeksi oksigen kontinu (Blower 250W)</span>
+            </div>
+            <div class="actuator-controls">
+              <button type="button" class="toggle-btn active" id="btnToggleAerator1">ON</button>
+            </div>
+          </div>
+
+          <!-- Aerator 2 -->
+          <div class="actuator-item">
+            <div class="actuator-info">
+              <span class="actuator-name" id="txtAerator2">Pompa Aerator Cadangan (#2)</span>
+              <span class="actuator-desc" id="txtAerator2Desc">Otomatis menyala darurat jika DO &lt; 4.5 mg/L</span>
+            </div>
+            <div class="actuator-controls">
+              <button type="button" class="toggle-btn" id="btnToggleAerator2">STANDBY</button>
+            </div>
+          </div>
+
+          <!-- Auto Feeder -->
+          <div class="actuator-item">
+            <div class="actuator-info">
+              <span class="actuator-name" id="txtFeeder">Automatic Fish Feeder</span>
+              <span class="actuator-desc" id="txtFeederDesc">Motor servo auger · Jadwal: 08:00, 12:00, 17:00</span>
+            </div>
+            <div class="actuator-controls">
+              <button type="button" class="action-btn" id="btnTriggerFeeder">Beri Pakan</button>
+            </div>
+          </div>
+
+          <!-- Fresh Water Solenoid -->
+          <div class="actuator-item">
+            <div class="actuator-info">
+              <span class="actuator-name" id="txtValve">Kran Solenoid Sirkulasi Air</span>
+              <span class="actuator-desc" id="txtValveDesc">Bilas otomatis jika kekeruhan &gt; 25 NTU</span>
+            </div>
+            <div class="actuator-controls">
+              <button type="button" class="toggle-btn" id="btnToggleValve">AUTO</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Telemetry Stream Panel -->
+      <div class="panel-box">
+        <div class="section-title-wrap" style="margin-bottom: 0;">
+          <h3 class="section-title">
+            <span>📡</span>
+            <span id="txtTelemetryTitle">Stream Telemetri MQTT Real-time</span>
+          </h3>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="action-btn" id="btnClearLogs" style="padding: 4px 8px; font-size: 10px;">Clear</button>
+          </div>
+        </div>
+
+        <div class="telemetry-console" id="telemetryConsole">
+          <div class="telemetry-line">
+            <span class="telemetry-ts">[16:40:02]</span>
+            <span class="telemetry-topic">[MQTT/CONN]</span>
+            <span class="telemetry-payload">Client ESP32-AquaNode-01 subscribed to topic 'umm/pond01/#' (QoS 1)</span>
+          </div>
+          <div class="telemetry-line">
+            <span class="telemetry-ts">[16:40:04]</span>
+            <span class="telemetry-topic">[umm/pond01/sensors]</span>
+            <span class="telemetry-payload">{"ph":7.42,"do":6.85,"temp":28.3,"turb":11.8,"tds":435,"lvl":1.45}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE SCHEMATIC -->
+    <section class="arch-panel">
+      <div class="section-title-wrap" style="margin-bottom: 0;">
+        <h3 class="section-title">
+          <span>📐</span>
+          <span id="txtArchTitle">Arsitektur Hardware & Alur Jaringan Telemetri</span>
+        </h3>
+        <span class="section-sub">End-to-End Pipeline</span>
+      </div>
+
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="arch-node-title">
+            <span>1️⃣</span>
+            <span>Sensor Akuakultur</span>
+          </div>
+          <div class="arch-node-desc" id="txtArch1Desc">
+            Sensor pH probe industri, optical DO, waterproof DS18B20, dan nephelometric turbidity yang ditempatkan pada titik sirkulasi kolam.
+          </div>
+          <div class="arch-node-specs">Analog / OneWire 3.3V</div>
+        </div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            <span>2️⃣</span>
+            <span>Edge Microcontroller</span>
+          </div>
+          <div class="arch-node-desc" id="txtArch2Desc">
+            ESP32 dual-core (FreeRTOS) bertugas sampling sensor dengan moving average filter, kalibrasi analog 16-bit, dan kontrol relay aktuator.
+          </div>
+          <div class="arch-node-specs">ESP32 · FreeRTOS · ADS1115</div>
+        </div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            <span>3️⃣</span>
+            <span>Transmisi Jaringan</span>
+          </div>
+          <div class="arch-node-desc" id="txtArch3Desc">
+            Gateway MikroTik di area tambak memancarkan WiFi 2.4GHz ke node, mengirimkan payload MQTT melalui protokol TCP/TLS dengan QoS 1.
+          </div>
+          <div class="arch-node-specs">MikroTik Router · MQTT · TLS</div>
+        </div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">
+            <span>4️⃣</span>
+            <span>Cloud & Alert Dispatch</span>
+          </div>
+          <div class="arch-node-desc" id="txtArch4Desc">
+            Dashboard real-time memvisualisasikan data telemetri, sedangkan Bot Telegram otomatis mengirim alert jika parameter air melampaui batas aman.
+          </div>
+          <div class="arch-node-specs">Next.js Edge · Telegram NOC Bot</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/">Portofolio Utama</a>
+      <a href="/terminal">Terminal Linux</a>
+      <a href="/network-lab">Network Lab</a>
+      <a href="/blog">Blog</a>
+    </div>
+    <div>
+      © 2026 Angga · Program Studi Akuakultur Universitas Muhammadiyah Malang (UMM) & Network Engineer.
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT SIMULATION LOGIC -->
+  <script>
+    // State variables
+    let lang = 'id';
+    let isPaused = false;
+    let state = {
+      ph: 7.42,
+      doVal: 6.85,
+      temp: 28.3,
+      turb: 11.8,
+      tds: 435,
+      level: 1.45,
+      rssi: -58,
+      aerator1: true,
+      aerator2: false,
+      valve: false,
+      autoMode: true
+    };
+
+    // Dictionary for ID / EN
+    const DICT = {
+      id: {
+        brandTitle: "Smart Aquaculture IoT & Telemetri",
+        telemetryStatus: "TELEMETRI AKTIF · MQTT CONNECTED (24/7)",
+        bannerTitle: "Sistem Monitoring & Otomasi Kualitas Air Kolam",
+        bannerDesc: "Implementasi IoT terpadu berbasis mikrokontroler ESP32, sensor kualitas air industri (pH, Suhu, DO, Kekeruhan), dan telemetri MQTT untuk budidaya perikanan modern di Universitas Muhammadiyah Malang (UMM).",
+        sensorsTitle: "Parameter Kualitas Air Real-time",
+        updateInterval: "Pembaruan data setiap ~2 detik",
+        simTitle: "🧪 Uji Simulasi & Anomali Sistem",
+        simDesc: "Klik skenario di bawah untuk memicu reaksi otomatis aktuator & notifikasi Telegram NOC:",
+        simNormal: "Kondisi Normal",
+        simDropDo: "Uji Oksigen Kritis (<4.0 mg/L)",
+        simAcidPh: "Uji Air Asam (pH 5.4)",
+        simFeed: "Beri Pakan Sekarang",
+        actuatorsTitle: "Kontrol Aktuator Otomatis",
+        aerator1: "Pompa Aerator Utama (#1)",
+        aerator1Desc: "Injeksi oksigen kontinu (Blower 250W)",
+        aerator2: "Pompa Aerator Cadangan (#2)",
+        aerator2Desc: "Otomatis menyala darurat jika DO < 4.5 mg/L",
+        feeder: "Automatic Fish Feeder",
+        feederDesc: "Motor servo auger · Jadwal: 08:00, 12:00, 17:00",
+        valve: "Kran Solenoid Sirkulasi Air",
+        valveDesc: "Bilas otomatis jika kekeruhan > 25 NTU",
+        telemetryTitle: "Stream Telemetri MQTT Real-time",
+        archTitle: "Arsitektur Hardware & Alur Jaringan Telemetri",
+        arch1Desc: "Sensor pH probe industri, optical DO, waterproof DS18B20, dan nephelometric turbidity yang ditempatkan pada titik sirkulasi kolam.",
+        arch2Desc: "ESP32 dual-core (FreeRTOS) bertugas sampling sensor dengan moving average filter, kalibrasi analog 16-bit, dan kontrol relay aktuator.",
+        arch3Desc: "Gateway MikroTik di area tambak memancarkan WiFi 2.4GHz ke node, mengirimkan payload MQTT melalui protokol TCP/TLS dengan QoS 1.",
+        arch4Desc: "Dashboard real-time memvisualisasikan data telemetri, sedangkan Bot Telegram otomatis mengirim alert jika parameter air melampaui batas aman."
+      },
+      en: {
+        brandTitle: "Smart Aquaculture IoT & Telemetry",
+        telemetryStatus: "TELEMETRY ACTIVE · MQTT CONNECTED (24/7)",
+        bannerTitle: "Pond Water Quality Monitoring & Automation System",
+        bannerDesc: "Integrated IoT implementation using ESP32 microcontroller, industrial water sensors (pH, Temp, DO, Turbidity), and MQTT telemetry for precision aquaculture at Universitas Muhammadiyah Malang (UMM).",
+        sensorsTitle: "Real-time Water Quality Parameters",
+        updateInterval: "Data refreshed every ~2 seconds",
+        simTitle: "🧪 Simulation & System Anomaly Testing",
+        simDesc: "Click a scenario below to trigger automated actuator response & NOC Telegram notification:",
+        simNormal: "Normal Condition",
+        simDropDo: "Simulate Critical Oxygen (<4.0 mg/L)",
+        simAcidPh: "Simulate Acidic Water (pH 5.4)",
+        simFeed: "Feed Fish Now",
+        actuatorsTitle: "Automated Actuator Controls",
+        aerator1: "Main Aerator Pump (#1)",
+        aerator1Desc: "Continuous oxygen injection (250W Blower)",
+        aerator2: "Auxiliary Aerator Pump (#2)",
+        aerator2Desc: "Emergency auto-start if DO < 4.5 mg/L",
+        feeder: "Automatic Fish Feeder",
+        feederDesc: "Servo auger motor · Schedule: 08:00, 12:00, 17:00",
+        valve: "Circulation Solenoid Valve",
+        valveDesc: "Auto-flush if turbidity > 25 NTU",
+        telemetryTitle: "Real-time MQTT Telemetry Stream",
+        archTitle: "Hardware Architecture & Telemetry Pipeline",
+        arch1Desc: "Industrial pH probe, optical DO, waterproof DS18B20, and nephelometric turbidity sensor placed at circulation intake points.",
+        arch2Desc: "ESP32 dual-core (FreeRTOS) handles analog 16-bit sampling, moving-average filtering, and relay actuator automation.",
+        arch3Desc: "MikroTik gateway in pond perimeter provides 2.4GHz WiFi, streaming MQTT packets over TLS with QoS 1 reliability.",
+        arch4Desc: "Real-time dashboard displays metrics, while Telegram NOC Bot dispatches alerts if parameters exceed safety limits."
+      }
+    };
+
+    function setLanguage(l) {
+      lang = l;
+      document.getElementById('btnLangId').classList.toggle('active', l === 'id');
+      document.getElementById('btnLangEn').classList.toggle('active', l === 'en');
+      const d = DICT[l];
+      document.getElementById('txtBrandTitle').textContent = d.brandTitle;
+      document.getElementById('txtTelemetryStatus').textContent = d.telemetryStatus;
+      document.getElementById('txtBannerTitle').textContent = d.bannerTitle;
+      document.getElementById('txtBannerDesc').textContent = d.bannerDesc;
+      document.getElementById('txtSensorsTitle').textContent = d.sensorsTitle;
+      document.getElementById('txtUpdateInterval').textContent = d.updateInterval;
+      document.getElementById('txtSimTitle').textContent = d.simTitle;
+      document.getElementById('txtSimDesc').textContent = d.simDesc;
+      document.getElementById('txtSimNormal').textContent = d.simNormal;
+      document.getElementById('txtSimDropDo').textContent = d.simDropDo;
+      document.getElementById('txtSimAcidPh').textContent = d.simAcidPh;
+      document.getElementById('txtSimFeed').textContent = d.simFeed;
+      document.getElementById('txtActuatorsTitle').textContent = d.actuatorsTitle;
+      document.getElementById('txtAerator1').textContent = d.aerator1;
+      document.getElementById('txtAerator1Desc').textContent = d.aerator1Desc;
+      document.getElementById('txtAerator2').textContent = d.aerator2;
+      document.getElementById('txtAerator2Desc').textContent = d.aerator2Desc;
+      document.getElementById('txtFeeder').textContent = d.feeder;
+      document.getElementById('txtFeederDesc').textContent = d.feederDesc;
+      document.getElementById('txtValve').textContent = d.valve;
+      document.getElementById('txtValveDesc').textContent = d.valveDesc;
+      document.getElementById('txtTelemetryTitle').textContent = d.telemetryTitle;
+      document.getElementById('txtArchTitle').textContent = d.archTitle;
+      document.getElementById('txtArch1Desc').textContent = d.arch1Desc;
+      document.getElementById('txtArch2Desc').textContent = d.arch2Desc;
+      document.getElementById('txtArch3Desc').textContent = d.arch3Desc;
+      document.getElementById('txtArch4Desc').textContent = d.arch4Desc;
+    }
+
+    document.getElementById('btnLangId').addEventListener('click', () => setLanguage('id'));
+    document.getElementById('btnLangEn').addEventListener('click', () => setLanguage('en'));
+
+    // UI Updates
+    function updateUI() {
+      // pH
+      document.getElementById('valPh').textContent = state.ph.toFixed(2);
+      const phPercent = Math.min(100, Math.max(0, ((state.ph - 4) / 6) * 100));
+      document.getElementById('gaugePh').style.width = phPercent + '%';
+      const badgePh = document.getElementById('badgePh');
+      if (state.ph < 6.5) {
+        badgePh.textContent = lang === 'id' ? 'Asam (Perlu Kapur)' : 'Acidic (Lime Req)';
+        badgePh.className = 'sensor-badge danger';
+      } else if (state.ph > 8.5) {
+        badgePh.textContent = lang === 'id' ? 'Basa Tinggi' : 'High Alkaline';
+        badgePh.className = 'sensor-badge warn';
+      } else {
+        badgePh.textContent = lang === 'id' ? 'Optimal' : 'Optimal';
+        badgePh.className = 'sensor-badge';
+      }
+
+      // DO
+      document.getElementById('valDo').textContent = state.doVal.toFixed(2);
+      const doPercent = Math.min(100, (state.doVal / 10) * 100);
+      document.getElementById('gaugeDo').style.width = doPercent + '%';
+      const badgeDo = document.getElementById('badgeDo');
+      if (state.doVal < 4.0) {
+        badgeDo.textContent = lang === 'id' ? 'KRITIS (Hipoksia)' : 'CRITICAL (Hypoxia)';
+        badgeDo.className = 'sensor-badge danger';
+      } else if (state.doVal < 5.0) {
+        badgeDo.textContent = lang === 'id' ? 'Waspada' : 'Warning';
+        badgeDo.className = 'sensor-badge warn';
+      } else {
+        badgeDo.textContent = lang === 'id' ? 'Sangat Baik' : 'Good';
+        badgeDo.className = 'sensor-badge';
+      }
+
+      // Temp
+      document.getElementById('valTemp').textContent = state.temp.toFixed(1);
+      const tempPercent = Math.min(100, Math.max(0, ((state.temp - 20) / 15) * 100));
+      document.getElementById('gaugeTemp').style.width = tempPercent + '%';
+      const badgeTemp = document.getElementById('badgeTemp');
+      if (state.temp > 32.0 || state.temp < 24.0) {
+        badgeTemp.textContent = lang === 'id' ? 'Anomali Suhu' : 'Temp Anomaly';
+        badgeTemp.className = 'sensor-badge warn';
+      } else {
+        badgeTemp.textContent = lang === 'id' ? 'Stabil' : 'Stable';
+        badgeTemp.className = 'sensor-badge';
+      }
+
+      // Turbidity
+      document.getElementById('valTurb').textContent = state.turb.toFixed(1);
+      document.getElementById('gaugeTurb').style.width = Math.min(100, (state.turb / 40) * 100) + '%';
+      const badgeTurb = document.getElementById('badgeTurb');
+      if (state.turb > 25.0) {
+        badgeTurb.textContent = lang === 'id' ? 'Keruh' : 'Turbid';
+        badgeTurb.className = 'sensor-badge warn';
+      } else {
+        badgeTurb.textContent = lang === 'id' ? 'Jernih' : 'Clear';
+        badgeTurb.className = 'sensor-badge';
+      }
+
+      // TDS
+      document.getElementById('valTds').textContent = Math.round(state.tds);
+      document.getElementById('gaugeTds').style.width = Math.min(100, (state.tds / 800) * 100) + '%';
+
+      // Level
+      document.getElementById('valLevel').textContent = state.level.toFixed(2);
+      document.getElementById('gaugeLevel').style.width = Math.min(100, (state.level / 2.0) * 100) + '%';
+
+      // Actuators button states
+      const btnAerator1 = document.getElementById('btnToggleAerator1');
+      btnAerator1.textContent = state.aerator1 ? 'ON' : 'OFF';
+      btnAerator1.className = state.aerator1 ? 'toggle-btn active' : 'toggle-btn';
+
+      const btnAerator2 = document.getElementById('btnToggleAerator2');
+      btnAerator2.textContent = state.aerator2 ? 'RUNNING (AUTO)' : 'STANDBY';
+      btnAerator2.className = state.aerator2 ? 'toggle-btn active' : 'toggle-btn';
+
+      const btnValve = document.getElementById('btnToggleValve');
+      btnValve.textContent = state.valve ? 'FLUSHING (ON)' : 'AUTO';
+      btnValve.className = state.valve ? 'toggle-btn active' : 'toggle-btn';
+    }
+
+    // Telemetry log appending
+    function appendTelemetryLog(topic, payload, isAlert = false) {
+      const consoleEl = document.getElementById('telemetryConsole');
+      const now = new Date();
+      const timeStr = `[${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}]`;
+
+      const line = document.createElement('div');
+      line.className = 'telemetry-line';
+
+      const tsSpan = document.createElement('span');
+      tsSpan.className = 'telemetry-ts';
+      tsSpan.textContent = timeStr;
+
+      const topicSpan = document.createElement('span');
+      topicSpan.className = 'telemetry-topic';
+      topicSpan.textContent = topic;
+
+      const payloadSpan = document.createElement('span');
+      payloadSpan.className = isAlert ? 'telemetry-payload telemetry-alert' : 'telemetry-payload';
+      payloadSpan.textContent = typeof payload === 'string' ? payload : JSON.stringify(payload);
+
+      line.appendChild(tsSpan);
+      line.appendChild(topicSpan);
+      line.appendChild(payloadSpan);
+
+      consoleEl.appendChild(line);
+
+      // Keep max 60 logs
+      while (consoleEl.children.length > 60) {
+        consoleEl.removeChild(consoleEl.firstChild);
+      }
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    // Clear logs
+    document.getElementById('btnClearLogs').addEventListener('click', () => {
+      document.getElementById('telemetryConsole').innerHTML = '';
+    });
+
+    // Actuators toggle
+    document.getElementById('btnToggleAerator1').addEventListener('click', () => {
+      state.aerator1 = !state.aerator1;
+      appendTelemetryLog('umm/pond01/actuator/aerator1', { state: state.aerator1 ? 'ON' : 'OFF', manual: true });
+      updateUI();
+    });
+
+    document.getElementById('btnToggleAerator2').addEventListener('click', () => {
+      state.aerator2 = !state.aerator2;
+      appendTelemetryLog('umm/pond01/actuator/aerator2', { state: state.aerator2 ? 'ON' : 'OFF', manual: true });
+      updateUI();
+    });
+
+    document.getElementById('btnTriggerFeeder').addEventListener('click', () => {
+      appendTelemetryLog('umm/pond01/actuator/feeder', { command: 'DISPENSE', amount_g: 150, ts: Date.now() });
+      appendTelemetryLog('umm/pond01/alerts/telegram', '🤖 [TELEGRAM NOC BOT] Pakan ikan 150g berhasil dikeluarkan secara otomatis ke kolam.', true);
+      alert(lang === 'id' ? '🐟 Sukses! Pakan ikan 150g berhasil dikeluarkan oleh servo feeder.' : '🐟 Success! 150g fish feed dispensed by servo feeder.');
+    });
+
+    // Simulation triggers
+    document.getElementById('btnSimNormal').addEventListener('click', () => {
+      state.ph = 7.42;
+      state.doVal = 6.85;
+      state.temp = 28.3;
+      state.turb = 11.8;
+      state.aerator1 = true;
+      state.aerator2 = false;
+      state.valve = false;
+      appendTelemetryLog('umm/pond01/sim', 'Sistem kembali ke parameter normal optimal.');
+      updateUI();
+    });
+
+    document.getElementById('btnSimDropDo').addEventListener('click', () => {
+      state.doVal = 3.65;
+      state.aerator1 = true;
+      state.aerator2 = true; // Auto triggered!
+      appendTelemetryLog('umm/pond01/sensors/alert', { type: 'HYPOXIA_RISK', do: 3.65, threshold: 4.5 }, true);
+      appendTelemetryLog('umm/pond01/alerts/telegram', '🚨 [TELEGRAM ALERT] BAHAYA: Oksigen terlarut kolam drop ke 3.65 mg/L! Pompa Cadangan #2 otomatis DINYALAKAN.', true);
+      updateUI();
+    });
+
+    document.getElementById('btnSimAcidPh').addEventListener('click', () => {
+      state.ph = 5.42;
+      appendTelemetryLog('umm/pond01/sensors/alert', { type: 'ACIDIC_WATER', ph: 5.42, threshold: 6.5 }, true);
+      appendTelemetryLog('umm/pond01/alerts/telegram', '⚠️ [TELEGRAM ALERT] Indikator pH asam (5.42). Rekomendasi: Taburkan kapur pertanian (CaCO3) segera.', true);
+      updateUI();
+    });
+
+    document.getElementById('btnSimFeed').addEventListener('click', () => {
+      document.getElementById('btnTriggerFeeder').click();
+    });
+
+    // Periodic dynamic jitter loop (runs every 2 seconds)
+    setInterval(() => {
+      if (isPaused) return;
+
+      // Subtle fluctuation
+      const phJitter = (Math.random() - 0.48) * 0.04;
+      const doJitter = (Math.random() - 0.48) * 0.06;
+      const tempJitter = (Math.random() - 0.5) * 0.08;
+      const turbJitter = (Math.random() - 0.5) * 0.2;
+      const tdsJitter = (Math.random() - 0.5) * 2;
+
+      state.ph = Math.max(4.0, Math.min(10.0, state.ph + phJitter));
+      state.doVal = Math.max(1.0, Math.min(10.0, state.doVal + doJitter));
+      state.temp = Math.max(22.0, Math.min(35.0, state.temp + tempJitter));
+      state.turb = Math.max(2.0, Math.min(50.0, state.turb + turbJitter));
+      state.tds = Math.max(200, Math.min(900, state.tds + tdsJitter));
+
+      // Automated Rule: If DO < 4.5, auto-start Aerator 2
+      if (state.doVal < 4.5 && !state.aerator2) {
+        state.aerator2 = true;
+        appendTelemetryLog('umm/pond01/automation', 'Oksigen < 4.5 mg/L. Aerator cadangan dinyalakan secara otomatis.');
+      } else if (state.doVal > 5.5 && state.aerator2) {
+        state.aerator2 = false;
+        appendTelemetryLog('umm/pond01/automation', 'Oksigen pulih (>5.5 mg/L). Aerator cadangan dinonaktifkan.');
+      }
+
+      // Automated Rule: If Turbidity > 25, auto valve
+      if (state.turb > 25.0 && !state.valve) {
+        state.valve = true;
+        appendTelemetryLog('umm/pond01/automation', 'Kekeruhan tinggi (>25 NTU). Kran bilas sirkulasi dibuka otomatis.');
+      } else if (state.turb <= 18.0 && state.valve) {
+        state.valve = false;
+      }
+
+      updateUI();
+
+      // Send MQTT telemetry packet
+      appendTelemetryLog('umm/pond01/sensors', {
+        ph: parseFloat(state.ph.toFixed(2)),
+        do: parseFloat(state.doVal.toFixed(2)),
+        temp: parseFloat(state.temp.toFixed(1)),
+        turb: parseFloat(state.turb.toFixed(1)),
+        tds: Math.round(state.tds),
+        lvl: parseFloat(state.level.toFixed(2)),
+        p1: state.aerator1 ? 1 : 0,
+        p2: state.aerator2 ? 1 : 0
+      });
+    }, 2500);
+
+    // Initial render
+    updateUI();
+  </script>
+</body>
+</html>

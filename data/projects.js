@@ -35,8 +35,8 @@ export const PROJECTS = [
     category: "IoT & Automation",
     desc: "Penerapan sistem monitoring dan otomasi kualitas air budidaya perairan modern berbasis sensor IoT, telemetri mikrokontroler, dan analisis data akuakultur presisi di UMM.",
     image: "/images/projects/project-aquaculture.png",
-    link: "#about",
-    linkText: "Lihat Detail Riset →",
+    link: "/aquaculture",
+    linkText: "Buka Simulator IoT ↗",
     tags: ["Smart Aquaculture", "IoT", "Sensors", "Telemetri", "UMM"]
   }
 ];

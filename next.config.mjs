@@ -37,6 +37,7 @@ const nextConfig = {
     return [
       { source: '/terminal', destination: '/terminal/index.html' },
       { source: '/network-lab', destination: '/network-lab/index.html' },
+      { source: '/aquaculture', destination: '/aquaculture/index.html' },
     ];
   },
   images: {

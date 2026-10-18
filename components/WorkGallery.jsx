@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Terminal, Waves } from "lucide-react";
 import Link from "next/link";
 import { PROJECTS } from "../data/projects";
 import Reveal from "./Reveal";
@@ -86,12 +86,29 @@ export default function WorkGallery() {
               Koleksi sistem infrastruktur jaringan, terminal interaktif, dan utilitas digital yang telah saya bangun.
             </div>
           </div>
-          <a
-            href="/network-lab"
-            className="work-album-btn-top"
-          >
-            Masuk Network Lab <ExternalLink size={14} />
-          </a>
+          <div className="work-header-actions">
+            <a
+              href="/terminal"
+              className="work-album-btn-top"
+              title="Buka Terminal Interaktif Linux"
+            >
+              <Terminal size={14} /> Buka Terminal
+            </a>
+            <a
+              href="/network-lab"
+              className="work-album-btn-top"
+              title="Masuk Simulator Topologi Jaringan"
+            >
+              <ExternalLink size={14} /> Network Lab
+            </a>
+            <a
+              href="/aquaculture"
+              className="work-album-btn-top"
+              title="Buka Smart Aquaculture IoT Simulator"
+            >
+              <Waves size={14} /> Smart Aquaculture
+            </a>
+          </div>
         </div>
       </Reveal>
 

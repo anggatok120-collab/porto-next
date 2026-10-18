@@ -56,5 +56,10 @@
   - Hero mobile layout: 2-column secondary button grid, 100% overflow-free responsive layout on all resolutions (320px–420px).
   - Floating pill navbar lowered slightly (`top: 36px` desktop, `top: 22px` mobile, `top: 18px` scrolled).
   - Contact form integration: Dual notification enabled (Telegram bot + Resend transactional email to `anggatok120@gmail.com`).
+  - Interactive Showcase Projects:
+    - `/terminal`: Terminal Linux Interaktif CLI.
+    - `/network-lab`: Simulator Topologi Jaringan Enterprise.
+    - `/aquaculture`: Smart Aquaculture IoT & Telemetri simulator with live MQTT stream, ESP32 telemetry, water quality sensor dials, and automated actuator controls.
+  - Work Gallery Header: Multi-action button group (`Buka Terminal`, `Network Lab`, `Smart Aquaculture`).
   - Zero raw secrets in Git; all bot tokens and API keys secured in `.env.local` (permissions `600` on VPS).
   - VPS snapshot archived at `/var/backups/porto-next-golden/porto-next-golden-v1.2.0.tar.gz`.
