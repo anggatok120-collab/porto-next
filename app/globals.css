@@ -2257,10 +2257,17 @@ html.dark .trait-card {
   .nav-links, .nav-right {
     display: none;
   }
+  .nav-mobile-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   .nav-mobile-actions {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-left: auto;
   }
   .nav-bar {
     width: calc(100% - 28px);
@@ -2276,11 +2283,19 @@ html.dark .trait-card {
     overflow: hidden;
   }
   .bg-name-marquee {
-    top: 50%;
+    top: 36%;
   }
   .bg-name-text {
-    font-size: 68px;
-    opacity: 0.10;
+    font-size: 78px;
+    font-weight: 800;
+    opacity: 0.45;
+    -webkit-text-stroke-width: 1.6px;
+    -webkit-text-stroke-color: var(--text);
+    letter-spacing: -1px;
+  }
+  html.dark .bg-name-text {
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.85);
+    opacity: 0.45;
   }
   .bg-name-marquee--mobile-extra {
     display: none;
@@ -2326,10 +2341,11 @@ html.dark .trait-card {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-start;
-    padding: 0 20px 24px;
+    align-items: center;
+    padding: 0 16px 20px;
     gap: 6px;
     z-index: 105;
+    text-align: center;
   }
   .hero-term-badge {
     display: block;
@@ -2404,29 +2420,41 @@ html.dark .trait-card {
     font-size: 12px;
     line-height: 1.45;
     color: var(--text-muted);
-    max-width: 100%;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    max-width: 380px;
+    margin: 2px auto;
+    text-align: center;
   }
   .hero-heading-name {
     font-size: 40px;
     line-height: 0.95;
     letter-spacing: -0.02em;
+    text-align: center;
+    width: 100%;
   }
   .hero-greeting-tag {
     font-size: 11px;
     letter-spacing: 2px;
+    text-align: center;
+    width: 100%;
   }
   .hero-role-row {
     font-size: 13px;
     gap: 6px;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
   }
   .hero-left-box {
     margin-left: 0;
     max-width: 100%;
     width: 100%;
     gap: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   .hero-actions-group {
     display: flex;
@@ -2434,6 +2462,10 @@ html.dark .trait-card {
     gap: 8px;
     margin-top: 6px;
     width: 100%;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
   }
   .hero-btn-action {
     font-size: 12px;
@@ -2463,11 +2495,13 @@ html.dark .trait-card {
   .hero-loc-pill {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     font-size: 11.5px;
     color: var(--text-muted);
     margin-top: 2px;
     width: 100%;
+    text-align: center;
   }
   .scroll-indicator {
     display: none;
