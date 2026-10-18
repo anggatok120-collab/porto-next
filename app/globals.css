@@ -520,7 +520,7 @@ html.dark .profile-image {
 
 .hero-left-box {
   pointer-events: auto;
-  max-width: 480px;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -571,21 +571,21 @@ html.dark .profile-image {
 .hero-actions-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-top: 8px;
   flex-wrap: wrap;
 }
 
 .hero-btn-action {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
-  padding: 9px 18px;
+  padding: 8px 14px;
   border-radius: 999px;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .hero-btn-action--primary {
@@ -629,12 +629,12 @@ html.dark .profile-image {
 
 .hero-term-badge {
   position: absolute;
-  left: calc(50% - 215px);
+  left: calc(50% - 240px);
   bottom: 40px;
-  width: 236px;
+  width: 215px;
   z-index: 110;
   pointer-events: auto;
-  background: rgba(15, 17, 23, 0.85);
+  background: rgba(15, 17, 23, 0.88);
   backdrop-filter: blur(12px);
   border: 1px solid var(--line-strong);
   border-radius: 12px;
@@ -704,7 +704,7 @@ html.dark .profile-image {
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  margin-right: 48px;
+  margin-right: 90px;
 }
 
 .hero-stat-col {
@@ -2199,6 +2199,9 @@ html.dark .trait-card {
    Responsive Rules
    ========================================================================== */
 @media (max-width: 1024px) {
+  .hero-term-badge {
+    display: none;
+  }
   .capabilities-grid {
     grid-template-columns: 1fr;
   }
