@@ -29,3 +29,11 @@
 ### Deployments
 - **VPS PM2 Service**: `porto-next` on `45.66.153.146:20132` (`/var/www/porto-next`).
 - **Cloudflare Pages / OpenNext**: Live at [anggot.my.id](https://anggot.my.id/).
+
+### Security & Secrets Management (Telegram Bots)
+- **Zero Raw Secrets in Git**: No raw tokens allowed in source code or unit test fixtures.
+- **Environment Variables**:
+  - `TELEGRAM_BOT_TOKEN`: Monitor bot (`MonitoringServerAnggots_Bot`).
+  - `TELEGRAM_LOGS_BOT_TOKEN`: Logs bot for visitor tracking, contact alerts, and admin login notifications (`NotificationLogsAnggots_Bot`).
+  - `TELEGRAM_ADMIN_CHAT_ID`: Admin notification receiver ID (`7633699633`).
+- **Files**: Stored in `.env.local` (Next.js) & `.dev.vars` (Cloudflare Wrangler), both strictly ignored in `.gitignore`.
