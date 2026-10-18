@@ -46,3 +46,12 @@
   - `RESEND_API_KEY`: API Key for sending contact notifications via Resend API to user's personal email.
   - `CONTACT_TO_EMAIL`: Destination email address (`anggatok120@gmail.com`).
 - **Files**: Stored in `.env.local` (Next.js) & `.dev.vars` (Cloudflare Wrangler), both strictly ignored in `.gitignore`. Configured directly on VPS `/var/www/porto-next/.env.local` with `600` permissions.
+
+### Golden Releases
+- **v1.2.0-golden** (Current Golden Snapshot):
+  - Hero desktop layout: photo & terminal shifted right, left box shifted +80px for centered balance, raised marquee text to `top: 44%` and radar circles to `top: 46%`.
+  - Hero mobile layout: 2-column secondary button grid, 100% overflow-free responsive layout on all resolutions (320px–420px).
+  - Floating pill navbar lowered slightly (`top: 36px` desktop, `top: 22px` mobile, `top: 18px` scrolled).
+  - Contact form integration: Dual notification enabled (Telegram bot + Resend transactional email to `anggatok120@gmail.com`).
+  - Zero raw secrets in Git; all bot tokens and API keys secured in `.env.local` (permissions `600` on VPS).
+  - VPS snapshot archived at `/var/backups/porto-next-golden/porto-next-golden-v1.2.0.tar.gz`.
