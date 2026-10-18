@@ -156,17 +156,19 @@ export default function Hero() {
             <a href="#contact" className="hero-btn-action hero-btn-action--primary">
               Hubungi Saya
             </a>
-            <a href="#experience" className="hero-btn-action hero-btn-action--ghost">
-              Lihat Pengalaman
-            </a>
-            <a
-              href="/cv/CV_Angga.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-btn-action hero-btn-action--ghost"
-            >
-              ↓ Unduh CV
-            </a>
+            <div className="hero-actions-subgroup">
+              <a href="#experience" className="hero-btn-action hero-btn-action--ghost">
+                Lihat Pengalaman
+              </a>
+              <a
+                href="/cv/CV_Angga.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-btn-action hero-btn-action--ghost"
+              >
+                ↓ Unduh CV
+              </a>
+            </div>
           </div>
 
           <div className="hero-loc-pill">
