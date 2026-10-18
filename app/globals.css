@@ -438,11 +438,11 @@ html.dark .bg-name-text {
 
 .concentric-circles {
   position: absolute;
-  top: 52%;
-  right: 22%;
-  transform: translate(50%, -50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .circle {
@@ -457,70 +457,96 @@ html.dark .bg-name-text {
 .circle-1 {
   width: 320px;
   height: 320px;
-  opacity: 0.35;
+  opacity: 0.3;
 }
 
 .circle-2 {
-  width: 520px;
-  height: 520px;
-  opacity: 0.24;
+  width: 540px;
+  height: 540px;
+  opacity: 0.22;
 }
 
 .circle-3 {
-  width: 720px;
-  height: 720px;
-  opacity: 0.15;
+  width: 760px;
+  height: 760px;
+  opacity: 0.14;
+}
+
+.profile-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  height: 80vh;
+  max-height: 800px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 98%);
+  mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 98%);
+}
+
+.profile-image {
+  height: 100%;
+  width: auto;
+  max-width: 90vw;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+}
+
+html.dark .profile-image {
+  filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
 }
 
 /* ==========================================================================
-   2-Column Hero Layout (No Collision, Complete Data)
+   Hero Content Overlay (Original Content on TikTok Aesthetic)
    ========================================================================== */
-.hero-container {
-  position: relative;
-  z-index: 50;
-  max-width: 1240px;
+.hero-content-overlay {
+  position: absolute;
+  inset: 0;
+  max-width: 1320px;
   width: 100%;
   margin: 0 auto;
-  padding: 100px 32px 40px;
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  align-items: center;
-  gap: 40px;
+  padding: 120px 32px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 105;
 }
 
-.hero-left {
+.hero-left-box {
+  pointer-events: auto;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 10;
-  max-width: 540px;
 }
 
 .hero-greeting-tag {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 3px;
   color: var(--text-muted);
   text-transform: uppercase;
-  font-weight: 600;
-  margin: 0;
 }
 
-.hero-name {
-  font-size: clamp(48px, 5.8vw, 76px);
+.hero-heading-name {
+  font-size: clamp(48px, 6vw, 76px);
   font-weight: 900;
   color: var(--text);
   line-height: 0.95;
   letter-spacing: -0.03em;
-  margin: 0;
 }
 
 .hero-role-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text);
 }
@@ -535,14 +561,14 @@ html.dark .bg-name-text {
   font-weight: 500;
 }
 
-.hero-bio {
-  font-size: 14px;
-  line-height: 1.65;
+.hero-bio-summary {
+  font-size: 13.5px;
+  line-height: 1.6;
   color: var(--text-muted);
   margin-top: 4px;
 }
 
-.hero-actions {
+.hero-actions-group {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -550,10 +576,10 @@ html.dark .bg-name-text {
   flex-wrap: wrap;
 }
 
-.hero-btn {
-  font-size: 13px;
+.hero-btn-action {
+  font-size: 12px;
   font-weight: 600;
-  padding: 10px 22px;
+  padding: 9px 18px;
   border-radius: 999px;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -562,23 +588,23 @@ html.dark .bg-name-text {
   gap: 6px;
 }
 
-.hero-btn-primary {
+.hero-btn-action--primary {
   background: var(--text);
   color: var(--bg);
 }
 
-.hero-btn-primary:hover {
+.hero-btn-action--primary:hover {
   transform: translateY(-2px);
-  opacity: 0.92;
+  opacity: 0.9;
 }
 
-.hero-btn-secondary {
+.hero-btn-action--ghost {
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--line-strong);
 }
 
-.hero-btn-secondary:hover {
+.hero-btn-action--ghost:hover {
   transform: translateY(-2px);
   border-color: var(--text-muted);
 }
@@ -587,60 +613,28 @@ html.dark .bg-name-text {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-muted);
-  font-family: var(--font-mono);
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
-/* Right Column: Framed Portrait, Terminal Card, Stats Pill */
-.hero-right {
-  position: relative;
-  height: 100%;
-  min-height: 600px;
+/* Right Box: Terminal & Mini Stats */
+.hero-right-box {
+  pointer-events: auto;
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
+  gap: 16px;
 }
 
-.profile-wrap {
-  position: relative;
-  z-index: 5;
-  height: 75vh;
-  max-height: 640px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 98%);
-  mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 98%);
-}
-
-.profile-image {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: bottom center;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
-}
-
-html.dark .profile-image {
-  filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
-}
-
-.hero-terminal-card {
-  position: absolute;
-  left: -70px;
-  bottom: 70px;
-  z-index: 10;
-  background: rgba(15, 17, 23, 0.9);
-  backdrop-filter: blur(14px);
+.hero-term-badge {
+  background: rgba(15, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--line-strong);
   border-radius: 12px;
-  width: 240px;
+  width: 250px;
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
 }
 
 .hero-term-topbar {
@@ -696,22 +690,18 @@ html.dark .profile-image {
   color: #22c55e;
 }
 
-.hero-stat-pill {
-  position: absolute;
-  right: -10px;
-  bottom: 40px;
-  z-index: 10;
+.hero-stat-box {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 8px 18px;
+  gap: 16px;
+  padding: 10px 20px;
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: 999px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.hero-stat-item {
+.hero-stat-col {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -719,7 +709,7 @@ html.dark .profile-image {
 
 .hero-stat-val {
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--text);
   line-height: 1.1;
@@ -731,9 +721,9 @@ html.dark .profile-image {
   color: var(--text-muted);
 }
 
-.hero-stat-divider {
+.hero-stat-bar {
   width: 1px;
-  height: 20px;
+  height: 22px;
   background: var(--line);
 }
 
@@ -2202,44 +2192,6 @@ html.dark .trait-card {
    Responsive Rules
    ========================================================================== */
 @media (max-width: 1024px) {
-  .hero-container {
-    grid-template-columns: 1fr;
-    padding-top: 100px;
-    padding-bottom: 40px;
-    min-height: auto;
-    gap: 24px;
-    text-align: center;
-    justify-items: center;
-  }
-  .hero-left {
-    align-items: center;
-    max-width: 600px;
-  }
-  .hero-actions {
-    justify-content: center;
-  }
-  .hero-right {
-    min-height: 480px;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-  }
-  .profile-wrap {
-    height: 52vh;
-    max-height: 460px;
-  }
-  .concentric-circles {
-    right: 50%;
-    transform: translate(50%, -50%);
-  }
-  .hero-terminal-card {
-    position: static;
-    margin: 16px auto 0;
-  }
-  .hero-stat-pill {
-    position: static;
-    margin: 12px auto 0;
-  }
   .capabilities-grid {
     grid-template-columns: 1fr;
   }
@@ -2299,6 +2251,25 @@ html.dark .trait-card {
 
   .profile-wrap {
     height: 68vh;
+  }
+  .hero-content-overlay {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 80px 20px 28px;
+    gap: 12px;
+  }
+  .hero-right-box {
+    display: none;
+  }
+  .hero-bio-summary {
+    display: none;
+  }
+  .hero-heading-name {
+    font-size: 38px;
+  }
+  .hero-left-box {
+    max-width: 100%;
   }
   .work-header {
     flex-direction: column;

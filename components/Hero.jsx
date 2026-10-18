@@ -38,10 +38,10 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero-root" ref={heroRef}>
-      {/* Background SVG grid */}
+      {/* Background SVG grid & wavy lines */}
       <div className="hero-grid-pattern" aria-hidden="true" />
 
-      {/* Center marquee outline text in background */}
+      {/* Center marquee outline text */}
       <div className="bg-name-marquee">
         <div className="bg-name-track" ref={marqueeTrackRef}>
           <span className="bg-name-text">{marqueeText}</span>
@@ -49,40 +49,71 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Concentric radar circles centered behind portrait */}
+      {/* Mobile-only background fill rows */}
+      {["t1", "t2", "t3", "t4", "b1", "b2", "b3", "b4"].map((pos) => (
+        <div
+          key={pos}
+          className={`bg-name-marquee bg-name-marquee--mobile-extra bg-name-marquee--${pos}`}
+          aria-hidden="true"
+        >
+          <div className="bg-name-track">
+            <span className="bg-name-text">{marqueeText}</span>
+            <span className="bg-name-text">{marqueeText}</span>
+          </div>
+        </div>
+      ))}
+
+      {/* Concentric radar circles */}
       <div className="concentric-circles" aria-hidden="true">
         <div className="circle circle-1" />
         <div className="circle circle-2" />
         <div className="circle circle-3" />
       </div>
 
-      {/* Main 2-Column Hero Content: Text on left, Portrait + Terminal + Stats on right */}
-      <div className="hero-container">
-        {/* Left Column: Greeting, Name, Role, Bio, Action Buttons, Location */}
-        <div className="hero-left">
+      {/* Foreground cutout portrait with subtle parallax */}
+      <div
+        className="profile-wrap"
+        style={{
+          transform: `translate(${mouse.x * 12}px, ${mouse.y * 8}px)`,
+          transition: "transform 0.15s ease-out",
+        }}
+      >
+        <img
+          src="/images/foto_cutout.png"
+          alt="Angga - Network Engineer"
+          className="profile-image"
+          draggable={false}
+          priority="true"
+        />
+      </div>
+
+      {/* Hero Content Overlay: Exact original hero data presented cleanly */}
+      <div className="hero-content-overlay">
+        {/* Left column: Greeting, Title, Description, Action Buttons & Location */}
+        <div className="hero-left-box">
           <p className="hero-greeting-tag">HALO, SAYA</p>
-          <h1 className="hero-name">ANGGA</h1>
+          <h1 className="hero-heading-name">ANGGA</h1>
           <div className="hero-role-row">
             <span className="hero-role-primary">Network Engineer</span>
             <span className="hero-role-divider">/</span>
             <span className="hero-role-secondary">Customer Support</span>
           </div>
-          <p className="hero-bio">
+          <p className="hero-bio-summary">
             2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.
           </p>
 
-          <div className="hero-actions">
-            <a href="#contact" className="hero-btn hero-btn-primary">
+          <div className="hero-actions-group">
+            <a href="#contact" className="hero-btn-action hero-btn-action--primary">
               Hubungi Saya
             </a>
-            <a href="#experience" className="hero-btn hero-btn-secondary">
+            <a href="#experience" className="hero-btn-action hero-btn-action--ghost">
               Lihat Pengalaman
             </a>
             <a
               href="/cv/CV_Angga.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-btn hero-btn-secondary"
+              className="hero-btn-action hero-btn-action--ghost"
             >
               ↓ Unduh CV
             </a>
@@ -94,26 +125,9 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Column: Portrait Photo with Floating Terminal Card & Stats Pill */}
-        <div className="hero-right">
-          <div
-            className="profile-wrap"
-            style={{
-              transform: `translate(${mouse.x * 10}px, ${mouse.y * 6}px)`,
-              transition: "transform 0.15s ease-out",
-            }}
-          >
-            <img
-              src="/images/foto_cutout.png"
-              alt="Angga - Network Engineer"
-              className="profile-image"
-              draggable={false}
-              priority="true"
-            />
-          </div>
-
-          {/* Floating Terminal Card */}
-          <div className="hero-terminal-card">
+        {/* Right column: Terminal card & Mini Stats */}
+        <div className="hero-right-box">
+          <div className="hero-term-badge">
             <div className="hero-term-topbar">
               <span className="term-dot term-dot-red" />
               <span className="term-dot term-dot-yellow" />
@@ -136,19 +150,18 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Mini Stats Pill */}
-          <div className="hero-stat-pill">
-            <div className="hero-stat-item">
+          <div className="hero-stat-box">
+            <div className="hero-stat-col">
               <span className="hero-stat-val">2.5+</span>
               <span className="hero-stat-lbl">TAHUN</span>
             </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat-item">
+            <div className="hero-stat-bar" />
+            <div className="hero-stat-col">
               <span className="hero-stat-val">4</span>
               <span className="hero-stat-lbl">PERUSAHAAN</span>
             </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat-item">
+            <div className="hero-stat-bar" />
+            <div className="hero-stat-col">
               <span className="hero-stat-val">24/7</span>
               <span className="hero-stat-lbl">NOC</span>
             </div>
