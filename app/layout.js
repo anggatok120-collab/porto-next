@@ -1,5 +1,6 @@
 import './globals.css'
 import AnalyticsClient from './AnalyticsClient'
+import { ThemeProvider } from '../components/ThemeProvider'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 
 const inter = Inter({
@@ -29,21 +30,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id" className={`${inter.variable} ${jetBrainsMono.variable}`}>
+    <html lang="id" className={`dark ${inter.variable} ${jetBrainsMono.variable}`}>
       <head>
-        <style>{`/* Critical hero + header CSS inlined for faster first paint */
-.hero__content{text-align:left}
-.hero__name{max-width:100%;font-size:clamp(60px,9vw,112px);font-weight:700;line-height:.94;margin:0 0 28px;display:block;padding:.08em .12em .1em .025em;overflow:visible;text-align:left}
-.hero__roles{display:flex;justify-content:flex-start;gap:12px;margin-bottom:24px;text-align:left}
-.hero__photo-wrap{width:320px;height:430px;margin:0 auto}
-.hero__actions{display:flex;justify-content:flex-start;margin:0}
-.hero__actions .btn{display:inline-flex;padding:12px 22px;border-radius:999px}
-@media(max-width:768px){.hero__content,.hero__name{text-align:center}.hero__roles,.hero__actions{justify-content:center}.hero__photo-wrap{width:220px;height:280px}}
-`}</style>
-        <script dangerouslySetInnerHTML={{__html: "(function(){try{var t=localStorage.getItem('theme'); if(t) document.documentElement.setAttribute('data-theme', t);}catch(e){} })()"}} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme'); if(t==='light'){document.documentElement.classList.remove('dark');document.documentElement.setAttribute('data-theme','light');}else{document.documentElement.classList.add('dark');}}catch(e){}})()`,
+          }}
+        />
       </head>
       <body>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
         <AnalyticsClient />
       </body>
     </html>
