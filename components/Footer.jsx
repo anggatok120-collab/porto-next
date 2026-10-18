@@ -50,7 +50,7 @@ export default function Footer() {
 
           <div className="footer-status">
             <span className="footer-status-dot" />
-            <span className="footer-status-text">All systems operational · Jakarta, ID</span>
+            <span className="footer-status-text">All systems operational · Malang, ID</span>
           </div>
         </div>
       </div>
