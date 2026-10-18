@@ -23,8 +23,15 @@
   - Secondary buttons subgroup (`.hero-actions-subgroup`): 2-column grid `display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; width: 100%;`
   - Secondary buttons: `font-size: 11.5px; padding: 9.5px 8px; text-align: center; justify-content: center;`
   - Result: 100% overflow-free layout across all mobile resolutions down to 320px screen width.
-- **Typography & Content**:
+- Typography & Content:
   - Bio summary (`.hero-bio-summary`): Shown on mobile (`display: block; font-size: 12px; line-height: 1.45; max-width: 100%;`) to provide immediate context without clutter.
+
+#### 3. Floating Pill Navbar (`.nav-bar`)
+- **Desktop**:
+  - `top: 36px` (previously `24px`): Lowered slightly to provide breathing room from the top edge and balance with the raised marquee.
+  - `scrolled`: `top: 18px` (previously `14px`).
+- **Mobile**:
+  - `top: 22px` (previously `16px`): Leaves comfortable margin below mobile status bar / notch / dynamic island.
 
 ### Deployments
 - **VPS PM2 Service**: `porto-next` on `45.66.153.146:20132` (`/var/www/porto-next`).
