@@ -37,7 +37,7 @@ export default function Hero() {
     return () => window.removeEventListener("resize", syncMarqueeSpeed);
   }, []);
 
-  const marqueeText = "ANGGA PURNAMA · NETWORK ENGINEER · NOC · ";
+  const marqueeText = "ANGGA · NETWORK ENGINEER · NOC · ";
 
   return (
     <section id="hero" className="hero-root" ref={heroRef}>
