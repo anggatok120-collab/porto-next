@@ -58,28 +58,28 @@ export default function Contact({ isModalOpen, setIsModalOpen }) {
       num: "01",
       label: "EMAIL",
       value: "anggatok120@gmail.com",
-      href: "mailto:anggatok120@gmail.com",
+      href: "mailto:anggatok120@gmail.com?subject=Peluang%20Kerja%20%2F%20Kolaborasi&body=Halo%20Angga%2C%0A%0ANama%20saya%20%5BNama%5D%20dari%20%5BPerusahaan%2FInstansi%5D.%0A%0ASaya%20tertarik%20untuk%20berdiskusi%20mengenai%20%5BTopik%5D.%0A%0ATerima%20kasih.",
       icon: Mail,
     },
     {
       num: "02",
+      label: "WHATSAPP",
+      value: "085147470379",
+      href: "https://wa.me/6285147470379?text=Halo%20Angga%2C%20nama%20saya%20%5BNama%5D%20dari%20%5BPerusahaan%2FInstansi%5D.%20Saya%20tertarik%20untuk%20berdiskusi%20mengenai%20%5BTopik%5D.%20Apakah%20Anda%20tersedia%3F",
+      icon: MessageSquare,
+    },
+    {
+      num: "03",
       label: "GITHUB",
       value: "github.com/anggatok120-collab",
       href: "https://github.com/anggatok120-collab",
       icon: GithubIcon,
     },
     {
-      num: "03",
-      label: "WHATSAPP",
-      value: "Kirim Pesan Cepat",
-      href: "https://api.whatsapp.com/send?phone=6285156554558&text=Halo%20Angga,%20saya%20tertarik%20dengan%20profil%20Anda",
-      icon: MessageSquare,
-    },
-    {
       num: "04",
-      label: "LINKEDIN",
-      value: "linkedin.com/in/angga",
-      href: "https://linkedin.com",
+      label: "LOKASI",
+      value: "Malang, Jawa Timur, Indonesia",
+      href: "https://www.google.com/maps/search/Malang,+Jawa+Timur,+Indonesia",
       icon: LinkedinIcon,
     },
   ];
@@ -104,7 +104,7 @@ export default function Contact({ isModalOpen, setIsModalOpen }) {
             </Reveal>
             <Reveal delay={200}>
               <p className="contact-secondary">
-                Terbuka untuk peluang karir di bidang Network Engineering, 24/7 Network Operations Center (NOC), IT Infrastructure Support, dan sistem otomasi jaringan.
+                Tertarik untuk bekerja sama atau ingin tahu lebih lanjut? Saya terbuka untuk peluang kerja baru, kolaborasi, maupun diskusi seputar jaringan dan IT. Jangan ragu untuk menghubungi saya.
               </p>
             </Reveal>
             <Reveal delay={250}>
