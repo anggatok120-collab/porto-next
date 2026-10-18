@@ -41,24 +41,22 @@ export default function Hero() {
       {/* Background SVG grid */}
       <div className="hero-grid-pattern" aria-hidden="true" />
 
-      {/* Prominent kinetic marquee outline text in background */}
+      {/* Center marquee outline text in background */}
       <div className="bg-name-marquee">
         <div className="bg-name-track" ref={marqueeTrackRef}>
-          <span className="bg-name-text">{marqueeText}</span>
-          <span className="bg-name-text">{marqueeText}</span>
           <span className="bg-name-text">{marqueeText}</span>
           <span className="bg-name-text">{marqueeText}</span>
         </div>
       </div>
 
-      {/* Concentric radar circles shifted to the left */}
+      {/* Concentric radar circles centered behind portrait */}
       <div className="concentric-circles" aria-hidden="true">
         <div className="circle circle-1" />
         <div className="circle circle-2" />
         <div className="circle circle-3" />
       </div>
 
-      {/* Main 2-Column Hero: Left content & Photo lowered for balanced headroom */}
+      {/* Main 2-Column Hero Content: Text on left, Portrait + Terminal + Stats on right */}
       <div className="hero-container">
         {/* Left Column: Greeting, Name, Role, Bio, Action Buttons, Location */}
         <div className="hero-left">
@@ -96,7 +94,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Column: Lowered Portrait Photo + Non-colliding Terminal & Stats */}
+        {/* Right Column: Portrait Photo with Floating Terminal Card & Stats Pill */}
         <div className="hero-right">
           <div
             className="profile-wrap"
@@ -114,7 +112,7 @@ export default function Hero() {
             />
           </div>
 
-          {/* Floating Terminal Card positioned safely at lower-left */}
+          {/* Floating Terminal Card */}
           <div className="hero-terminal-card">
             <div className="hero-term-topbar">
               <span className="term-dot term-dot-red" />
