@@ -47,10 +47,29 @@ export default function Hero() {
       }
 
       leftBox.style.transform = "none";
+      const mStyle = window.getComputedStyle(marquee);
+      const nStyle = window.getComputedStyle(name);
       const mRect = marquee.getBoundingClientRect();
       const nRect = name.getBoundingClientRect();
-      const diff = mRect.bottom - nRect.bottom;
-      leftBox.style.transform = `translateY(${diff}px)`;
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      ctx.font = `${mStyle.fontWeight} ${mStyle.fontSize} ${mStyle.fontFamily}`;
+      const mMetrics = ctx.measureText("ANGGA");
+
+      ctx.font = `${nStyle.fontWeight} ${nStyle.fontSize} ${nStyle.fontFamily}`;
+      const nMetrics = ctx.measureText("ANGGA");
+
+      const mLeading = (parseFloat(mStyle.lineHeight) - (mMetrics.actualBoundingBoxAscent + mMetrics.actualBoundingBoxDescent)) / 2;
+      const mVisualBottom = mRect.top + mLeading + mMetrics.actualBoundingBoxAscent + mMetrics.actualBoundingBoxDescent;
+
+      const nLeading = (parseFloat(nStyle.lineHeight) - (nMetrics.actualBoundingBoxAscent + nMetrics.actualBoundingBoxDescent)) / 2;
+      const nVisualBottom = nRect.top + nLeading + nMetrics.actualBoundingBoxAscent + nMetrics.actualBoundingBoxDescent;
+
+      const shift = mVisualBottom - nVisualBottom;
+      leftBox.style.transform = `translateY(${shift}px)`;
     };
 
     alignWithMarquee();
