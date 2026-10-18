@@ -3,11 +3,11 @@ export const PROJECTS = [
     num: "01",
     title: "Portofolio Utama — PortoNext",
     category: "Web & Infrastructure",
-    desc: "Profil profesional, pengalaman kerja, pendidikan, kemampuan, blog, dan kontak dalam antarmuka modern yang responsif, didukung Cloudflare OpenNext dan Next.js App Router.",
+    desc: "Profil profesional, pengalaman kerja, pendidikan, kemampuan, blog, dan kontak dalam antarmuka modern yang responsif, didukung Linux VPS (Nginx, PM2) dan Next.js App Router.",
     image: "/images/projects/project-portonext.png",
     link: "#hero",
     linkText: "Sedang dibuka ↑",
-    tags: ["Next.js", "React", "Cloudflare", "Tailwind / CSS", "SSR & Edge"]
+    tags: ["Next.js", "React", "Linux VPS", "Nginx", "PM2"]
   },
   {
     num: "02",

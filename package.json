@@ -7,14 +7,10 @@
     "dev": "next dev",
     "start": "next start",
     "images:convert": "node scripts/convert-images.mjs",
-    "postinstall": "npm run images:convert && node scripts/patch-opennext.mjs",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "postinstall": "npm run images:convert",
+    "deploy": "echo \"Cloudflare deployment disabled. Production is hosted on VPS (PM2/Nginx).\""
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.20.10",
     "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.59.0",
@@ -24,8 +20,5 @@
     "resend": "^6.12.4",
     "server-only": "^0.0.1",
     "sharp": "^0.35.4"
-  },
-  "devDependencies": {
-    "wrangler": "^4.150.0"
   }
 }

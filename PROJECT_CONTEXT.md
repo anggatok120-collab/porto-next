@@ -41,7 +41,13 @@
 - **Primary Host**: Standalone VPS Linux `45.66.153.146:20132` (`/var/www/porto-next`).
 - **Process Manager**: PM2 daemon (`porto-next`, port `3005`).
 - **Web Server / Reverse Proxy**: Nginx with SSL termination, HTTP to HTTPS 301 redirection, static Next.js asset caching (`/_next/static/`), and instant HTTP 444 Drop on scanner attacks (`.env`, `.git`, `wp-login`, etc.).
-- **Cloudflare Retired**: Cloudflare Pages / OpenNext is no longer used; all routing is served directly by the VPS Nginx and Node.js.
+- **Cloudflare Fully Deactivated**:
+  - Removed `@opennextjs/cloudflare` and `wrangler` dependencies from `package.json` (removed 308 bloated packages).
+  - Deleted `wrangler.jsonc`, `open-next.config.ts`, and `scripts/patch-opennext.mjs`.
+  - Removed `initOpenNextCloudflareForDev()` from `next.config.mjs` to eliminate background Wrangler dev processes.
+  - Neutralized `npm run deploy` script in `package.json` so no accidental uploads to Cloudflare occur.
+  - Automatic builds on Cloudflare Pages disabled at repo level (no OpenNext configuration exists).
+  - Production traffic routes 100% directly to Linux VPS IP `45.66.153.146`.
 
 ### Security & Secrets Management (Telegram Bots & Resend Email)
 - **Zero Raw Secrets in Git**: No raw tokens allowed in source code or unit test fixtures.
@@ -51,7 +57,7 @@
   - `TELEGRAM_ADMIN_CHAT_ID`: Admin notification receiver ID (`7633699633`).
   - `RESEND_API_KEY`: API Key for sending contact notifications via Resend API to user's personal email.
   - `CONTACT_TO_EMAIL`: Destination email address (`anggatok120@gmail.com`).
-- **Files**: Stored in `.env.local` (Next.js) & `.dev.vars` (Cloudflare Wrangler), both strictly ignored in `.gitignore`. Configured directly on VPS `/var/www/porto-next/.env.local` with `600` permissions.
+- **Files**: Stored in `.env.local` (Next.js) strictly ignored in `.gitignore`. Configured directly on VPS `/var/www/porto-next/.env.local` with `600` permissions. Removed legacy `.dev.vars`.
 
 ### Golden Releases
 - **v1.2.0-golden** (Current Golden Snapshot):
