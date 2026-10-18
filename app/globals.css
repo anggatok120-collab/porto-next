@@ -392,7 +392,7 @@ html.dark .nav-theme-toggle .icon-moon {
 /* Prominent marquee outline text */
 .bg-name-marquee {
   position: absolute;
-  top: 25%;
+  top: 20%;
   left: 0;
   width: 100%;
   overflow: hidden;
@@ -491,7 +491,7 @@ html.dark .bg-name-text {
   gap: 12px;
   z-index: 10;
   max-width: 540px;
-  padding-top: 170px;
+  padding-top: 240px;
 }
 
 .hero-greeting-tag {
