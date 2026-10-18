@@ -35,6 +35,7 @@ test("POST /api/contact menolak format email tidak valid", async () => {
 test("POST /api/contact berhasil memproses pesan valid dan mengirim notifikasi Telegram", async () => {
   let telegramCalled = false;
   let sentPayload = null;
+  process.env.TELEGRAM_LOGS_BOT_TOKEN = "mock_test_token";
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (url, opts) => {
     if (String(url).includes("api.telegram.org")) {

@@ -36,6 +36,7 @@ test("POST /api/track-visit mengabaikan request dari bot atau Uptime-Kuma tanpa 
 test("POST /api/track-visit mengirim notifikasi Telegram untuk pengunjung manusia asli", async () => {
   let telegramCalled = false;
   let sentPayload = null;
+  process.env.TELEGRAM_LOGS_BOT_TOKEN = "mock_test_token";
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (url, opts) => {
     if (String(url).includes("api.telegram.org")) {

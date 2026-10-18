@@ -16,6 +16,7 @@ test("POST /api/admin/login menolak content-type bukan JSON", async () => {
 test("POST /api/admin/login menolak password salah dan mengirim notifikasi kegagalan ke Telegram", async () => {
   process.env.AUTH_SECRET = "12345678901234567890123456789012";
   process.env.ADMIN_PASSWORD = "supersecretadminpassword123";
+  process.env.TELEGRAM_LOGS_BOT_TOKEN = "mock_test_token";
 
   let telegramCalled = false;
   let sentPayload = null;
@@ -54,6 +55,7 @@ test("POST /api/admin/login menolak password salah dan mengirim notifikasi kegag
 test("POST /api/admin/login memproses login berhasil dan mengirim notifikasi sukses ke Telegram", async () => {
   process.env.AUTH_SECRET = "12345678901234567890123456789012";
   process.env.ADMIN_PASSWORD = "supersecretadminpassword123";
+  process.env.TELEGRAM_LOGS_BOT_TOKEN = "mock_test_token";
 
   let telegramCalled = false;
   let sentPayload = null;
