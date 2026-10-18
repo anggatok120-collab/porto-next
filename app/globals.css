@@ -392,7 +392,7 @@ html.dark .nav-theme-toggle .icon-moon {
 /* Prominent marquee outline text */
 .bg-name-marquee {
   position: absolute;
-  top: 38%;
+  top: 25%;
   left: 0;
   width: 100%;
   overflow: hidden;
@@ -411,7 +411,7 @@ html.dark .nav-theme-toggle .icon-moon {
 .bg-name-text {
   font-family: var(--font-sans);
   font-weight: 800;
-  font-size: clamp(100px, 17vw, 280px);
+  font-size: clamp(90px, 16vw, 240px);
   color: transparent;
   -webkit-text-stroke-width: 1.8px;
   -webkit-text-stroke-color: var(--text);
@@ -477,7 +477,7 @@ html.dark .bg-name-text {
   max-width: 1240px;
   width: 100%;
   margin: 0 auto;
-  padding: 130px 32px 50px;
+  padding: 120px 32px 50px;
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -491,7 +491,7 @@ html.dark .bg-name-text {
   gap: 12px;
   z-index: 10;
   max-width: 540px;
-  padding-top: 40px;
+  padding-top: 170px;
 }
 
 .hero-greeting-tag {
