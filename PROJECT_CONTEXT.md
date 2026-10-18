@@ -15,7 +15,7 @@
 #### 2. Mobile Layout (`max-width: 768px`)
 - **Viewport Target**: 360px to 420px widths (Android & iOS).
 - **Portrait Framing**:
-  - Centered horizontally, anchored below navbar (`top: 56px`), height capped at `48vh` / `max-height: 420px`.
+  - Centered horizontally, anchored with comfortable breathing room below navbar (`top: 82px`), height capped at `46vh` / `max-height: 400px` so the head never touches or overlaps the floating navbar pill.
   - Subtle bottom gradient mask (`linear-gradient(to bottom, black 0%, black 72%, transparent 98%)`) provides a smooth visual blend into the background watermark marquee.
 - **Button Grid Architecture**:
   - Container `.hero-actions-group`: `display: flex; flex-direction: column; width: 100%; gap: 8px;`
@@ -26,8 +26,8 @@
 - Typography & Content:
   - Bio summary (`.hero-bio-summary`): Shown on mobile (`display: block; font-size: 12px; line-height: 1.45; max-width: 100%;`) to provide immediate context without clutter.
 - **Desktop Parity on Mobile**:
-  - Terminal Badge (`.hero-term-badge`): Enabled on mobile, floating on upper-left chest of portrait (`top: 190px; left: 14px; width: 165px; transform: rotate(-3deg);`) with compact typography.
-  - Stats Pill (`.hero-stat-box`): Enabled on mobile, positioned on right torso (`top: 310px; right: 14px;`) displaying 2.5+ TAHUN / 4 PERUSAHAAN / 24/7 NOC to match desktop credibility aesthetic.
+  - Terminal Badge (`.hero-term-badge`): Enabled on mobile, floating on upper-left chest of portrait (`top: 212px; left: 14px; width: 165px; transform: rotate(-3deg);`) with compact typography.
+  - Stats Pill (`.hero-stat-box`): Enabled on mobile, positioned on right torso (`top: 328px; right: 14px;`) displaying 2.5+ TAHUN / 4 PERUSAHAAN / 24/7 NOC to match desktop credibility aesthetic.
 
 #### 3. Floating Pill Navbar (`.nav-bar`)
 - **Desktop**:

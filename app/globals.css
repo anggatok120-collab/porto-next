@@ -2292,18 +2292,18 @@ html.dark .trait-card {
 
   .concentric-circles {
     left: 50%;
-    top: 29%;
+    top: 32%;
     transform: translate(-50%, -50%) scale(0.68);
   }
 
   .profile-wrap {
     position: absolute;
-    top: 56px;
+    top: 82px;
     bottom: auto;
     left: 50%;
     transform: translateX(-50%);
-    height: 48vh;
-    max-height: 420px;
+    height: 46vh;
+    max-height: 400px;
     z-index: 10;
     display: flex;
     align-items: flex-end;
@@ -2334,7 +2334,7 @@ html.dark .trait-card {
   .hero-term-badge {
     display: block;
     position: absolute;
-    top: 190px;
+    top: 212px;
     bottom: auto;
     left: 14px;
     width: 165px;
@@ -2369,7 +2369,7 @@ html.dark .trait-card {
   .hero-right-box {
     display: flex;
     position: absolute;
-    top: 310px;
+    top: 328px;
     right: 14px;
     z-index: 110;
   }
