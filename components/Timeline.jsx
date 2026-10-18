@@ -133,15 +133,15 @@ export default function Timeline() {
             <Reveal key={item.company + item.period} delay={index * 60}>
               <div className="timeline-card">
                 <div className="timeline-header">
-                  <div>
+                  <div className="timeline-top-meta">
                     <span className="timeline-badge">{item.badge}</span>
-                    <h3 className="timeline-role">{item.role}</h3>
-                    <p className="timeline-company">{item.company} · {item.location}</p>
+                    <div className="timeline-period-badge">
+                      <Calendar size={13} />
+                      <span>{item.period}</span>
+                    </div>
                   </div>
-                  <div className="timeline-period-badge">
-                    <Calendar size={13} />
-                    <span>{item.period}</span>
-                  </div>
+                  <h3 className="timeline-role">{item.role}</h3>
+                  <p className="timeline-company">{item.company} · {item.location}</p>
                 </div>
 
                 <ul className="timeline-points">
@@ -165,15 +165,15 @@ export default function Timeline() {
             <Reveal key={item.school} delay={index * 60}>
               <div className="timeline-card">
                 <div className="timeline-header">
-                  <div>
+                  <div className="timeline-top-meta">
                     <span className="timeline-badge timeline-badge--edu">{item.badge}</span>
-                    <h3 className="timeline-role">{item.school}</h3>
-                    <p className="timeline-company">{item.major}</p>
+                    <div className="timeline-period-badge">
+                      <Calendar size={13} />
+                      <span>{item.period}</span>
+                    </div>
                   </div>
-                  <div className="timeline-period-badge">
-                    <Calendar size={13} />
-                    <span>{item.period}</span>
-                  </div>
+                  <h3 className="timeline-role">{item.school}</h3>
+                  <p className="timeline-company">{item.major}</p>
                 </div>
 
                 <p className="timeline-desc">{item.desc}</p>

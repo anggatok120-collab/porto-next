@@ -1655,10 +1655,18 @@ html.dark .trait-card {
 
 .timeline-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 16px;
-  gap: 16px;
+  gap: 4px;
+}
+
+.timeline-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
 .timeline-badge {
@@ -1672,7 +1680,7 @@ html.dark .trait-card {
   border-radius: 4px;
   background: var(--surface-2);
   color: var(--text);
-  margin-bottom: 6px;
+  margin-bottom: 0;
 }
 
 .timeline-badge--edu {
@@ -1684,11 +1692,14 @@ html.dark .trait-card {
   font-size: 19px;
   font-weight: 700;
   color: var(--text);
+  line-height: 1.35;
+  margin: 0;
 }
 
 .timeline-company {
   font-size: 13.5px;
   color: var(--text-muted);
+  line-height: 1.4;
   margin-top: 2px;
 }
 
@@ -2587,6 +2598,70 @@ html.dark .trait-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+  }
+
+  /* Mobile Timeline (Work Experience & Education) */
+  .timeline-tabs {
+    display: flex;
+    width: 100%;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .timeline-tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  .timeline-card {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+  .timeline-header {
+    margin-bottom: 12px;
+    gap: 4px;
+  }
+  .timeline-top-meta {
+    margin-bottom: 6px;
+  }
+  .timeline-role {
+    font-size: 17px;
+    line-height: 1.35;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+  .timeline-company {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+  .timeline-period-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    gap: 5px;
+  }
+  .timeline-points {
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+  .timeline-points li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding-left: 16px;
+  }
+  .timeline-points li::before {
+    left: 2px;
+  }
+  .timeline-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .timeline-tag {
+    font-size: 10.5px;
+    padding: 2.5px 7.5px;
   }
 }
 
