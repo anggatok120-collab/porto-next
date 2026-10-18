@@ -718,20 +718,34 @@ html.dark .work-album-item {
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   padding: 28px 24px;
+  height: fit-content;
+}
+
+.capabilities-sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .capabilities-sidebar-title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 8px;
   color: var(--text);
+}
+
+.capabilities-sidebar-hint {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: #22c55e;
+  font-weight: 600;
 }
 
 .capabilities-sidebar-desc {
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.5;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .capabilities-tools-grid {
@@ -743,15 +757,27 @@ html.dark .work-album-item {
 .capability-tool-badge {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   padding: 10px 12px;
   background: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: 10px;
-  transition: transform 0.15s ease;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
 }
 
 .capability-tool-badge:hover {
   transform: translateY(-2px);
+  border-color: var(--text-muted);
+  background: var(--surface);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.capability-tool-badge.active {
+  border-color: var(--accent);
+  background: var(--surface);
 }
 
 .tool-indicator-dot {
@@ -768,39 +794,44 @@ html.dark .work-album-item {
 }
 
 .tool-tag {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--text-muted);
   font-family: var(--font-mono);
+  margin-top: 1px;
 }
 
-.capabilities-columns {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* 4 Core Services Grid */
+.capabilities-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-.capability-card {
+.capability-service-card {
   background: var(--surface);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  padding: 32px 28px;
-  transition: border-color 0.2s ease;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.capability-card:hover {
+.capability-service-card:hover {
+  transform: translateY(-2px);
   border-color: var(--text-muted);
 }
 
-.capability-card-header {
+.capability-service-top {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  margin-bottom: 14px;
 }
 
 .capability-num {
   font-family: var(--font-mono);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--text);
   line-height: 1;
@@ -808,40 +839,156 @@ html.dark .work-album-item {
 
 .capability-category {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   color: var(--text-muted);
+  margin-left: 12px;
+  flex: 1;
 }
 
-.capability-card-title {
-  font-size: 20px;
+.capability-service-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.capability-service-title {
+  font-size: 17px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: var(--text);
 }
 
-.capability-card-desc {
-  font-size: 14px;
+.capability-service-desc {
+  font-size: 13px;
   line-height: 1.6;
   color: var(--text-muted);
-  margin-bottom: 22px;
+  margin-bottom: 18px;
+  flex: 1;
 }
 
 .capability-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .tag-pill {
-  font-size: 11.5px;
-  padding: 6px 12px;
+  font-size: 11px;
+  padding: 4px 10px;
   border-radius: 999px;
   background: var(--surface-2);
   border: 1px solid var(--line);
   color: var(--text);
   font-weight: 500;
+}
+
+/* Tool Interactive Modal Dialog */
+.tool-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.tool-modal-dialog {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 620px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0.92); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.tool-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.tool-modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tool-modal-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.tool-modal-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.tool-modal-cat {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.tool-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tool-modal-close:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.tool-modal-screen {
+  padding: 20px;
+  background: var(--bg);
+}
+
+.tool-modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.tool-modal-desc {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
 }
 
 /* ==========================================================================
@@ -901,7 +1048,7 @@ html.dark .work-album-item {
 
 .about-stats-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   padding: 16px 0;
   border-top: 1px solid var(--line);
@@ -915,33 +1062,70 @@ html.dark .work-album-item {
 }
 
 .about-stat-num {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--text);
   font-family: var(--font-mono);
 }
 
 .about-stat-label {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
   margin-top: 2px;
 }
 
 .about-bio {
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.65;
   color: var(--text-muted);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+}
+
+.about-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 18px;
+  padding: 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 18px 0 24px;
+}
+
+.about-meta-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.about-meta-k {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.about-meta-v {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.about-meta-v--highlight {
+  color: #22c55e;
+  font-weight: 600;
 }
 
 .about-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   margin-top: 24px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
-  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .about-cv-btn {

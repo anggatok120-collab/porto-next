@@ -6,16 +6,16 @@ import Reveal from "./Reveal";
 import TypewriterTitle from "./TypewriterTitle";
 
 const TRAITS = [
-  "Problem Solver",
-  "24/7 Monitoring",
-  "Detail-Oriented",
-  "Reliable",
-  "Troubleshooter",
-  "Quick Learner",
-  "Analytical Mind",
-  "Team Player",
-  "Proactive",
-  "Customer-Centric",
+  "Pemecahan Masalah",
+  "Monitoring Jaringan 24/7",
+  "Berpikir Analitis",
+  "Troubleshooting MikroTik",
+  "Administrasi Server Linux",
+  "Komunikasi & Kerja Tim",
+  "Manajemen Waktu & SLA",
+  "Adaptabilitas Cepat",
+  "Orientasi Layanan",
+  "Smart Aquaculture IoT",
 ];
 
 const CARD_SCATTER = [
@@ -84,18 +84,43 @@ export default function About() {
               <span className="about-stat-label">Perusahaan</span>
             </div>
             <div className="about-stat-item">
+              <span className="about-stat-num">18+</span>
+              <span className="about-stat-label">Keahlian Teknis</span>
+            </div>
+            <div className="about-stat-item">
               <span className="about-stat-num">24/7</span>
               <span className="about-stat-label">Operasi NOC</span>
             </div>
           </div>
 
           <p className="about-bio">
-            Network Engineer dengan rekam jejak 2,5+ tahun — 1,5 tahun karyawan di Network Operations Center (NOC) dan 1 tahun magang di Customer Support. Terbiasa menangani troubleshooting jaringan, monitoring 24/7 menggunakan Zabbix dan Grafana, konfigurasi MikroTik, routing & switching VLAN, serta administrasi server Linux.
+            Network Engineer dengan pengalaman 2,5+ tahun — 1,5 tahun karyawan di NOC dan 1 tahun magang di Customer Support, mencakup monitoring jaringan dan customer support.
+          </p>
+          <p className="about-bio">
+            Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing & switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.
+          </p>
+          <p className="about-bio">
+            Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.
           </p>
 
-          <p className="about-bio">
-            Saat ini juga menempuh pendidikan tinggi di Universitas Muhammadiyah Malang (UMM) dengan minat riset penerapan otomasi berbasis sensor IoT dan telemetri mikrokontroler (*Smart Aquaculture*).
-          </p>
+          <div className="about-meta-grid">
+            <div className="about-meta-cell">
+              <span className="about-meta-k">Lokasi</span>
+              <span className="about-meta-v">Malang, Jawa Timur</span>
+            </div>
+            <div className="about-meta-cell">
+              <span className="about-meta-k">Bahasa</span>
+              <span className="about-meta-v">Indonesia (Aktif), Inggris (Menengah)</span>
+            </div>
+            <div className="about-meta-cell">
+              <span className="about-meta-k">Bidang</span>
+              <span className="about-meta-v">Networking / IT Infrastructure</span>
+            </div>
+            <div className="about-meta-cell">
+              <span className="about-meta-k">Status</span>
+              <span className="about-meta-v about-meta-v--highlight">Mahasiswa Aktif — UMM (Akuakultur)</span>
+            </div>
+          </div>
 
           <div className="about-actions">
             <a

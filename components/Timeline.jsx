@@ -81,19 +81,19 @@ const EXPERIENCES = [
 const EDUCATION = [
   {
     school: "Universitas Muhammadiyah Malang (UMM)",
-    major: "Akuakultur (Perikanan) — Smart Aquaculture IoT",
+    major: "Akuakultur (Perikanan)",
     period: "Sep 2026 – Sekarang",
     badge: "Mahasiswa Aktif",
-    desc: "Menempuh pendidikan tinggi Program Studi Akuakultur. Mempelajari teknologi budidaya perairan modern, manajemen kualitas air & ekosistem akuatik, serta integrasi sistem otomasi dan sensor monitoring berbasis IoT (Smart Aquaculture).",
-    tags: ["Smart Aquaculture", "IoT", "Water Quality Automation", "Sensors"]
+    desc: "Menempuh pendidikan tinggi Program Studi Akuakultur (Perikanan) di Universitas Muhammadiyah Malang (UMM). Mempelajari teknologi budidaya perairan modern, manajemen kualitas air & ekosistem akuatik, nutrisi biota air, serta pemanfaatan sistem otomasi dan monitoring berbasis IoT (Smart Aquaculture).",
+    tags: ["Akuakultur", "Smart Aquaculture", "IoT Telemetri", "Kualitas Air"]
   },
   {
     school: "SMK PGRI 3 Malang",
     major: "Teknik Komputer dan Jaringan (TKJ)",
     period: "2022 – 2025",
     badge: "Alumni",
-    desc: "Mempelajari dasar dan implementasi praktis konfigurasi MikroTik, routing & switching, administrasi server Linux, fiber optik dasar, serta manajemen infrastruktur jaringan komputer.",
-    tags: ["MikroTik", "Routing & Switching", "Linux Server", "Fiber Optic"]
+    desc: "Melaksanakan proyek praktikum jaringan komputer dan administrasi server sebagai implementasi keterampilan teknis di bidang IT dan networking.",
+    tags: ["Konfigurasi MikroTik", "Routing & Switching", "Linux Server", "Fiber Optik Dasar", "Administrasi Jaringan"]
   }
 ];
 
