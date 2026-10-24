@@ -1874,6 +1874,7 @@ html.dark .trait-card {
 
 .contact-card-info {
   flex: 1;
+  min-width: 0;
 }
 
 .contact-card-label {
@@ -1887,6 +1888,8 @@ html.dark .trait-card {
   font-size: 14px;
   font-weight: 600;
   color: var(--text);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .contact-card-arrow {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, MessageSquare, Send, X, Minus, CheckCircle, ExternalLink } from "lucide-react";
+import { Mail, MessageSquare, Send, X, Minus, CheckCircle, ExternalLink, MapPin } from "lucide-react";
 import Reveal from "./Reveal";
 
 function GithubIcon({ size = 20 }) {
@@ -77,10 +77,17 @@ export default function Contact({ isModalOpen, setIsModalOpen }) {
     },
     {
       num: "04",
+      label: "LINKEDIN",
+      value: "linkedin.com/in/angga-angga-1147b1369",
+      href: "https://www.linkedin.com/in/angga-angga-1147b1369",
+      icon: LinkedinIcon,
+    },
+    {
+      num: "05",
       label: "LOKASI",
       value: "Malang, Jawa Timur, Indonesia",
       href: "https://www.google.com/maps/search/Malang,+Jawa+Timur,+Indonesia",
-      icon: LinkedinIcon,
+      icon: MapPin,
     },
   ];
 
