@@ -20,9 +20,9 @@ export default function PrivacyPage() {
 
         <h2>Analitik</h2>
         <p>
-          Situs ini menggunakan Vercel Analytics untuk memahami penggunaan situs secara
-          agregat, seperti jumlah kunjungan dan halaman yang dibuka. Data tersebut tidak
-          digunakan untuk membuat profil iklan pribadi.
+          Situs ini menggunakan sistem analitik internal mandiri (self-hosted) untuk memahami penggunaan
+          situs secara agregat, seperti jumlah kunjungan dan halaman yang dibuka. Data tersebut disimpan
+          secara privat dan tidak dibagikan kepada pihak ketiga maupun digunakan untuk profil iklan.
         </p>
 
         <h2>Cookie dan penyimpanan lokal</h2>
@@ -34,9 +34,9 @@ export default function PrivacyPage() {
 
         <h2>Pihak ketiga</h2>
         <p>
-          Pesan dari formulir kontak dapat diproses oleh penyedia layanan email untuk
-          tujuan pengiriman. Infrastruktur situs dioperasikan melalui Vercel. Informasi
-          tidak dijual kepada pihak ketiga.
+          Pesan dari formulir kontak diproses secara aman oleh penyedia layanan pengiriman email.
+          Seluruh infrastruktur situs dioperasikan secara mandiri pada private Linux VPS. Informasi
+          tidak pernah dijual kepada pihak ketiga.
         </p>
 
         <h2>Hak Anda</h2>

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { Analytics } from '@vercel/analytics/react'
 
 async function getVisitorGeo() {
   if (typeof window === 'undefined') return null
@@ -104,5 +103,5 @@ export default function AnalyticsClient() {
     } catch {}
   }, [pathname])
 
-  return <Analytics />
+  return null
 }

@@ -2,11 +2,11 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://va.vercel-scripts.com`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://vitals.vercel-insights.com https://*.vercel-insights.com https://ipwho.is https://api.ipify.org https://api64.ipify.org",
+  "connect-src 'self' https://ipwho.is https://api.ipify.org https://api64.ipify.org",
   "frame-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
