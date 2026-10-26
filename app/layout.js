@@ -89,11 +89,15 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.svg?v=5', type: 'image/svg+xml' },
-      { url: '/favicon.ico?v=5', sizes: '32x32' },
+      { url: '/favicon.svg?v=6', type: 'image/svg+xml' },
+      { url: '/favicon-48x48.png?v=6', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-192.png?v=6', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon.ico?v=6', sizes: 'any' },
     ],
-    shortcut: '/favicon.svg?v=5',
-    apple: '/apple-touch-icon.png?v=5',
+    shortcut: '/favicon.svg?v=6',
+    apple: [
+      { url: '/apple-touch-icon.png?v=6', sizes: '180x180', type: 'image/png' },
+    ],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'google832f2eff07073811',

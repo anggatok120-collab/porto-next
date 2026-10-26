@@ -53,7 +53,15 @@ export default function Header({ onOpenContact }) {
       <nav ref={navRef} className={`nav-bar ${scrolled ? "scrolled" : ""} ${menuOpen ? "nav-bar--expanded" : ""}`}>
         <div className="nav-mobile-header">
           <a href="#hero" className="nav-left">
-            <div className="nav-logo">AG</div>
+            <div className="nav-logo" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="256,105 336,245 292,245 256,182 220,245 176,245" fill="currentColor"/>
+                <polygon points="164,268 210,268 144,400 96,400" fill="currentColor" fillOpacity="0.85"/>
+                <polygon points="302,268 348,268 416,400 368,400" fill="currentColor" fillOpacity="0.75"/>
+                <polygon points="176,312 336,312 322,342 190,342" fill="#10b981"/>
+                <circle cx="256" cy="98" r="10" fill="#34d399"/>
+              </svg>
+            </div>
             <div className="nav-brand">ANGGA</div>
           </a>
           <div className="nav-mobile-actions">
