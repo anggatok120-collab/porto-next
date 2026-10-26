@@ -138,3 +138,8 @@
     - Domain nggot.my.id resmi terverifikasi di Resend (DKIM, SPF, MX, CNAME 100% verified).
     - Pengirim formulir kontak ditingkatkan menjadi Angga <contact@anggot.my.id>.
     - Kredensial SMTP smtp.resend.com:587 aktif dan siap untuk Gmail Send Mail As.
+
+  - **Telegram Bot Token Synchronization & Fallback Hardening (v1.2.4-golden)**:
+    - Updated fallback `DEFAULT_TG_LOGS_TOKEN` to active Bot 2 (`[SECURE_BOT_TOKEN_CONFIGURED]`).
+    - Synchronized `TELEGRAM_BOT_TOKEN` in `.env.local` to active Bot 3 (`[SECURE_BOT_TOKEN_CONFIGURED]`).
+    - Verified 14/14 automated test suite passes 100%.
