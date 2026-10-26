@@ -96,7 +96,7 @@ export const metadata = {
     apple: '/apple-touch-icon.png?v=5',
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'google832f2eff07073811',
   },
 }
 
