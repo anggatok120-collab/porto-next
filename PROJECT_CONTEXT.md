@@ -133,3 +133,8 @@
     - Email kontak publik resmi diubah dari `anggatok120@gmail.com` menjadi `contact@anggot.my.id`.
     - Diperbarui pada `components/Contact.jsx`, `app/privacy/page.js`, dan `app/admin/dashboard/page.js`.
     - Cloudflare Email Routing aktif meneruskan seluruh pesan masuk `contact@anggot.my.id` ke `anggatok120@gmail.com`.
+
+  - **Custom Domain Resend SMTP & Outbound Sender**:
+    - Domain nggot.my.id resmi terverifikasi di Resend (DKIM, SPF, MX, CNAME 100% verified).
+    - Pengirim formulir kontak ditingkatkan menjadi Angga <contact@anggot.my.id>.
+    - Kredensial SMTP smtp.resend.com:587 aktif dan siap untuk Gmail Send Mail As.
