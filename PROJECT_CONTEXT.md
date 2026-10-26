@@ -91,12 +91,25 @@
     - Rute API (/api/contact, /api/track-visit, /api/admin/*) tetap berjalan normal.
   - **Security Headers & HSTS**:
     - Strict-Transport-Security: max-age=63072000; includeSubDomains; preload (2 tahun - standar HSTS preload).
-    - poweredByHeader: false di 
-ext.config.mjs untuk menyembunyikan eksposur X-Powered-By: Next.js.
+    - poweredByHeader: false di next.config.mjs untuk menyembunyikan eksposur X-Powered-By: Next.js.
     - Camouflage headers: X-Framework: Laravel 11 & X-Powered-By: PHP/8.3 (Laravel 11).
-    - Nginx config /etc/nginx/sites-available/anggot.my.id menambahkan alias domain nggot.web.id dan www.anggot.web.id.
+    - Nginx config /etc/nginx/sites-available/anggot.my.id menambahkan alias domain anggot.web.id dan www.anggot.web.id.
   - **Rate Limiting**:
-    - Form Login Admin (pp/api/admin/login/route.js): Maksimal 5 percobaan gagal per 15 menit per IP (status 429 Too Many Requests, Retry-After: 900).
-    - Form Kontak (pp/api/contact/route.js): Maksimal 5 pengiriman pesan per 10 menit per IP untuk mencegah spam/abuse.
-  - **Automated Tests**: 14/14 tests lolos (100% Green) via 
-pm test.
+    - Form Login Admin (app/api/admin/login/route.js): Maksimal 5 percobaan gagal per 15 menit per IP (status 429 Too Many Requests, Retry-After: 900).
+    - Form Kontak (app/api/contact/route.js): Maksimal 5 pengiriman pesan per 10 menit per IP untuk mencegah spam/abuse.
+  - **Automated Tests**: 14/14 tests lolos (100% Green) via npm test.
+
+- **v1.2.2-golden** (Google Search Console Verification, Nginx Camouflage & Cross-Origin Security Hardening):
+  - **Google Search Console**:
+    - File verifikasi HTML public/google832f2eff07073811.html aktif mengembalikan token verifikasi Google.
+    - Meta tag verifikasi otomatis di <head>: <meta name="google-site-verification" content="google832f2eff07073811" /> di app/layout.js.
+  - **Nginx & Cross-Origin Security Hardening**:
+    - server_tokens off; diaktifkan di /etc/nginx/nginx.conf untuk membuang kebocoran banner versi nginx/1.24.0 (Ubuntu).
+    - Menambahkan header proteksi lintas-domain:
+      - X-Permitted-Cross-Domain-Policies: none
+      - Cross-Origin-Opener-Policy: same-origin
+      - Cross-Origin-Resource-Policy: same-origin
+      - Cross-Origin-Embedder-Policy: unsafe-none
+  - **Cloudflare Edge Integration**:
+    - anggot.my.id dan www.anggot.my.id aktif pada Cloudflare Orange Cloud (Proxied) dengan HSTS, SSL Full, dan restorasi Real IP.
+  - **Automated Tests**: 14/14 tests lolos (100% Green).
