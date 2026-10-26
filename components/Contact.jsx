@@ -57,8 +57,8 @@ export default function Contact({ isModalOpen, setIsModalOpen }) {
     {
       num: "01",
       label: "EMAIL",
-      value: "anggatok120@gmail.com",
-      href: "mailto:anggatok120@gmail.com?subject=Peluang%20Kerja%20%2F%20Kolaborasi&body=Halo%20Angga%2C%0A%0ANama%20saya%20%5BNama%5D%20dari%20%5BPerusahaan%2FInstansi%5D.%0A%0ASaya%20tertarik%20untuk%20berdiskusi%20mengenai%20%5BTopik%5D.%0A%0ATerima%20kasih.",
+      value: "contact@anggot.my.id",
+      href: "mailto:contact@anggot.my.id?subject=Peluang%20Kerja%20%2F%20Kolaborasi&body=Halo%20Angga%2C%0A%0ANama%20saya%20%5BNama%5D%20dari%20%5BPerusahaan%2FInstansi%5D.%0A%0ASaya%20tertarik%20untuk%20berdiskusi%20mengenai%20%5BTopik%5D.%0A%0ATerima%20kasih.",
       icon: Mail,
     },
     {

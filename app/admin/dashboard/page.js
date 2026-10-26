@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
             </div>
             <p className="admin-card__body" style={{ marginTop: 8 }}>
               Pesan dari contact form dikirim langsung ke email:
-              <strong> anggatok120@gmail.com</strong>
+              <strong> contact@anggot.my.id</strong> (diteruskan ke <code>anggatok120@gmail.com</code>)
             </p>
           </div>
 

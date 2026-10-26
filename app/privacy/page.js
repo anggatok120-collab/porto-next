@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         <p>
           Anda dapat meminta akses, koreksi, atau penghapusan data yang pernah Anda kirim
           melalui formulir kontak. Permintaan dapat dikirim ke{' '}
-          <a href="mailto:anggatok120@gmail.com">anggatok120@gmail.com</a>.
+          <a href="mailto:contact@anggot.my.id">contact@anggot.my.id</a>.
         </p>
 
         <h2>Perubahan kebijakan</h2>
