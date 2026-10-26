@@ -152,7 +152,7 @@ export async function POST(request) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Portfolio <onboarding@resend.dev>',
+          from: process.env.RESEND_FROM_EMAIL || 'Angga <contact@anggot.my.id>',
           to: [targetEmail],
           reply_to: email,
           subject: `Pesan baru dari ${name.replace(/[\r\n]/g, ' ')}`,
