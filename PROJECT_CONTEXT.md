@@ -128,3 +128,8 @@
   - **Live Deploy**:
     - Seluruh aset telah di-build dan di-deploy ke VPS Linux (`porto-next` port 3005).
     - Seluruh endpoint ikon berstatus HTTP 200 OK.
+
+  - **Custom Domain Email Integration**:
+    - Email kontak publik resmi diubah dari `anggatok120@gmail.com` menjadi `contact@anggot.my.id`.
+    - Diperbarui pada `components/Contact.jsx`, `app/privacy/page.js`, dan `app/admin/dashboard/page.js`.
+    - Cloudflare Email Routing aktif meneruskan seluruh pesan masuk `contact@anggot.my.id` ke `anggatok120@gmail.com`.
