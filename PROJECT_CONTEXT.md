@@ -83,3 +83,20 @@
   - Work Gallery Header: Multi-action button group (`Buka Terminal`, `Network Lab`, `Smart Aquaculture`).
   - Zero raw secrets in Git; all bot tokens and API keys secured in `.env.local` (permissions `600` on VPS).
   - VPS snapshot archived at `/var/backups/porto-next-golden/porto-next-golden-v1.2.0.tar.gz`.
+
+- **v1.2.1-golden** (Security Hardening, HTTP 405 Method Filtering, HSTS, & Rate Limiting):
+  - **HTTP 405 Method Filtering (proxy.js)**:
+    - Seluruh rute non-API (/, /admin, /blog, /privacy, dsb.) hanya mengizinkan method GET, POST, HEAD, dan OPTIONS.
+    - Probing method non-standar (PUT, DELETE, TRACE, dsb.) ditolak dengan status **HTTP 405 Method Not Allowed** beserta header Allow: GET, POST, HEAD, OPTIONS.
+    - Rute API (/api/contact, /api/track-visit, /api/admin/*) tetap berjalan normal.
+  - **Security Headers & HSTS**:
+    - Strict-Transport-Security: max-age=63072000; includeSubDomains; preload (2 tahun - standar HSTS preload).
+    - poweredByHeader: false di 
+ext.config.mjs untuk menyembunyikan eksposur X-Powered-By: Next.js.
+    - Camouflage headers: X-Framework: Laravel 11 & X-Powered-By: PHP/8.3 (Laravel 11).
+    - Nginx config /etc/nginx/sites-available/anggot.my.id menambahkan alias domain nggot.web.id dan www.anggot.web.id.
+  - **Rate Limiting**:
+    - Form Login Admin (pp/api/admin/login/route.js): Maksimal 5 percobaan gagal per 15 menit per IP (status 429 Too Many Requests, Retry-After: 900).
+    - Form Kontak (pp/api/contact/route.js): Maksimal 5 pengiriman pesan per 10 menit per IP untuk mencegah spam/abuse.
+  - **Automated Tests**: 14/14 tests lolos (100% Green) via 
+pm test.
