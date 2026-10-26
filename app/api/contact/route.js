@@ -1,11 +1,9 @@
 import { Resend } from 'resend'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const DEFAULT_TG_LOGS_TOKEN = typeof atob === "function" ? atob("ODgwNzU5NjY2OTpBQUhKcGUxTWNUWUw5djR3b1RMRkxTdG83TWRIRnJOM0ZGMA==") : Buffer.from("ODgwNzU5NjY2OTpBQUhKcGUxTWNUWUw5djR3b1RMRkxTdG83TWRIRnJOM0ZGMA==", "base64").toString("utf-8")
+const DEFAULT_TG_LOGS_TOKEN = ""
 const DEFAULT_TG_ADMIN_CHAT_ID = "7633699633"
-const DEFAULT_RESEND_API_KEY = typeof atob === 'function'
-  ? atob('cmVfRDlWQ0ZUZE5fRmpTa2ZVVk00U3o1SGRKeFhQNlk0aUo3')
-  : Buffer.from('cmVfRDlWQ0ZUZE5fRmpTa2ZVVk00U3o1SGRKeFhQNlk0aUo3', 'base64').toString('utf-8')
+const DEFAULT_RESEND_API_KEY = ""
 const DEFAULT_CONTACT_TO_EMAIL = "anggatok120@gmail.com"
 
 const MAX_CONTACT_ATTEMPTS = 5
@@ -137,7 +135,7 @@ export async function POST(request) {
     await sendTelegramContactAlert({ name, email, message })
 
     // Kirim email notifikasi ke pemilik portfolio via Resend
-    const resendApiKey = process.env.RESEND_API_KEY || DEFAULT_RESEND_API_KEY
+    const resendApiKey = process.env.RESEND_API_KEY || ""
     const targetEmail = process.env.CONTACT_TO_EMAIL || DEFAULT_CONTACT_TO_EMAIL
 
     if (resendApiKey) {
