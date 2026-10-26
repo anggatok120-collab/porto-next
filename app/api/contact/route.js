@@ -8,6 +8,30 @@ const DEFAULT_RESEND_API_KEY = typeof atob === 'function'
   : Buffer.from('cmVfRDlWQ0ZUZE5fRmpTa2ZVVk00U3o1SGRKeFhQNlk0aUo3', 'base64').toString('utf-8')
 const DEFAULT_CONTACT_TO_EMAIL = "anggatok120@gmail.com"
 
+const MAX_CONTACT_ATTEMPTS = 5
+const CONTACT_WINDOW_MS = 10 * 60 * 1000
+const contactAttempts = new Map()
+
+export function checkContactRateLimit(ip) {
+  const record = contactAttempts.get(ip)
+  if (!record) return { allowed: true }
+  if (Date.now() > record.expiresAt) {
+    contactAttempts.delete(ip)
+    return { allowed: true }
+  }
+  return { allowed: record.count < MAX_CONTACT_ATTEMPTS }
+}
+
+export function recordContactAttempt(ip) {
+  const current = contactAttempts.get(ip)
+  if (!current || Date.now() > current.expiresAt) {
+    contactAttempts.set(ip, { count: 1, expiresAt: Date.now() + CONTACT_WINDOW_MS })
+    return 1
+  }
+  current.count += 1
+  return current.count
+}
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll('&', '&amp;')
@@ -78,6 +102,18 @@ async function sendTelegramErrorAlert(detail) {
 
 export async function POST(request) {
   try {
+    const ip = request.headers.get('cf-connecting-ip')
+      || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+      || request.headers.get('x-real-ip')
+      || 'unknown'
+
+    if (!checkContactRateLimit(ip).allowed) {
+      return Response.json(
+        { error: 'Terlalu banyak pengiriman pesan. Silakan coba lagi beberapa saat lagi.' },
+        { status: 429, headers: { 'Retry-After': '600' } }
+      )
+    }
+
     const body = await request.json()
     const name = typeof body.name === 'string' ? body.name.trim() : ''
     const email = typeof body.email === 'string' ? body.email.trim() : ''
@@ -94,6 +130,8 @@ export async function POST(request) {
     if (!EMAIL_PATTERN.test(email)) {
       return Response.json({ error: 'Format email tidak valid' }, { status: 400 })
     }
+
+    recordContactAttempt(ip)
 
     // Kirim notifikasi Telegram secara instan
     await sendTelegramContactAlert({ name, email, message })

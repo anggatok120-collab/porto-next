@@ -1,11 +1,12 @@
 {
   "name": "porto-next",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
+    "test": "node --no-warnings --test test/*.test.mjs",
     "images:convert": "node scripts/convert-images.mjs",
     "postinstall": "npm run images:convert",
     "deploy": "echo \"Cloudflare deployment disabled. Production is hosted on VPS (PM2/Nginx).\""

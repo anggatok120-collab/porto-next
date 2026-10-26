@@ -2,6 +2,34 @@ import { ADMIN_COOKIE, createAdminToken, verifyAdminPassword } from '../../../li
 const DEFAULT_TG_LOGS_TOKEN = "8807596669:AAFy3cV14E2uh0kRIaI9OXNXtPU8uAg3cWw"
 const DEFAULT_TG_ADMIN_CHAT_ID = "7633699633"
 
+const MAX_LOGIN_ATTEMPTS = 5
+const LOGIN_WINDOW_MS = 15 * 60 * 1000
+const loginAttempts = new Map()
+
+export function checkLoginRateLimit(ip) {
+  const record = loginAttempts.get(ip)
+  if (!record) return { allowed: true, remaining: MAX_LOGIN_ATTEMPTS }
+  if (Date.now() > record.expiresAt) {
+    loginAttempts.delete(ip)
+    return { allowed: true, remaining: MAX_LOGIN_ATTEMPTS }
+  }
+  return { allowed: record.count < MAX_LOGIN_ATTEMPTS, remaining: Math.max(0, MAX_LOGIN_ATTEMPTS - record.count) }
+}
+
+export function recordFailedLogin(ip) {
+  const current = loginAttempts.get(ip)
+  if (!current || Date.now() > current.expiresAt) {
+    loginAttempts.set(ip, { count: 1, expiresAt: Date.now() + LOGIN_WINDOW_MS })
+    return 1
+  }
+  current.count += 1
+  return current.count
+}
+
+export function clearFailedLogin(ip) {
+  loginAttempts.delete(ip)
+}
+
 function escapeHtml(value) {
   return String(value ?? "").replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
 }
@@ -152,6 +180,14 @@ export async function POST(request) {
     } catch {}
 
     const ip = getClientIp(request, body)
+    const rateLimit = checkLoginRateLimit(ip)
+    if (!rateLimit.allowed) {
+      return Response.json(
+        { error: 'Terlalu banyak percobaan login. Silakan coba lagi dalam 15 menit.' },
+        { status: 429, headers: { 'Retry-After': '900' } }
+      )
+    }
+
     const userAgent = request.headers.get('user-agent') || ''
     const password = typeof body.password === 'string' ? body.password : ''
     const token = createAdminToken()
@@ -167,6 +203,7 @@ export async function POST(request) {
     }
 
     if (!verifyAdminPassword(password)) {
+      recordFailedLogin(ip)
       await sendTelegramLoginNotification({
         success: false,
         ip,
@@ -176,6 +213,7 @@ export async function POST(request) {
       return Response.json({ error: 'Password salah' }, { status: 401 })
     }
 
+    clearFailedLogin(ip)
     await sendTelegramLoginNotification({
       success: true,
       ip,
