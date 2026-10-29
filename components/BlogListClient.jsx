@@ -180,7 +180,7 @@ export default function BlogListClient({ initialPosts = [] }) {
                     <div className="blog-card__footer">
                       <div className="blog-card__author">
                         <div className="blog-card__avatar">
-                          <img src="/images/angga.jpg" alt="Angga" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                          <img src="/images/angga.jpg?v=2" alt="Angga" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                           <span>AG</span>
                         </div>
                         <div className="blog-card__author-info">

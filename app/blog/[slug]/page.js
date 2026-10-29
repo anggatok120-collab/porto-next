@@ -137,7 +137,7 @@ export default async function BlogPostPage({ params }) {
           <div className="blog-article-author-card">
             <div className="blog-article-author-avatar">
               <img
-                src="/images/angga.jpg"
+                src="/images/angga.jpg?v=2"
                 alt={post.author}
               />
             </div>
@@ -172,7 +172,7 @@ export default async function BlogPostPage({ params }) {
           <div className="blog-author-bio-header">
             <div className="blog-author-bio-avatar">
               <img
-                src="/images/angga.jpg"
+                src="/images/angga.jpg?v=2"
                 alt="Angga"
               />
             </div>
