@@ -15,7 +15,7 @@ published: true
 
 Di kolam budidaya, jumlah benih ikan yang ditebar sering kali menjadi keputusan pertama sekaligus yang paling menentukan keberhasilan siklus budidaya. Pembudidaya kerap tergoda menebar benih sebanyak mungkin dengan ekspektasi hasil panen berlipat ganda, padahal organisme akuatik hidup dalam keterbatasan ruang gerak, daya dukung lingkungan, serta ketersediaan oksigen terlarut (*Dissolved Oxygen*).
 
-Jumlah ikan per satuan luas permukaan atau volume air inilah yang didefinisikan sebagai **padat tebar (*stocking density*)**, yang lazim dinyatakan dalam satuan ekor per meter kubik (ekor/m³) atau ekor per liter. Tulisan ini mengkaji secara komprehensif bagaimana padat tebar memengaruhi laju pertumbuhan dan sintasan (*Survival Rate*) ikan, berpijak pada sejumlah studi empiris budidaya komoditas air tawar utama, yakni lele dumbo (*Clarias sp.*) dan ikan nila (*Oreochromis niloticus*).
+Jumlah ikan per satuan luas permukaan atau volume air inilah yang didefinisikan sebagai **padat tebar** *(stocking density)*, yang lazim dinyatakan dalam satuan ekor per meter kubik (ekor/m³) atau ekor per liter. Tulisan ini mengkaji secara komprehensif bagaimana padat tebar memengaruhi laju pertumbuhan dan sintasan (*Survival Rate*) ikan, berpijak pada sejumlah studi empiris budidaya komoditas air tawar utama, yakni lele dumbo (*Clarias sp.*) dan ikan nila (*Oreochromis niloticus*).
 
 ---
 
@@ -57,8 +57,8 @@ Ikan dengan kepadatan lebih longgar tumbuh lebih pesat secara individual karena 
 
 Angka kepadatan optimal bersifat spesifik dan tidak dapat disamaratakan antar-takson. Sebagai komparasi:
 
-- **Ikan Nila (*Oreochromis niloticus*)**: Pada pemeliharaan benih berukuran 20 gram per ekor dengan sistem bioflok, kepadatan terbaik yang direkomendasikan adalah **120 ekor/m³**.
-- **Lele Dumbo (*Clarias sp.*)**: Memiliki organ pernapasan tambahan berupa *arborescent* yang memungkinkannya menghirup oksigen bebas di atas permukaan, sehingga toleransi kepadatannya jauh lebih tinggi (bahkan melampaui **800 – 1.000 ekor/m³**).
+- **Ikan Nila** *(Oreochromis niloticus)*: Pada pemeliharaan benih berukuran 20 gram per ekor dengan sistem bioflok, kepadatan terbaik yang direkomendasikan adalah **120 ekor/m³**.
+- **Lele Dumbo** *(Clarias sp.)*: Memiliki organ pernapasan tambahan berupa *arborescent* yang memungkinkannya menghirup oksigen bebas di atas permukaan, sehingga toleransi kepadatannya jauh lebih tinggi (bahkan melampaui **800 – 1.000 ekor/m³**).
 
 Menyamaratakan formula padat tebar ikan lele ke komoditas ikan nila tanpa memperhitungkan kebutuhan fisiologis dan kebutuhan oksigen terlarut spesifik spesies merupakan kesalahan fatal dalam tata laksana akuakultur.
 
@@ -105,4 +105,4 @@ Kepadatan tinggi sanggup melipatgandakan keuntungan apabila ditopang kontrol kua
 
 1. **Penerapan Teknologi Bioflok pada Pembesaran Lele.** *Jurnal Pengabdian Nasional, Politeknik Negeri Lampung.* [Tersedia daring](https://jurnal.polinela.ac.id/index.php/JPN/article/view/3520/2101)
 2. **Wijaya, R. D.** *Pengaruh Perbedaan Padat Tebar terhadap Pertumbuhan dan Sintasan Lele Dumbo (Clarias sp.) yang Dipelihara dengan Sistem Bioflok.* Universitas Gadjah Mada Repository. [Tersedia daring](https://etd.repository.ugm.ac.id/penelitian/detail/108974)
-3. **Pertumbuhan dan Konsumsi Pakan Ikan Nila (*Oreochromis niloticus*) yang Dipelihara dengan Sistem Bioflok.** *Sains Akuakultur Tropis, Universitas Diponegoro.* [Tersedia daring](https://ejournal2.undip.ac.id/index.php/sat/article/view/11824)
+3. **Pertumbuhan dan Konsumsi Pakan Ikan Nila** *(Oreochromis niloticus)* **yang Dipelihara dengan Sistem Bioflok.** *Sains Akuakultur Tropis, Universitas Diponegoro.* [Tersedia daring](https://ejournal2.undip.ac.id/index.php/sat/article/view/11824)
