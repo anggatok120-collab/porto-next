@@ -68,7 +68,61 @@ Menyamaratakan formula padat tebar ikan lele ke komoditas ikan nila tanpa memper
 
 Mengapa kepadatan populasi yang melampaui kapasitas tampung (*carrying capacity*) selalu memicu depresiasi performa budidaya? Setidaknya terdapat 3 mekanisme biologis dan biokimiawi:
 
-![3 Jalur Dampak Negatif Kepadatan Berlebih](/images/blog/density-impact-factors-v2.svg)
+<div class="density-impact-grid">
+  <div class="density-card density-card--rose">
+    <div class="density-card__header">
+      <span class="density-card__num">1</span>
+      <h4>Persaingan &amp; Kanibalisme</h4>
+    </div>
+    <div class="density-card__section">
+      <h5>Dominasi Pakan</h5>
+      <p>Ikan agresif merebut pakan di permukaan. Ikan yang kalah menjadi kerdil dan lambat tumbuh.</p>
+    </div>
+    <div class="density-card__section">
+      <h5>Disparitas Ukuran</h5>
+      <p>Keseragaman panen anjlok; memicu kanibalisme massal pada fase benih.</p>
+    </div>
+    <div class="density-card__mitigation">
+      Mitigasi: Grading berkala &amp; sebar pakan merata
+    </div>
+  </div>
+
+  <div class="density-card density-card--amber">
+    <div class="density-card__header">
+      <span class="density-card__num">2</span>
+      <h4>Oksigen &amp; Akumulasi Toksin</h4>
+    </div>
+    <div class="density-card__section">
+      <h5>Defisit DO (Oksigen Terlarut)</h5>
+      <p>Kebutuhan oksigen meroket, paling kritis saat dini hari ketika fotosintesis berhenti.</p>
+    </div>
+    <div class="density-card__section">
+      <h5>Amonia Bebas (NH₃)</h5>
+      <p>Feses &amp; sisa pakan memicu ledakan gas amonia yang merusak insang.</p>
+    </div>
+    <div class="density-card__mitigation">
+      Mitigasi: Aerasi 24 jam &amp; kontrol probiotik
+    </div>
+  </div>
+
+  <div class="density-card density-card--sky">
+    <div class="density-card__header">
+      <span class="density-card__num">3</span>
+      <h4>Stres Fisiologis &amp; Imunitas</h4>
+    </div>
+    <div class="density-card__section">
+      <h5>Energi Tumbuh Terkuras</h5>
+      <p>Energi daging habis untuk mempertahankan homeostasis dari stres lingkungan.</p>
+    </div>
+    <div class="density-card__section">
+      <h5>Transmisi Penyakit Cepat</h5>
+      <p>Populasi rapat mempermudah transmisi bakteri patogen &amp; parasit.</p>
+    </div>
+    <div class="density-card__mitigation">
+      Mitigasi: Kontrol daya dukung air &amp; kepadatan ideal
+    </div>
+  </div>
+</div>
 
 ### 1. Persaingan Pakan dan Kanibalisme
 Ikan yang memiliki watak agresif akan memonopoli pakan di area permukaan. Ikan yang kalah bersaing mengalami defisit nutrisi, memicu disparitas ukuran yang mencolok (*size divergence*). Pada fase benih, disparitas ukuran yang ekstrem mempercepat timbulnya kanibalisme.
