@@ -143,3 +143,18 @@
     - Updated fallback `DEFAULT_TG_LOGS_TOKEN` to active Bot 2 (`[SECURE_BOT_TOKEN_CONFIGURED]`).
     - Synchronized `TELEGRAM_BOT_TOKEN` in `.env.local` to active Bot 3 (`[SECURE_BOT_TOKEN_CONFIGURED]`).
     - Verified 14/14 automated test suite passes 100%.
+
+  - **Blog Overhaul & Publication of Aquaculture Essay (29 Oktober 2026)**:
+    - Merombak arsitektur `/blog` dan `/blog/[slug]` menjadi modular, elegan, dan terintegrasi dengan desain portofolio (dark mode & light mode support).
+    - Memisahkan styling khusus blog ke `app/blog/blog.css` untuk performa dan kemudahan pemeliharaan.
+    - Menambahkan komponen navigasi `components/BlogNav.jsx` dengan logo, breadcrumbs, tombol kembali, dan `ThemeToggle`.
+    - Menambahkan `components/BlogListClient.jsx` dengan pencarian interaktif real-time, filter pill kategori/tag, kartu artikel dengan hover zoom, dan metadata lengkap (tanggal, estimasi waktu baca, bio penulis).
+    - Menambahkan `components/BlogArticleClient.jsx` untuk indikator progress membaca dinamis di bagian atas (*reading progress bar*) dan fitur tombol *Share/Salin Link* interaktif.
+    - Mengintegrasikan renderer Markdown murni `marked` pada Server Component untuk parsing konten artikel lengkap (heading, quotes, list, tabel responsif, badge, dan gambar).
+    - Menerbitkan esai ilmiah lengkap Angga: *"Pengaruh Padat Tebar terhadap Pertumbuhan dan Kelangsungan Hidup Ikan"* (`posts/pengaruh-padat-tebar-akuakultur.md`).
+    - Menyertakan visualisasi infografis SVG kustom:
+      1. Komparasi sistem konvensional vs bioflok (`public/images/blog/stocking-density-tradeoff.svg`).
+      2. 3 Jalur dampak kepadatan tebar berlebih (`public/images/blog/density-impact-factors.svg`).
+      3. Banner grafis teknologi akuakultur cerdas (`public/images/blog/aquaculture-cover.svg`).
+      4. Banner photorealistic fasilitas bioflok modern (`public/images/blog/aquaculture-biofloc.jpg`).
+    - Seluruh pengujian otomatis (14/14 tests) dan build SSG Next.js berhasil lulus 100%.
