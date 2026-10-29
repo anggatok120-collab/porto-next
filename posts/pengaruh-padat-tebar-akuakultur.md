@@ -68,7 +68,7 @@ Menyamaratakan formula padat tebar ikan lele ke komoditas ikan nila tanpa memper
 
 Mengapa kepadatan populasi yang melampaui kapasitas tampung (*carrying capacity*) selalu memicu depresiasi performa budidaya? Setidaknya terdapat 3 mekanisme biologis dan biokimiawi:
 
-![3 Jalur Dampak Negatif Kepadatan Berlebih](/images/blog/density-impact-factors.svg)
+![3 Jalur Dampak Negatif Kepadatan Berlebih](/images/blog/density-impact-factors-v2.svg)
 
 ### 1. Persaingan Pakan dan Kanibalisme
 Ikan yang memiliki watak agresif akan memonopoli pakan di area permukaan. Ikan yang kalah bersaing mengalami defisit nutrisi, memicu disparitas ukuran yang mencolok (*size divergence*). Pada fase benih, disparitas ukuran yang ekstrem mempercepat timbulnya kanibalisme.
