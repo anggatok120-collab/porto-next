@@ -1,6 +1,6 @@
 {
   "name": "porto-next",
-  "version": "1.2.1",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -14,6 +14,7 @@
   "dependencies": {
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.59.0",
+    "marked": "^18.1.2",
     "next": "^16.4.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",

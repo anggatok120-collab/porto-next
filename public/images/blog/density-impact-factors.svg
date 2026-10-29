@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="100%" height="100%" style="border-radius:12px;background:linear-gradient(135deg, #0d1522 0%, #08101a 100%);font-family:system-ui,-apple-system,sans-serif;">
+  <defs>
+    <filter id="shadow2" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="450" y="45" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="800">3 Jalur Dampak Negatif Kepadatan Tebar Berlebih</text>
+  <text x="450" y="70" text-anchor="middle" fill="#94a3b8" font-size="13">Mekanisme biologis dan biokimia yang menurunkan performa ikan saat daya dukung air terlampaui</text>
+
+  <!-- Pillar 1: Persaingan Sumber Daya -->
+  <g transform="translate(40, 100)" filter="url(#shadow2)">
+    <rect width="255" height="240" rx="12" fill="#151e2e" stroke="rgba(244,63,94,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="255" height="42" rx="12" fill="#881337" fill-opacity="0.3"/>
+    <circle cx="24" cy="21" r="10" fill="#f43f5e" fill-opacity="0.2"/>
+    <text x="24" y="25" text-anchor="middle" fill="#fb7185" font-size="12" font-weight="bold">1</text>
+    <text x="44" y="26" fill="#fecdd3" font-size="13" font-weight="700">Persaingan &amp; Kanibalisme</text>
+    
+    <text x="20" y="72" fill="#e2e8f0" font-size="13" font-weight="600">Dominasi Pakan</text>
+    <text x="20" y="92" fill="#94a3b8" font-size="12" width="215">Ikan agresif merebut pakan tercepat. Ikan yang kalah menjadi kerdil.</text>
+
+    <text x="20" y="140" fill="#e2e8f0" font-size="13" font-weight="600">Divergensi Ukuran</text>
+    <text x="20" y="160" fill="#94a3b8" font-size="12">Keseragaman panen anjlok; risiko kanibalisme benih melonjak.</text>
+
+    <rect x="15" y="195" width="225" height="30" rx="6" fill="#1e293b"/>
+    <text x="127" y="214" text-anchor="middle" fill="#f43f5e" font-size="11" font-weight="600">Mitigasi: Grading berkala &amp; sebaran pakan</text>
+  </g>
+
+  <!-- Pillar 2: Oksigen & Toksisitas Amonia -->
+  <g transform="translate(322, 100)" filter="url(#shadow2)">
+    <rect width="255" height="240" rx="12" fill="#151e2e" stroke="rgba(245,158,11,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="255" height="42" rx="12" fill="#78350f" fill-opacity="0.3"/>
+    <circle cx="24" cy="21" r="10" fill="#f59e0b" fill-opacity="0.2"/>
+    <text x="24" y="25" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="bold">2</text>
+    <text x="44" y="26" fill="#fef3c7" font-size="13" font-weight="700">Oksigen &amp; Akumulasi Toksin</text>
+    
+    <text x="20" y="72" fill="#e2e8f0" font-size="13" font-weight="600">Defisit DO (Dissolved Oxygen)</text>
+    <text x="20" y="92" fill="#94a3b8" font-size="12">Kebutuhan oksigen meroket, paling kritis malam hari saat fotosintesis stop.</text>
+
+    <text x="20" y="140" fill="#e2e8f0" font-size="13" font-weight="600">Amonia Bebas (NH₃)</text>
+    <text x="20" y="160" fill="#94a3b8" font-size="12">Feses &amp; sisa pakan memicu ledakan amonia yang merusak insang.</text>
+
+    <rect x="15" y="195" width="225" height="30" rx="6" fill="#1e293b"/>
+    <text x="127" y="214" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="600">Mitigasi: Aerasi non-stop &amp; probiotik</text>
+  </g>
+
+  <!-- Pillar 3: Stres & Penularan Patogen -->
+  <g transform="translate(605, 100)" filter="url(#shadow2)">
+    <rect width="255" height="240" rx="12" fill="#151e2e" stroke="rgba(56,189,248,0.3)" stroke-width="1.2"/>
+    <rect x="0" y="0" width="255" height="42" rx="12" fill="#0369a1" fill-opacity="0.3"/>
+    <circle cx="24" cy="21" r="10" fill="#38bdf8" fill-opacity="0.2"/>
+    <text x="24" y="25" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="bold">3</text>
+    <text x="44" y="26" fill="#e0f2fe" font-size="13" font-weight="700">Stres Fisiologis &amp; Imunitas</text>
+    
+    <text x="20" y="72" fill="#e2e8f0" font-size="13" font-weight="600">Energi Pertumbuhan Terkuras</text>
+    <text x="20" y="92" fill="#94a3b8" font-size="12">Energi yang harusnya untuk daging habis untuk adaptasi homeostasis.</text>
+
+    <text x="20" y="140" fill="#e2e8f0" font-size="13" font-weight="600">Transmisi Penyakit Cepat</text>
+    <text x="20" y="160" fill="#94a3b8" font-size="12">Jarak antar-individu rapat mempermudah penularan bakteri/parasit.</text>
+
+    <rect x="15" y="195" width="225" height="30" rx="6" fill="#1e293b"/>
+    <text x="127" y="214" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">Mitigasi: Kontrol kepadatan &amp; air</text>
+  </g>
+</svg>
