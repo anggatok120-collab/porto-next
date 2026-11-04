@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ArrowDown, Terminal, Download, MapPin, Play } from "lucide-react";
 
 export default function Hero() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const heroRef = useRef(null);
-  const marqueeTrackRef = useRef(null);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -19,213 +18,140 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  useEffect(() => {
-    const syncMarqueeSpeed = () => {
-      const track = marqueeTrackRef.current;
-      if (!track) return;
-      const pxPerSecond = window.innerWidth <= 768 ? 95 : 130;
-      const loopDistance = track.scrollWidth / 2;
-      const loopSeconds = Math.max(14, loopDistance / pxPerSecond);
-      heroRef.current?.style.setProperty("--marquee-loop-duration", `${loopSeconds}s`);
-    };
-
-    syncMarqueeSpeed();
-    window.addEventListener("resize", syncMarqueeSpeed);
-    return () => window.removeEventListener("resize", syncMarqueeSpeed);
-  }, []);
-
-  useEffect(() => {
-    const alignWithMarquee = () => {
-      const marquee = marqueeTrackRef.current?.querySelector(".bg-name-text");
-      const name = heroRef.current?.querySelector(".hero-heading-name");
-      const leftBox = heroRef.current?.querySelector(".hero-left-box");
-      if (!marquee || !name || !leftBox) return;
-
-      if (window.innerWidth <= 768) {
-        leftBox.style.transform = "none";
-        return;
-      }
-
-      leftBox.style.transform = "none";
-      const mStyle = window.getComputedStyle(marquee);
-      const nStyle = window.getComputedStyle(name);
-      const mRect = marquee.getBoundingClientRect();
-      const nRect = name.getBoundingClientRect();
-
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      ctx.font = `${mStyle.fontWeight} ${mStyle.fontSize} ${mStyle.fontFamily}`;
-      const mMetrics = ctx.measureText("ANGGA");
-
-      ctx.font = `${nStyle.fontWeight} ${nStyle.fontSize} ${nStyle.fontFamily}`;
-      const nMetrics = ctx.measureText("ANGGA");
-
-      const mLeading = (parseFloat(mStyle.lineHeight) - (mMetrics.actualBoundingBoxAscent + mMetrics.actualBoundingBoxDescent)) / 2;
-      const mVisualBottom = mRect.top + mLeading + mMetrics.actualBoundingBoxAscent + mMetrics.actualBoundingBoxDescent;
-
-      const nLeading = (parseFloat(nStyle.lineHeight) - (nMetrics.actualBoundingBoxAscent + nMetrics.actualBoundingBoxDescent)) / 2;
-      const nVisualBottom = nRect.top + nLeading + nMetrics.actualBoundingBoxAscent + nMetrics.actualBoundingBoxDescent;
-
-      const shift = mVisualBottom - nVisualBottom;
-      leftBox.style.transform = `translateY(${shift}px)`;
-    };
-
-    alignWithMarquee();
-    window.addEventListener("resize", alignWithMarquee);
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(alignWithMarquee);
-    }
-    const t = setTimeout(alignWithMarquee, 300);
-    return () => {
-      window.removeEventListener("resize", alignWithMarquee);
-      clearTimeout(t);
-    };
-  }, []);
-
-  const marqueeText = "ANGGA · NETWORK ENGINEER · NOC · ";
-
   return (
-    <section id="hero" className="hero-root" ref={heroRef}>
-      {/* Background SVG grid & wavy lines */}
-      <div className="hero-grid-pattern" aria-hidden="true" />
+    <section id="hero" className="cinematic-hero">
+      {/* Background Radial Ambient Glow */}
+      <div className="cinematic-hero__glow" aria-hidden="true" />
 
-      {/* Center marquee outline text */}
-      <div className="bg-name-marquee">
-        <div className="bg-name-track" ref={marqueeTrackRef}>
-          <span className="bg-name-text">{marqueeText}</span>
-          <span className="bg-name-text">{marqueeText}</span>
-        </div>
+      {/* Massive Bold Watermark Text behind portrait */}
+      <div className="cinematic-watermark" aria-hidden="true">
+        <span className="cinematic-watermark__text">ANGGA</span>
       </div>
 
-      {/* Mobile-only background fill rows */}
-      {["t1", "t2", "t3", "t4", "b1", "b2", "b3", "b4"].map((pos) => (
-        <div
-          key={pos}
-          className={`bg-name-marquee bg-name-marquee--mobile-extra bg-name-marquee--${pos}`}
-          aria-hidden="true"
-        >
-          <div className="bg-name-track">
-            <span className="bg-name-text">{marqueeText}</span>
-            <span className="bg-name-text">{marqueeText}</span>
-          </div>
-        </div>
-      ))}
-
-      {/* Concentric radar circles */}
-      <div className="concentric-circles" aria-hidden="true">
-        <div className="circle circle-1" />
-        <div className="circle circle-2" />
-        <div className="circle circle-3" />
-      </div>
-
-      {/* Foreground cutout portrait with subtle parallax */}
+      {/* Center Grounded Cutout Portrait */}
       <div
-        className="profile-wrap"
+        className="cinematic-portrait-wrap"
         style={{
-          transform: `translateX(-50%) translate(${mouse.x * 12}px, ${mouse.y * 8}px)`,
-          transition: "transform 0.15s ease-out",
+          transform: `translateX(-50%) translate(${mouse.x * 8}px, ${mouse.y * 6}px)`,
         }}
       >
         <img
           src="/images/foto_cutout.png"
-          alt="Angga - Network Engineer"
-          className="profile-image"
+          alt="Angga - Network Engineer & NOC Specialist"
+          className="cinematic-portrait-img"
           draggable={false}
           priority="true"
         />
+        <div className="cinematic-portrait-gradient-fade" />
       </div>
 
-      {/* Hero Content Overlay: Exact original hero data presented cleanly */}
-      <div className="hero-content-overlay">
-        {/* Left column: Greeting, Title, Description, Action Buttons & Location */}
-        <div className="hero-left-box">
-          <p className="hero-greeting-tag">HALO, SAYA</p>
-          <h1 className="hero-heading-name">ANGGA</h1>
-          <div className="hero-role-row">
-            <span className="hero-role-primary">Network Engineer</span>
-            <span className="hero-role-divider">/</span>
-            <span className="hero-role-secondary">Customer Support</span>
+      {/* Floating Interactive Terminal Badge (Levitating on center-left) */}
+      <div className="cinematic-floating-badge cinematic-floating-badge--terminal">
+        <div className="cinematic-badge-topbar">
+          <span className="dot dot--red" />
+          <span className="dot dot--yellow" />
+          <span className="dot dot--green" />
+          <span className="badge-title">angga@noc-core ~</span>
+        </div>
+        <div className="cinematic-badge-body">
+          <div className="badge-row">
+            <span className="badge-prompt">$</span> whoami
           </div>
-          <p className="hero-bio-summary">
-            2,5+ tahun pengalaman — 1,5 tahun karyawan di Network Operations Center dan 1 tahun magang di Customer Support, monitoring jaringan 24/7, troubleshooting, dan technical support.
+          <div className="badge-output">Angga · Network Engineer</div>
+          <div className="badge-row">
+            <span className="badge-prompt">$</span> status
+          </div>
+          <div className="badge-output badge-output--live">
+            ● 24/7 Monitoring · 99.99% Uptime
+          </div>
+        </div>
+      </div>
+
+      {/* Main Grid Content Overlay */}
+      <div className="cinematic-hero__content">
+        {/* Left Column: Role, Bio, CTAs, Location */}
+        <div className="cinematic-hero__left">
+          <div className="cinematic-role-badge">
+            <span className="cinematic-role-badge__dot" />
+            <span className="cinematic-role-badge__text">
+              NETWORK ENGINEER & NOC SPECIALIST
+            </span>
+          </div>
+
+          <p className="cinematic-hero__bio">
+            Merangkai kestabilan. Mengamankan arus data. Saya memastikan setiap paket, routing, dan konfigurasi server bekerja optimal—dari core router hingga ketersediaan 24/7 tanpa henti.
           </p>
 
-          <div className="hero-actions-group">
-            <a href="#contact" className="hero-btn-action hero-btn-action--primary">
-              Hubungi Saya
+          <div className="cinematic-hero__actions">
+            <a href="#work" className="cinematic-btn cinematic-btn--primary">
+              <span>Lihat karya saya</span>
+              <ArrowDown size={15} />
             </a>
-            <div className="hero-actions-subgroup">
-              <a href="#experience" className="hero-btn-action hero-btn-action--ghost">
-                Lihat Pengalaman
+
+            <div className="cinematic-hero__sub-actions">
+              <a
+                href="/terminal"
+                className="cinematic-btn cinematic-btn--ghost"
+                title="Buka Terminal Interaktif CLI"
+              >
+                <Terminal size={14} />
+                <span>Buka Terminal</span>
               </a>
               <a
                 href="/cv/CV_Angga.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hero-btn-action hero-btn-action--ghost"
+                className="cinematic-btn cinematic-btn--ghost"
               >
-                ↓ Unduh CV
+                <Download size={14} />
+                <span>CV</span>
               </a>
             </div>
           </div>
 
-          <div className="hero-loc-pill">
-            <span className="loc-icon">📍</span>
-            <span className="loc-text">Malang, Indonesia</span>
+          <div className="cinematic-loc-badge">
+            <MapPin size={13} className="cinematic-loc-icon" />
+            <span>MALANG, INDONESIA</span>
           </div>
         </div>
 
-        {/* Floating Terminal Card on left side of center photo */}
-        <div className="hero-term-badge hero-term-badge--photo-left">
-          <div className="hero-term-topbar">
-            <span className="term-dot term-dot-red" />
-            <span className="term-dot term-dot-yellow" />
-            <span className="term-dot term-dot-green" />
-            <span className="term-win-title">angga@portfolio ~</span>
+        {/* Right Column: Stacked Stats & Direct CV Link */}
+        <div className="cinematic-hero__right">
+          <div className="cinematic-stats-card">
+            <div className="cinematic-stat-item">
+              <span className="cinematic-stat-value">2.5+</span>
+              <span className="cinematic-stat-label">TAHUN PENGALAMAN NOC & IT</span>
+            </div>
+            <div className="cinematic-stat-divider" />
+            <div className="cinematic-stat-item">
+              <span className="cinematic-stat-value">18+</span>
+              <span className="cinematic-stat-label">PROYEK, LAB & SERVER DEPLOYMENT</span>
+            </div>
+            <div className="cinematic-stat-divider" />
+            <div className="cinematic-stat-item">
+              <span className="cinematic-stat-value">10+</span>
+              <span className="cinematic-stat-label">SERTIFIKASI & AWARDS</span>
+            </div>
           </div>
-          <div className="hero-term-console">
-            <div className="term-row">
-              <span className="term-prompt">$</span> whoami
-            </div>
-            <div className="term-output">Angga</div>
-            <div className="term-row">
-              <span className="term-prompt">$</span> role
-            </div>
-            <div className="term-output">Network Engineer</div>
-            <div className="term-row">
-              <span className="term-prompt">$</span> status
-            </div>
-            <div className="term-output term-output--highlight">Monitoring jaringan 24/7</div>
-          </div>
-        </div>
 
-        {/* Right column: Mini Stats */}
-        <div className="hero-right-box">
-          <div className="hero-stat-box">
-            <div className="hero-stat-col">
-              <span className="hero-stat-val">2.5+</span>
-              <span className="hero-stat-lbl">TAHUN</span>
-            </div>
-            <div className="hero-stat-bar" />
-            <div className="hero-stat-col">
-              <span className="hero-stat-val">4</span>
-              <span className="hero-stat-lbl">PERUSAHAAN</span>
-            </div>
-            <div className="hero-stat-bar" />
-            <div className="hero-stat-col">
-              <span className="hero-stat-val">24/7</span>
-              <span className="hero-stat-lbl">NOC</span>
-            </div>
+          <div className="cinematic-hero__cv-download">
+            <a
+              href="/cv/CV_Angga.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cinematic-cv-link"
+            >
+              <Download size={14} />
+              <span>DOWNLOAD CV</span>
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Scroll Down indicator */}
-      <a href="#work" className="scroll-indicator" aria-label="Scroll down to work">
-        <div className="scroll-line" />
-        <span className="scroll-text">Scroll Down</span>
+      {/* Bottom Scroll Down Hint */}
+      <a href="#work" className="cinematic-scroll-hint" aria-label="Scroll to work">
+        <span className="cinematic-scroll-line" />
+        <span className="cinematic-scroll-label">SCROLL TO DISCOVER</span>
       </a>
     </section>
   );

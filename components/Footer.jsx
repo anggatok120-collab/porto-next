@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Coffee } from "lucide-react";
+import { Coffee, ArrowUp } from "lucide-react";
 
 export default function Footer() {
   const [coffeeCount, setCoffeeCount] = useState(128);
@@ -14,44 +14,47 @@ export default function Footer() {
     setTimeout(() => setPopping(false), 400);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="footer-root">
-      <div className="footer-inner">
-        {/* Top Row: Brand & Nav Links */}
-        <div className="footer-top-row">
-          <div className="footer-left">
-            <div className="footer-logo">AG</div>
-            <p className="footer-copy">
-              © {new Date().getFullYear()} <strong>Angga</strong> · Network Operations Center (NOC) & Infrastructure Engineer.
+    <footer className="cinematic-footer">
+      <div className="cinematic-container">
+        <div className="cinematic-footer__inner">
+          {/* Left Brand */}
+          <div className="cinematic-footer__left">
+            <a href="#hero" className="cinematic-footer__brand">
+              <span className="brand-name">ANGGA</span>
+              <span className="brand-plus">+</span>
+            </a>
+            <p className="cinematic-footer__copy">
+              © {new Date().getFullYear()} Angga · Network Operations Center (NOC) & Infrastructure Engineer.
             </p>
           </div>
 
-          <div className="footer-links">
-            <Link href="/terminal" className="footer-link">Terminal</Link>
-            <Link href="/network-lab" className="footer-link">Network Lab</Link>
-            <Link href="/aquaculture" className="footer-link">Aquaculture IoT</Link>
-            <Link href="/blog" className="footer-link">Blog</Link>
-            <Link href="/admin" className="footer-link">Admin</Link>
-            <Link href="/privacy" className="footer-link">Privacy</Link>
+          {/* Navigation Links */}
+          <div className="cinematic-footer__links">
+            <Link href="/terminal" className="cinematic-footer__link">Terminal</Link>
+            <Link href="/network-lab" className="cinematic-footer__link">Network Lab</Link>
+            <Link href="/aquaculture" className="cinematic-footer__link">Aquaculture IoT</Link>
+            <Link href="/blog" className="cinematic-footer__link">Blog</Link>
+            <Link href="/admin" className="cinematic-footer__link">Admin</Link>
+            <Link href="/privacy" className="cinematic-footer__link">Privacy</Link>
           </div>
-        </div>
 
-        {/* Bottom Row: Coffee Pill & System Status with ample spacing */}
-        <div className="footer-bottom-row">
-          <button
-            type="button"
-            className={`footer-coffee-pill ${popping ? "pop" : ""}`}
-            onClick={handleCoffee}
-            title="Get me a coffee!"
-          >
-            <span className="coffee-label">Get me a coffee</span>
-            <span className="coffee-icon">☕</span>
-            <span className="coffee-count">{coffeeCount}</span>
-          </button>
-
-          <div className="footer-status">
-            <span className="footer-status-dot" />
-            <span className="footer-status-text">All systems operational · Malang, ID</span>
+          {/* Right Action: Coffee & Scroll */}
+          <div className="cinematic-footer__right">
+            <button
+              type="button"
+              className={`cinematic-coffee-btn ${popping ? "pop" : ""}`}
+              onClick={handleCoffee}
+              title="Get me a coffee!"
+            >
+              <span>Traktir Kopi</span>
+              <span className="coffee-emoji">☕</span>
+              <span className="coffee-counter">{coffeeCount}</span>
+            </button>
           </div>
         </div>
       </div>

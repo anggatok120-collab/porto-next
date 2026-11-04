@@ -1,199 +1,147 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExternalLink, Terminal, Waves } from "lucide-react";
+import { ExternalLink, Terminal, Cpu, Network, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { PROJECTS } from "../data/projects";
 import Reveal from "./Reveal";
-import TypewriterTitle from "./TypewriterTitle";
 
-const CARD_SCATTER = [
-  { rot: -6, x: 6, y: -4 },
-  { rot: 4, x: -8, y: 3 },
-  { rot: -3, x: 8, y: 5 },
-  { rot: 7, x: -5, y: -5 },
+const CATEGORIES = [
+  "Semua",
+  "Web & Infrastructure",
+  "Network & CLI",
+  "Simulation & Routing",
+  "IoT & Automation",
 ];
 
-function WorkAlbumStackMobile({ projects, activeIndex, onAdvance }) {
-  const count = projects.length;
-
-  return (
-    <div className="work-mobile-stack" onClick={onAdvance}>
-      {projects.map((project, i) => {
-        const offset = (i - activeIndex + count) % count;
-        const isExiting = offset === count - 1;
-        if (offset > 2 && !isExiting) return null;
-
-        const scatter = CARD_SCATTER[i % CARD_SCATTER.length];
-        let style;
-
-        if (isExiting) {
-          style = {
-            "--tx": `${scatter.x + 100}px`,
-            "--ty": `${scatter.y - 40}px`,
-            "--rot": `${scatter.rot + 25}deg`,
-            "--sc": 0.88,
-            "--op": 0,
-            zIndex: 5,
-          };
-        } else {
-          const depth = offset;
-          const isFront = depth === 0;
-          const calm = 0.4;
-          const dir = depth % 2 === 1 ? -1 : 1;
-          style = {
-            "--tx": isFront ? "0px" : `${scatter.x * calm + depth * 8}px`,
-            "--ty": isFront ? "0px" : `${scatter.y * calm + dir * depth * 10}px`,
-            "--rot": isFront ? "0deg" : `${scatter.rot * calm + depth * (scatter.rot >= 0 ? 1.5 : -1.5)}deg`,
-            "--sc": isFront ? 1 : 1 - depth * 0.06,
-            "--op": isFront ? 1 : 0.75 - (depth - 1) * 0.2,
-            zIndex: 30 - depth * 10,
-          };
-        }
-
-        return (
-          <img
-            key={project.num}
-            src={project.image}
-            alt={project.title}
-            className={`stacked-image${offset === 0 ? " stacked-image-front" : ""}`}
-            style={style}
-            draggable={false}
-          />
-        );
-      })}
-    </div>
-  );
-}
+const LOGOS = [
+  { name: "MikroTik", tag: "RouterOS v7" },
+  { name: "Cisco", tag: "CCNA IOS" },
+  { name: "Linux", tag: "Debian & Ubuntu" },
+  { name: "UMM", tag: "Akuakultur IoT" },
+  { name: "Zabbix", tag: "Enterprise Monitoring" },
+  { name: "Docker", tag: "Containerization" },
+  { name: "Nginx", tag: "Reverse Proxy" },
+  { name: "Wireshark", tag: "Packet Analysis" },
+];
 
 export default function WorkGallery() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
+  const [activeCategory, setActiveCategory] = useState("Semua");
 
-  const goTo = (index) => {
-    const normalized = ((index % PROJECTS.length) + PROJECTS.length) % PROJECTS.length;
-    setActiveIndex(normalized);
-  };
+  const filteredProjects =
+    activeCategory === "Semua"
+      ? PROJECTS
+      : PROJECTS.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="work" className="section">
-      <Reveal>
-        <div className="work-header">
-          <div>
-            <div className="section-label">Selected Work</div>
-            <TypewriterTitle text="Work Gallery" />
-            <div className="section-desc">
-              Koleksi sistem infrastruktur jaringan, terminal interaktif, dan utilitas digital yang telah saya bangun.
-            </div>
+    <section id="work" className="cinematic-work-section">
+      <div className="cinematic-container">
+        {/* Section Header */}
+        <Reveal>
+          <div className="cinematic-section-header">
+            <span className="section-step-badge">01 / SELECTED WORK</span>
+            <h2 className="cinematic-section-title">KARYA YANG BICARA.</h2>
+            <p className="cinematic-section-desc">
+              Infrastruktur jaringan, simulator interaktif, dan utilitas digital yang dirancang untuk performa tinggi, stabilitas, dan keandalan data.
+            </p>
           </div>
-          <div className="work-header-actions">
-            <a
-              href="/terminal"
-              className="work-album-btn-top"
-              title="Buka Terminal Interaktif Linux"
-            >
-              <Terminal size={14} /> Buka Terminal
-            </a>
-            <a
-              href="/network-lab"
-              className="work-album-btn-top"
-              title="Masuk Simulator Topologi Jaringan"
-            >
-              <ExternalLink size={14} /> Network Lab
-            </a>
-            <a
-              href="/aquaculture"
-              className="work-album-btn-top"
-              title="Buka Smart Aquaculture IoT Simulator"
-            >
-              <Waves size={14} /> Smart Aquaculture
-            </a>
+
+          {/* Filter Tabs */}
+          <div className="cinematic-work-tabs">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`cinematic-tab-btn ${
+                  activeCategory === cat ? "cinematic-tab-btn--active" : ""
+                }`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
 
-      {/* Desktop 3D Coverflow Album */}
-      <Reveal delay={100}>
-        <div className="work-album">
-          <div className="work-album-inner">
-            {PROJECTS.map((project, index) => {
-              const total = PROJECTS.length;
-              let diff = (index - activeIndex + total) % total;
-              if (diff > total / 2) diff -= total;
-
-              const isCenter = diff === 0;
-              const distance = Math.abs(diff);
-              const dir = isCenter ? 0 : diff / distance;
-
-              const style = isCenter
-                ? {
-                    transform: "translate(-50%, -50%) scale(1)",
-                    zIndex: 10,
-                    opacity: 1,
-                  }
-                : {
-                    transform: `translate(calc(-50% + ${
-                      dir * (210 + (distance - 1) * 120)
-                    }px), -50%) scale(${Math.max(0.55, 1 - distance * 0.25)})`,
-                    zIndex: 10 - distance,
-                    opacity: distance <= 2 ? Math.max(0, 0.85 - (distance - 1) * 0.45) : 0,
-                    pointerEvents: distance <= 2 ? "auto" : "none",
-                  };
-
-              return (
-                <div
-                  key={project.num}
-                  className={`work-album-item${isCenter ? " work-album-item-center" : ""}`}
-                  style={style}
-                  onClick={() => !isCenter && goTo(index)}
-                >
+        {/* 3-Column / Responsive Project Cards Grid */}
+        <div className="cinematic-project-grid">
+          {filteredProjects.map((project) => (
+            <div key={project.num} className="cinematic-project-card">
+              <a
+                href={project.link}
+                className="cinematic-project-card__thumb-link"
+                target={project.link.startsWith("http") ? "_blank" : undefined}
+                rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
+              >
+                <div className="cinematic-project-card__thumb-wrap">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="work-album-img"
-                    draggable={false}
+                    className="cinematic-project-card__image"
+                    loading="lazy"
                   />
+                  <div className="cinematic-project-card__thumb-overlay">
+                    <span className="cinematic-project-card__play-badge">
+                      <span>Buka Project</span>
+                      <ArrowUpRight size={16} />
+                    </span>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </Reveal>
+              </a>
 
-      {/* Mobile-only Stack */}
-      <Reveal delay={120}>
-        <div className="work-mobile-stack-wrap">
-          <WorkAlbumStackMobile
-            projects={PROJECTS}
-            activeIndex={activeIndex}
-            onAdvance={() => goTo(activeIndex + 1)}
-          />
-        </div>
-      </Reveal>
+              <div className="cinematic-project-card__info">
+                <div className="cinematic-project-card__meta">
+                  <span className="cinematic-project-card__num">{project.num}</span>
+                  <span className="cinematic-project-card__category">
+                    {project.category}
+                  </span>
+                </div>
 
-      {/* Active Project Info */}
-      <Reveal delay={180}>
-        <div className="work-info" key={activeProject.num}>
-          <div className="work-info-meta">
-            <span className="work-info-num">{activeProject.num}</span>
-            <span className="work-info-category">{activeProject.category}</span>
+                <h3 className="cinematic-project-card__title">
+                  <a href={project.link}>{project.title}</a>
+                </h3>
+
+                <p className="cinematic-project-card__desc">{project.desc}</p>
+
+                <div className="cinematic-project-card__tags">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="cinematic-project-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="cinematic-project-card__footer">
+                  <a
+                    href={project.link}
+                    className="cinematic-project-card__cta"
+                    target={project.link.startsWith("http") ? "_blank" : undefined}
+                    rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    <span>{project.linkText}</span>
+                    <ArrowUpRight size={14} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Been Part Of / The Bigger Picture Strip */}
+        <Reveal className="cinematic-partner-strip">
+          <div className="cinematic-partner-header">
+            <span className="cinematic-partner-label">BEEN PART OF / THE BIGGER PICTURE</span>
           </div>
-          <h3 className="work-info-title">{activeProject.title}</h3>
-          <p className="work-info-desc">{activeProject.desc}</p>
-          <div className="work-info-tags">
-            {activeProject.tags.map((t) => (
-              <span key={t} className="work-tag">{t}</span>
+          <div className="cinematic-partner-logos">
+            {LOGOS.map((item) => (
+              <div key={item.name} className="cinematic-partner-item">
+                <span className="cinematic-partner-name">{item.name}</span>
+                <span className="cinematic-partner-tag">{item.tag}</span>
+              </div>
             ))}
           </div>
-
-          <a
-            href={activeProject.link}
-            className="work-info-link"
-          >
-            {activeProject.linkText}
-          </a>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -158,3 +158,18 @@
       3. Banner grafis teknologi akuakultur cerdas (`public/images/blog/aquaculture-cover.svg`).
       4. Banner photorealistic fasilitas bioflok modern (`public/images/blog/aquaculture-biofloc.jpg`).
     - Seluruh pengujian otomatis (14/14 tests) dan build SSG Next.js berhasil lulus 100%.
+
+
+  - **Cinematic Editorial Redesign & Live Collaborative Cursors (v1.3.0 - Renando Reference)**:
+    - Diadaptasi penuh dari referensi desain video TikTok (@renandooke) dengan tema Ultra-Dark Editorial & Cinematic (Obsidian black, Crimson red accent #ff2a3a, Syne/Bebas Neue typography).
+    - Menambahkan `components/FloatingCursors.jsx` yang menyimulasikan multi-agent / multi-visitor cursors ("yang gerak-gerak") dengan smooth bezier motion paths, ripple click effects, dan dock status toggle.
+    - Merombak `components/Header.jsx` dengan identitas `ANGGA +`, navigasi anchor terstruktur (`#work`, `#recognition`, `#about`, `#journey`, `#contact`), dan tombol `Let's Talk ↗`.
+    - Merombak `components/Hero.jsx` dengan watermark `ANGGA` raksasa di latar belakang, cutout portrait di tengah dengan gradient fade, badge role crimson, 3 metrik statistik vertikal, tombol `Lihat karya saya ↓`, dan floating interactive terminal badge.
+    - Memperbarui `components/WorkGallery.jsx` dengan penomoran terstruktur `01 / SELECTED WORK`, tab filter kategori, kartu 3-kolom modern, dan brand strip `BEEN PART OF / THE BIGGER PICTURE`.
+    - Menambahkan komponen baru `components/Recognition.jsx` (`02 / RECOGNITION`) dengan tampilan trofi besar `10+ AWARDS & CERTIFICATIONS`, laurel wing icons, dan daftar sertifikasi berurutan per tahun.
+    - Memperbarui `components/About.jsx` (`03 / BEHIND THE SYSTEM`) dengan heading *"Bukan Sekadar Koneksi. Tapi Cara Memastikan Keandalan"*, tab `Education & Skills` vs `From Plan to Production`, serta quote card marun sinematik.
+    - Memperbarui `components/Timeline.jsx` (`04 / THE JOURNEY`) dengan timeline vertikal minimalis yang merekam seluruh jejak pengalaman NOC, IT Support, dan IoT.
+    - Memperbarui `components/Contact.jsx` (`05 / YOUR NEXT STORY`) dengan headline *"LET'S WORK TOGETHER"*, form terhubung ke API Telegram Bot & Resend Email, serta visual card *"ENGINEERED FOR 99.99% UPTIME"*.
+    - Memperbaiki bug encoding em-dash di `app/layout.js` dan glitch panah serta duplikasi title di `app/privacy/page.js`.
+    - Memperbarui CSP di `next.config.mjs` untuk mendukung font eksternal Google Fonts (`fonts.googleapis.com` dan `fonts.gstatic.com`).
+    - Seluruh pengujian otomatis (14/14 tests) lulus 100% dan build Next.js lulus tanpa error.

@@ -1,225 +1,161 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Download, Code2, Cpu, Network } from "lucide-react";
+import React, { useState } from "react";
+import { Download, Server, Cpu, ShieldCheck, Activity, Terminal } from "lucide-react";
 import Reveal from "./Reveal";
-import TypewriterTitle from "./TypewriterTitle";
 
-const TRAITS = [
-  "Pemecahan Masalah",
-  "Monitoring Jaringan 24/7",
-  "Berpikir Analitis",
-  "Troubleshooting MikroTik",
-  "Administrasi Server Linux",
-  "Komunikasi & Kerja Tim",
-  "Manajemen Waktu & SLA",
-  "Adaptabilitas Cepat",
-  "Orientasi Layanan",
-  "Smart Aquaculture IoT",
+const TOOLKIT = [
+  { name: "MikroTik", category: "Routing & Switching", level: "Advanced" },
+  { name: "Cisco", category: "Enterprise IOS", level: "Proficient" },
+  { name: "Linux Server", category: "Debian / Ubuntu / Nginx", level: "Advanced" },
+  { name: "Zabbix & Grafana", category: "Observability & Alerting", level: "Expert" },
+  { name: "Docker", category: "Container & Microservices", level: "Intermediate" },
+  { name: "Wireshark", category: "Packet & Protocol Analysis", level: "Advanced" },
+  { name: "IoT & MQTT", category: "Telemetry & Sensor Data", level: "Proficient" },
+  { name: "Next.js / Node.js", category: "Dashboard & Web Utilities", level: "Proficient" },
 ];
 
-const CARD_SCATTER = [
-  { rot: -7, x: 6, y: -4 },
-  { rot: 5, x: -8, y: 3 },
-  { rot: -3, x: 10, y: 6 },
-  { rot: 9, x: -5, y: -6 },
-  { rot: -10, x: 4, y: 5 },
-  { rot: 4, x: -10, y: -2 },
-  { rot: -5, x: 9, y: -5 },
-  { rot: 8, x: -3, y: 7 },
-  { rot: -8, x: 7, y: 2 },
-  { rot: 3, x: -6, y: -7 },
+const LIFECYCLE_STEPS = [
+  {
+    num: "01",
+    title: "THE ARCHITECTURE",
+    desc: "Perencanaan topologi, subnetting IP, alokasi kapasitas bandwidth, dan pemisahan broadcast domain menggunakan VLAN 802.1Q.",
+  },
+  {
+    num: "02",
+    title: "THE CONFIGURATION",
+    desc: "Implementasi static & dynamic routing (OSPF/BGP), firewall filter rules, mangle, NAT masq, serta quality of service (QoS).",
+  },
+  {
+    num: "03",
+    title: "THE HARDENING",
+    desc: "Pengamanan akses router (SSH key, Winbox port isolation), WAN multi-link failover otomatis, dan anti-DDoS filter.",
+  },
+  {
+    num: "04",
+    title: "24/7 OBSERVABILITY",
+    desc: "Monitoring metrik latency, packet loss, dan load secara real-time melalui Zabbix, MRTG, dan trigger bot Telegram otomatis.",
+  },
 ];
 
 export default function About() {
-  const [traitIndex, setTraitIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setTraitIndex((prev) => (prev + 1) % TRAITS.length);
-    }, 1800);
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const advanceTrait = () => {
-    setTraitIndex((prev) => (prev + 1) % TRAITS.length);
-  };
+  const [activeTab, setActiveTab] = useState("skills"); // 'skills' | 'workflow'
 
   return (
-    <section id="about" className="section">
-      <Reveal>
-        <div className="section-label">About Me</div>
-        <TypewriterTitle text="Problem Solver. Network Engineer." />
-        <div className="section-desc">
-          Menjaga stabilitas infrastruktur IT, meminimalkan downtime, dan memastikan setiap paket data terkirim dengan sempurna.
-        </div>
-      </Reveal>
-
-      <div className="about-grid">
-        {/* Main profile card */}
-        <Reveal delay={100} className="about-profile-card">
-          <div className="about-profile-header">
-            <div className="about-avatar-wrap">
-              <img
-                src="/images/foto_cutout.png"
-                alt="Angga"
-                className="about-avatar-img"
-              />
+    <section id="about" className="cinematic-about-section">
+      <div className="cinematic-container">
+        {/* Top Header Grid */}
+        <Reveal>
+          <div className="cinematic-about-header-grid">
+            <div className="cinematic-about-header-left">
+              <span className="section-step-badge">03 / BEHIND THE SYSTEM</span>
+              <h2 className="cinematic-about-heading">
+                BUKAN SEKADAR KONEKSI. <br />
+                TAPI CARA <span className="highlight-red">MEMASTIKAN KEANDALAN.</span>
+              </h2>
             </div>
-            <div>
-              <h3 className="about-name">Angga</h3>
-              <p className="about-tagline">Network Operations Center (NOC) & Customer Support</p>
+            <div className="cinematic-about-header-right">
+              <p className="cinematic-about-bio">
+                Saya Angga, Network Engineer dan NOC Specialist dari Malang. Fokus saya adalah membangun infrastruktur jaringan yang tangguh, routing presisi, mitigasi insiden berkecepatan tinggi, dan menjaga sistem tetap beroperasi tanpa henti.
+              </p>
             </div>
           </div>
 
-          <div className="about-stats-row">
-            <div className="about-stat-item">
-              <span className="about-stat-num">2.5+</span>
-              <span className="about-stat-label">Tahun Pengalaman</span>
-            </div>
-            <div className="about-stat-item">
-              <span className="about-stat-num">4</span>
-              <span className="about-stat-label">Perusahaan</span>
-            </div>
-            <div className="about-stat-item">
-              <span className="about-stat-num">18+</span>
-              <span className="about-stat-label">Keahlian Teknis</span>
-            </div>
-            <div className="about-stat-item">
-              <span className="about-stat-num">24/7</span>
-              <span className="about-stat-label">Operasi NOC</span>
-            </div>
-          </div>
-
-          <p className="about-bio">
-            Network Engineer dengan pengalaman 2,5+ tahun — 1,5 tahun karyawan di NOC dan 1 tahun magang di Customer Support, mencakup monitoring jaringan dan customer support.
-          </p>
-          <p className="about-bio">
-            Memiliki kompetensi dalam monitoring jaringan, troubleshooting network, konfigurasi MikroTik, routing & switching, administrasi server Linux, serta pengelolaan VLAN dan firewall.
-          </p>
-          <p className="about-bio">
-            Terbiasa bekerja dalam lingkungan operasional jaringan yang dinamis dengan kemampuan analisis, problem solving, dan komunikasi yang baik. Berkomitmen untuk menjaga stabilitas infrastruktur IT dan meningkatkan kualitas layanan.
-          </p>
-
-          <div className="about-meta-grid">
-            <div className="about-meta-cell">
-              <span className="about-meta-k">Lokasi</span>
-              <span className="about-meta-v">Malang, Jawa Timur</span>
-            </div>
-            <div className="about-meta-cell">
-              <span className="about-meta-k">Bahasa</span>
-              <span className="about-meta-v">Indonesia (Aktif), Inggris (Menengah)</span>
-            </div>
-            <div className="about-meta-cell">
-              <span className="about-meta-k">Bidang</span>
-              <span className="about-meta-v">Networking / IT Infrastructure</span>
-            </div>
-            <div className="about-meta-cell">
-              <span className="about-meta-k">Status</span>
-              <span className="about-meta-v about-meta-v--highlight">Mahasiswa Aktif — UMM (Akuakultur)</span>
-            </div>
-          </div>
-
-          <div className="about-actions">
-            <a
-              href="/cv/CV_Angga.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="about-cv-btn"
+          {/* Sub Navigation Tabs */}
+          <div className="cinematic-about-subnav">
+            <button
+              type="button"
+              className={`cinematic-subnav-btn ${
+                activeTab === "skills" ? "cinematic-subnav-btn--active" : ""
+              }`}
+              onClick={() => setActiveTab("skills")}
             >
-              <Download size={16} /> Unduh Resume / CV
-            </a>
-            <span className="about-location">📍 Malang, Jawa Timur</span>
+              EDUCATION & SKILLS
+            </button>
+            <button
+              type="button"
+              className={`cinematic-subnav-btn ${
+                activeTab === "workflow" ? "cinematic-subnav-btn--active" : ""
+              }`}
+              onClick={() => setActiveTab("workflow")}
+            >
+              FROM PLAN TO PRODUCTION
+            </button>
           </div>
         </Reveal>
 
-        {/* Right side: Interactive Scattered Trait Cards Stack */}
-        <Reveal delay={150} className="about-trait-container">
-          <div
-            className="trait-stack"
-            onClick={advanceTrait}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            title="Klik untuk melihat sifat selanjutnya"
-          >
-            {TRAITS.map((trait, i) => {
-              const count = TRAITS.length;
-              const offset = (i - traitIndex + count) % count;
-              const isExiting = offset === count - 1;
-              if (offset > 2 && !isExiting) return null;
-
-              const scatter = CARD_SCATTER[i % CARD_SCATTER.length];
-              let style;
-
-              if (isExiting) {
-                style = {
-                  transform: `translate(${scatter.x + 140}px, ${scatter.y - 60}px) rotate(${scatter.rot + 35}deg) scale(0.85)`,
-                  opacity: 0,
-                  zIndex: 2,
-                };
-              } else {
-                const depth = offset;
-                style = {
-                  transform: `translate(${scatter.x + depth * 10}px, ${scatter.y + depth * 8}px) rotate(${scatter.rot + depth * (scatter.rot >= 0 ? 4 : -4)}deg) scale(${1 - depth * 0.05})`,
-                  opacity: depth === 0 ? 1 : 0.6 + (2 - depth) * 0.15,
-                  zIndex: 10 - depth,
-                };
-              }
-
-              return (
-                <div key={trait} className="trait-card" style={style}>
-                  <span className="trait-card-eyebrow">TRAIT / STRENGTH</span>
-                  <div className="trait-card-title">{trait}</div>
-                  <span className="trait-card-counter">
-                    {i + 1} / {count}
-                  </span>
+        {/* Content Body Grid */}
+        <div className="cinematic-about-content-grid">
+          {/* Main Tab Panel */}
+          <div className="cinematic-about-tab-panel">
+            {activeTab === "skills" ? (
+              <div className="cinematic-skills-view">
+                {/* Education Box */}
+                <div className="cinematic-edu-card">
+                  <span className="cinematic-sub-badge">FORMAL EDUCATION</span>
+                  <h4 className="cinematic-edu-title">
+                    Universitas Muhammadiyah Malang (UMM)
+                  </h4>
+                  <p className="cinematic-edu-major">
+                    Pemanfaatan Sumberdaya Perikanan & Akuakultur Presisi · Riset IoT Telemetri Kualitas Air
+                  </p>
+                  <p className="cinematic-edu-desc">
+                    Mengintegrasikan keahlian jaringan komputer dan mikrokontroler untuk monitoring otomasi sensor air bioflok secara real-time.
+                  </p>
                 </div>
-              );
-            })}
-          </div>
-          <span className="trait-hint">Klik kartu untuk berganti • Otomatis berotasi</span>
-        </Reveal>
-      </div>
 
-      {/* Currently Section Cards */}
-      <Reveal delay={200}>
-        <div className="currently-grid">
-          <div className="currently-card">
-            <div className="currently-icon-wrap">
-              <Network size={20} />
-            </div>
-            <div>
-              <span className="currently-label">BUILDING</span>
-              <div className="currently-title">PortoNext & Network Lab Simulator</div>
-              <p className="currently-desc">Mengembangkan platform simulasi topologi jaringan dan terminal CLI berbasis web. <a href="/network-lab" style={{ color: "var(--accent)", textDecoration: "underline", marginLeft: 4 }}>Buka Network Lab ↗</a></p>
-            </div>
+                {/* Tech Toolkit Grid */}
+                <div className="cinematic-toolkit-block">
+                  <span className="cinematic-sub-badge">INFRASTRUCTURE TOOLKIT</span>
+                  <div className="cinematic-toolkit-grid">
+                    {TOOLKIT.map((tool) => (
+                      <div key={tool.name} className="cinematic-tool-card">
+                        <span className="cinematic-tool-name">{tool.name}</span>
+                        <span className="cinematic-tool-cat">{tool.category}</span>
+                        <span className="cinematic-tool-lvl">{tool.level}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Workflow Steps View */
+              <div className="cinematic-workflow-view">
+                <div className="cinematic-workflow-list">
+                  {LIFECYCLE_STEPS.map((step) => (
+                    <div key={step.num} className="cinematic-workflow-item">
+                      <div className="cinematic-workflow-num-box">
+                        <span className="cinematic-workflow-num">{step.num}</span>
+                      </div>
+                      <div className="cinematic-workflow-content">
+                        <h4 className="cinematic-workflow-title">{step.title}</h4>
+                        <p className="cinematic-workflow-desc">{step.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="currently-card">
-            <div className="currently-icon-wrap">
-              <Cpu size={20} />
-            </div>
-            <div>
-              <span className="currently-label">EXPLORING</span>
-              <div className="currently-title">Smart Aquaculture IoT & Telemetri</div>
-              <p className="currently-desc">Riset otomasi sensor parameter air tambak real-time berbasis ESP32 dan MQTT. <a href="/aquaculture" style={{ color: "var(--accent)", textDecoration: "underline", marginLeft: 4 }}>Buka Simulator IoT ↗</a></p>
-            </div>
-          </div>
-
-          <div className="currently-card">
-            <div className="currently-icon-wrap">
-              <Code2 size={20} />
-            </div>
-            <div>
-              <span className="currently-label">LEARNING</span>
-              <div className="currently-title">Enterprise BGP & Cloud Networking</div>
-              <p className="currently-desc">Memperdalam routing ISP multi-homed, Cloudflare Edge, dan otomatisasi infrastruktur.</p>
+          {/* Right Column: Dark Crimson Quote Card (Matching the video) */}
+          <div className="cinematic-quote-card">
+            <div className="cinematic-quote-card__inner">
+              <span className="cinematic-quote-icon">“</span>
+              <p className="cinematic-quote-text">
+                ... dari latensi milidetik hingga arsitektur zero-downtime, keandalan bukan sekadar konfigurasi—ia adalah cerita yang kami jaga setiap hari.
+              </p>
+              <div className="cinematic-quote-author">
+                <span className="cinematic-quote-name">Angga</span>
+                <span className="cinematic-quote-role">Network Engineer & NOC Specialist</span>
+              </div>
+              <div className="cinematic-quote-seal">
+                <span>EST. 2024 · 24/7 NOC</span>
+              </div>
             </div>
           </div>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }
