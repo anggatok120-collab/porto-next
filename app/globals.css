@@ -4656,3 +4656,257 @@ html.dark .trait-card {
     right: 16px;
   }
 }
+
+/* ==========================================================================
+   CONTINUOUS 60FPS CSS MOTION & MARQUEE ANIMATIONS
+   ========================================================================== */
+
+/* PURE CSS MULTI-AGENT CURSOR FLIGHT PATHS */
+.live-cursors-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.live-cursors-layer--paused .live-cursor-agent {
+  animation-play-state: paused !important;
+}
+
+.live-cursor-agent {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* Agent 1: Cyan (Devin) */
+.live-cursor-agent--1 {
+  top: 25%;
+  left: 20%;
+  animation: agentFloat1 18s ease-in-out infinite;
+}
+
+@keyframes agentFloat1 {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(320px, 120px); }
+  40%  { transform: translate(180px, 380px); }
+  60%  { transform: translate(-80px, 260px); }
+  80%  { transform: translate(450px, -40px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Agent 2: Crimson (NOC Watcher) */
+.live-cursor-agent--2 {
+  top: 40%;
+  right: 18%;
+  animation: agentFloat2 22s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes agentFloat2 {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-380px, -140px); }
+  50%  { transform: translate(-120px, 240px); }
+  75%  { transform: translate(-420px, 100px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Agent 3: Green (Visitor Singapore) */
+.live-cursor-agent--3 {
+  bottom: 28%;
+  left: 28%;
+  animation: agentFloat3 20s ease-in-out infinite;
+}
+
+@keyframes agentFloat3 {
+  0%   { transform: translate(0, 0); }
+  30%  { transform: translate(260px, -220px); }
+  55%  { transform: translate(520px, -60px); }
+  75%  { transform: translate(120px, 180px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Agent 4: Purple (Claude) */
+.live-cursor-agent--4 {
+  top: 15%;
+  left: 48%;
+  animation: agentFloat4 24s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes agentFloat4 {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-280px, 200px); }
+  50%  { transform: translate(160px, 320px); }
+  75%  { transform: translate(-150px, -80px); }
+  100% { transform: translate(0, 0); }
+}
+
+.live-cursor-badge--cyan {
+  background: #00f2fe;
+  color: #000;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+}
+.live-cursor-badge--red {
+  background: #ff2a3a;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 42, 58, 0.6);
+}
+.live-cursor-badge--green {
+  background: #10b981;
+  color: #000;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+}
+.live-cursor-badge--purple {
+  background: #a855f7;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+}
+
+.live-cursor-ripple--cyan {
+  border-color: #00f2fe;
+  background: rgba(0, 242, 254, 0.15);
+  animation: ripplePulse 2.8s ease-out infinite;
+}
+.live-cursor-ripple--red {
+  border-color: #ff2a3a;
+  background: rgba(255, 42, 58, 0.15);
+  animation: ripplePulse 3.4s ease-out infinite 0.8s;
+}
+.live-cursor-ripple--green {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  animation: ripplePulse 3.1s ease-out infinite 1.4s;
+}
+.live-cursor-ripple--purple {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.15);
+  animation: ripplePulse 3.6s ease-out infinite 2s;
+}
+
+@keyframes ripplePulse {
+  0% { transform: translate(-14px, -14px) scale(0.2); opacity: 0; }
+  20% { opacity: 0.9; }
+  60% { transform: translate(-14px, -14px) scale(2.4); opacity: 0; }
+  100% { transform: translate(-14px, -14px) scale(2.4); opacity: 0; }
+}
+
+/* MARQUEE CONTINUOUS MOVEMENT */
+.cinematic-marquee-wrap {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  width: 100vw;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cinematic-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: continuousMarquee 26s linear infinite;
+}
+
+@keyframes continuousMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.cinematic-marquee-text {
+  font-family: var(--cinematic-font-heading);
+  font-size: clamp(80px, 15vw, 190px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 42, 58, 0.22);
+  text-transform: uppercase;
+  padding-right: 40px;
+}
+
+/* RADAR CONCENTRIC CIRCLES */
+.cinematic-radar-circles {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.radar-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 42, 58, 0.15);
+}
+
+.radar-circle--1 {
+  width: 380px;
+  height: 380px;
+  animation: radarSpin 40s linear infinite;
+}
+.radar-circle--2 {
+  width: 580px;
+  height: 580px;
+  border-color: rgba(255, 42, 58, 0.09);
+  animation: radarSpin 55s linear infinite reverse;
+}
+.radar-circle--3 {
+  width: 780px;
+  height: 780px;
+  border-color: rgba(255, 42, 58, 0.05);
+}
+
+@keyframes radarSpin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* TERMINAL BLINK & OUTPUT */
+.term-fake-blink {
+  animation: blinkCursor 1s step-end infinite;
+  color: var(--cinematic-red);
+  font-weight: 700;
+}
+
+@keyframes blinkCursor {
+  50% { opacity: 0; }
+}
+
+.badge-output--ping {
+  font-size: 9.5px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* PARTNER TICKER MARQUEE */
+.cinematic-partner-marquee-wrap {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.cinematic-partner-marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: partnerTicker 30s linear infinite;
+}
+
+@keyframes partnerTicker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.cinematic-partner-marquee-track:hover {
+  animation-play-state: paused;
+}

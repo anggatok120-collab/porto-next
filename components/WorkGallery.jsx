@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ExternalLink, Terminal, Cpu, Network, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Terminal, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { PROJECTS } from "../data/projects";
 import Reveal from "./Reveal";
@@ -127,18 +127,20 @@ export default function WorkGallery() {
           ))}
         </div>
 
-        {/* Been Part Of / The Bigger Picture Strip */}
+        {/* Been Part Of / Continuous Moving Marquee Ticker */}
         <Reveal className="cinematic-partner-strip">
           <div className="cinematic-partner-header">
             <span className="cinematic-partner-label">BEEN PART OF / THE BIGGER PICTURE</span>
           </div>
-          <div className="cinematic-partner-logos">
-            {LOGOS.map((item) => (
-              <div key={item.name} className="cinematic-partner-item">
-                <span className="cinematic-partner-name">{item.name}</span>
-                <span className="cinematic-partner-tag">{item.tag}</span>
-              </div>
-            ))}
+          <div className="cinematic-partner-marquee-wrap">
+            <div className="cinematic-partner-marquee-track">
+              {[...LOGOS, ...LOGOS].map((item, i) => (
+                <div key={`${item.name}-${i}`} className="cinematic-partner-item">
+                  <span className="cinematic-partner-name">{item.name}</span>
+                  <span className="cinematic-partner-tag">{item.tag}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>

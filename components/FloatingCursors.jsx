@@ -1,211 +1,128 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
-const AGENTS = [
-  {
-    id: "devin",
-    name: "Devin · Agent 01",
-    color: "#00f2fe",
-    accent: "rgba(0, 242, 254, 0.2)",
-    path: [
-      { x: 18, y: 22, pause: 1400 },
-      { x: 42, y: 15, pause: 1800 },
-      { x: 68, y: 28, pause: 2000 },
-      { x: 50, y: 48, pause: 1500 },
-      { x: 25, y: 65, pause: 2200 },
-      { x: 75, y: 72, pause: 1900 },
-      { x: 82, y: 35, pause: 2100 },
-    ],
-    speed: 3800,
-  },
-  {
-    id: "noc-bot",
-    name: "NOC Watcher · 24/7",
-    color: "#ff2a3a",
-    accent: "rgba(255, 42, 58, 0.2)",
-    path: [
-      { x: 78, y: 18, pause: 1600 },
-      { x: 62, y: 34, pause: 2200 },
-      { x: 30, y: 42, pause: 1900 },
-      { x: 45, y: 78, pause: 2400 },
-      { x: 85, y: 85, pause: 1700 },
-      { x: 20, y: 30, pause: 2000 },
-    ],
-    speed: 4200,
-  },
-  {
-    id: "visitor-sg",
-    name: "Visitor · Singapore",
-    color: "#10b981",
-    accent: "rgba(16, 185, 129, 0.2)",
-    path: [
-      { x: 35, y: 30, pause: 2100 },
-      { x: 80, y: 52, pause: 1700 },
-      { x: 60, y: 70, pause: 2300 },
-      { x: 15, y: 82, pause: 1900 },
-      { x: 28, y: 25, pause: 2500 },
-      { x: 70, y: 20, pause: 1800 },
-    ],
-    speed: 4600,
-  },
-  {
-    id: "claude",
-    name: "Claude · Architect",
-    color: "#a855f7",
-    accent: "rgba(168, 85, 247, 0.2)",
-    path: [
-      { x: 55, y: 25, pause: 1800 },
-      { x: 22, y: 45, pause: 2400 },
-      { x: 72, y: 62, pause: 2000 },
-      { x: 38, y: 85, pause: 2200 },
-      { x: 88, y: 42, pause: 1600 },
-      { x: 48, y: 18, pause: 2100 },
-    ],
-    speed: 4100,
-  },
-];
+import React, { useState, useEffect } from "react";
 
 export default function FloatingCursors() {
-  const [positions, setPositions] = useState(
-    AGENTS.map((a) => ({
-      x: a.path[0].x,
-      y: a.path[0].y,
-      step: 0,
-      isClicking: false,
-    }))
-  );
+  const [mounted, setMounted] = useState(false);
   const [enabled, setEnabled] = useState(true);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!enabled || !isClient) return;
-
-    const intervals = AGENTS.map((agent, idx) => {
-      let currentStep = 0;
-
-      const moveToNext = () => {
-        const nextStep = (currentStep + 1) % agent.path.length;
-        const target = agent.path[nextStep];
-        currentStep = nextStep;
-
-        setPositions((prev) => {
-          const next = [...prev];
-          next[idx] = {
-            ...next[idx],
-            x: target.x,
-            y: target.y,
-            step: nextStep,
-            isClicking: true,
-          };
-          return next;
-        });
-
-        // Trigger click ripple effect
-        setTimeout(() => {
-          setPositions((prev) => {
-            const next = [...prev];
-            if (next[idx]) next[idx].isClicking = false;
-            return next;
-          });
-        }, 600);
-      };
-
-      const timer = setInterval(moveToNext, agent.speed);
-      return timer;
-    });
-
-    return () => {
-      intervals.forEach((timer) => clearInterval(timer));
-    };
-  }, [enabled, isClient]);
-
-  if (!isClient) return null;
+  if (!mounted) return null;
 
   return (
     <>
-      {/* Live Collaborative Cursor Layer */}
-      <div className="live-cursors-layer" aria-hidden="true">
-        {enabled &&
-          AGENTS.map((agent, i) => {
-            const pos = positions[i] || { x: 50, y: 50, isClicking: false };
-            return (
-              <div
-                key={agent.id}
-                className="live-cursor-agent"
-                style={{
-                  left: `${pos.x}%`,
-                  top: `${pos.y}%`,
-                  transition: `left ${agent.speed * 0.75}ms cubic-bezier(0.25, 1, 0.5, 1), top ${agent.speed * 0.75}ms cubic-bezier(0.25, 1, 0.5, 1)`,
-                }}
-              >
-                {/* SVG Pointer Arrow */}
-                <svg
-                  className="live-cursor-pointer"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  style={{
-                    filter: `drop-shadow(0 2px 6px ${agent.color}88)`,
-                  }}
-                >
-                  <path
-                    d="M3 3L10.5 21L13.8 13.8L21 10.5L3 3Z"
-                    fill={agent.color}
-                    stroke="#000000"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+      {/* 60FPS Pure CSS Continuous Multi-Agent Flying Cursors */}
+      <div className={`live-cursors-layer ${!enabled ? "live-cursors-layer--paused" : ""}`} aria-hidden="true">
+        {/* Agent 1: Cyan (Devin · Agent 01) */}
+        <div className="live-cursor-agent live-cursor-agent--1">
+          <svg
+            className="live-cursor-pointer"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M3 3L10.5 21L13.8 13.8L21 10.5L3 3Z"
+              fill="#00f2fe"
+              stroke="#000000"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <div className="live-cursor-badge live-cursor-badge--cyan">
+            <span className="live-cursor-label">Devin · Agent 01</span>
+          </div>
+          <span className="live-cursor-ripple live-cursor-ripple--cyan" />
+        </div>
 
-                {/* Name Badge */}
-                <div
-                  className="live-cursor-badge"
-                  style={{
-                    backgroundColor: agent.color,
-                    boxShadow: `0 2px 8px ${agent.color}66`,
-                  }}
-                >
-                  <span className="live-cursor-label">{agent.name}</span>
-                </div>
+        {/* Agent 2: Crimson Red (NOC Watcher · 24/7) */}
+        <div className="live-cursor-agent live-cursor-agent--2">
+          <svg
+            className="live-cursor-pointer"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M3 3L10.5 21L13.8 13.8L21 10.5L3 3Z"
+              fill="#ff2a3a"
+              stroke="#000000"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <div className="live-cursor-badge live-cursor-badge--red">
+            <span className="live-cursor-label">NOC Watcher · 24/7</span>
+          </div>
+          <span className="live-cursor-ripple live-cursor-ripple--red" />
+        </div>
 
-                {/* Click Ripple Effect */}
-                {pos.isClicking && (
-                  <span
-                    className="live-cursor-ripple"
-                    style={{
-                      borderColor: agent.color,
-                      backgroundColor: agent.accent,
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
+        {/* Agent 3: Emerald Green (Visitor · Singapore) */}
+        <div className="live-cursor-agent live-cursor-agent--3">
+          <svg
+            className="live-cursor-pointer"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M3 3L10.5 21L13.8 13.8L21 10.5L3 3Z"
+              fill="#10b981"
+              stroke="#000000"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <div className="live-cursor-badge live-cursor-badge--green">
+            <span className="live-cursor-label">Visitor · Singapore</span>
+          </div>
+          <span className="live-cursor-ripple live-cursor-ripple--green" />
+        </div>
+
+        {/* Agent 4: Violet / Purple (Claude · Architect) */}
+        <div className="live-cursor-agent live-cursor-agent--4">
+          <svg
+            className="live-cursor-pointer"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M3 3L10.5 21L13.8 13.8L21 10.5L3 3Z"
+              fill="#a855f7"
+              stroke="#000000"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <div className="live-cursor-badge live-cursor-badge--purple">
+            <span className="live-cursor-label">Claude · Architect</span>
+          </div>
+          <span className="live-cursor-ripple live-cursor-ripple--purple" />
+        </div>
       </div>
 
       {/* Floating Interactive Live Agent Control Pill (matching bottom widget in video) */}
-      <aside
-        className="live-agent-dock"
-        aria-label="Live collaboration mode"
-      >
+      <aside className="live-agent-dock" aria-label="Live collaboration mode">
         <div className="live-agent-dock-pill">
           <span className="live-pulse-dot" />
           <span className="live-agent-text">
-            <strong>4 Agents Active</strong> · Live Redesign
+            <strong>4 Agents Active</strong> · Live Multi-Cursor
           </span>
           <button
             type="button"
             className="live-agent-toggle-btn"
             onClick={() => setEnabled(!enabled)}
-            title={enabled ? "Sembunyikan cursor interaktif" : "Tampilkan cursor interaktif"}
+            title={enabled ? "Pause animasi kursor" : "Aktifkan animasi kursor"}
           >
-            {enabled ? "Motion: ON" : "Motion: PAUSED"}
+            {enabled ? "Motion: ON" : "Motion: OFF"}
           </button>
         </div>
       </aside>

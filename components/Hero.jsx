@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowDown, Terminal, Download, MapPin, Play } from "lucide-react";
+import { ArrowDown, Terminal, Download, MapPin } from "lucide-react";
 
 export default function Hero() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -18,14 +18,28 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const marqueeText = "ANGGA · NETWORK ENGINEER · NOC SPECIALIST · IT INFRASTRUCTURE · ";
+
   return (
     <section id="hero" className="cinematic-hero">
       {/* Background Radial Ambient Glow */}
       <div className="cinematic-hero__glow" aria-hidden="true" />
 
-      {/* Massive Bold Watermark Text behind portrait */}
-      <div className="cinematic-watermark" aria-hidden="true">
-        <span className="cinematic-watermark__text">ANGGA</span>
+      {/* CONTINUOUS MOVING WATERMARK MARQUEE (Animasi Gerak di Belakang Foto) */}
+      <div className="cinematic-marquee-wrap" aria-hidden="true">
+        <div className="cinematic-marquee-track">
+          <span className="cinematic-marquee-text">{marqueeText}</span>
+          <span className="cinematic-marquee-text">{marqueeText}</span>
+          <span className="cinematic-marquee-text">{marqueeText}</span>
+          <span className="cinematic-marquee-text">{marqueeText}</span>
+        </div>
+      </div>
+
+      {/* Concentric Radar Pulsing Circles Behind Portrait */}
+      <div className="cinematic-radar-circles" aria-hidden="true">
+        <div className="radar-circle radar-circle--1" />
+        <div className="radar-circle radar-circle--2" />
+        <div className="radar-circle radar-circle--3" />
       </div>
 
       {/* Center Grounded Cutout Portrait */}
@@ -63,6 +77,12 @@ export default function Hero() {
           </div>
           <div className="badge-output badge-output--live">
             ● 24/7 Monitoring · 99.99% Uptime
+          </div>
+          <div className="badge-row">
+            <span className="badge-prompt">$</span> ping -c 1 core-router
+          </div>
+          <div className="badge-output badge-output--ping">
+            64 bytes from 10.10.0.1: time=0.82ms <span className="term-fake-blink">_</span>
           </div>
         </div>
       </div>
