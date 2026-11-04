@@ -1,141 +1,193 @@
 "use client";
 
-import React from "react";
-import { Briefcase, MapPin, Calendar } from "lucide-react";
+import React, { useState } from "react";
+import { Briefcase, GraduationCap, Calendar, MapPin } from "lucide-react";
 import Reveal from "./Reveal";
+import TypewriterTitle from "./TypewriterTitle";
 
 const EXPERIENCES = [
   {
-    period: "Agt 2026 – Sep 2026",
-    badge: "Karyawan",
     role: "Network Operations Center (NOC)",
     company: "PT Anugerah Media Data Nusantara",
-    location: "Malang, Indonesia",
+    location: "Malang",
+    period: "Agt 2026 – Sep 2026",
+    badge: "Karyawan",
     points: [
-      "Memantau dan mengelola infrastruktur jaringan enterprise & ISP 24/7 untuk memastikan stabilitas dan performa optimal.",
-      "Melakukan analisis traffic network, penanganan insiden cepat (troubleshooting), serta mitigasi packet loss.",
-      "Mengonfigurasi perangkat MikroTik, dynamic routing, switching, VLAN, dan firewall rules.",
-      "Menjaga ketersediaan jaringan, pemeliharaan infrastruktur IT, dan pemenuhan target SLA layanan.",
+      "Memantau dan mengelola infrastruktur jaringan enterprise & ISP 24/7 untuk memastikan stabilitas dan performa jaringan optimal.",
+      "Melakukan analisis traffic network, penanganan gangguan jaringan (troubleshooting), serta mitigasi insiden secara cepat dan efisien.",
+      "Mengonfigurasi dan mengelola perangkat jaringan MikroTik, routing & switching, VLAN, serta firewall rules.",
+      "Berkoordinasi dalam pengawasan ketersediaan jaringan, pemeliharaan infrastruktur IT, dan pemenuhan SLA layanan."
     ],
-    tags: ["NOC 24/7", "MikroTik", "VLAN 802.1Q", "Firewall", "SLA"],
+    tags: ["NOC", "MikroTik", "Routing & Switching", "VLAN", "Firewall", "SLA"]
   },
   {
-    period: "Jul 2025 – Jul 2026",
-    badge: "Freelance",
     role: "Network Operations Center (NOC)",
     company: "PT 3D Tech",
-    location: "Batam (Remote)",
-    points: [
-      "Monitoring jaringan dan identifikasi gangguan konektivitas secara remote untuk kelancaran operasional.",
-      "Troubleshooting perangkat jaringan dan koordinasi eskalasi teknis untuk percepatan recovery.",
-      "Menyusun dokumentasi monitoring, incident report, dan update berkala performa router.",
-    ],
-    tags: ["Remote NOC", "Troubleshooting", "Monitoring", "Incident Report"],
-  },
-  {
+    location: "Batam",
     period: "Jul 2025 – Jul 2026",
     badge: "Freelance",
+    points: [
+      "Melakukan monitoring jaringan dan identifikasi gangguan konektivitas secara remote untuk memastikan operasional jaringan optimal.",
+      "Menangani troubleshooting perangkat jaringan dan koordinasi eskalasi teknis kepada tim terkait untuk percepatan pemulihan layanan.",
+      "Membuat dokumentasi monitoring, incident report, dan update status jaringan berkala.",
+      "Memantau anomali traffic dan potensi gangguan secara proaktif menggunakan monitoring tools."
+    ],
+    tags: ["Remote NOC", "Troubleshooting", "Monitoring", "Incident Report"]
+  },
+  {
     role: "Helpdesk Technical Support",
     company: "Nusantara Global Exchange (NGX)",
-    location: "Batam (Remote)",
+    location: "Batam",
+    period: "Jul 2025 – Jul 2026",
+    badge: "Freelance",
     points: [
-      "Dukungan teknis dan helpdesk kepada user melalui remote support, sistem tiket, dan komunikasi interaktif.",
-      "Menangani troubleshooting modem/ONU, koneksi internet, VPN, dan endpoint OS pengguna.",
-      "Pencatatan tiket insiden dan follow-up penyelesaian kendala sesuai SOP perusahaan.",
+      "Memberikan dukungan teknis dan helpdesk kepada pengguna via remote support, ticketing system, dan komunikasi online.",
+      "Menangani troubleshooting dasar perangkat, koneksi internet, VPN, serta permasalahan pengguna secara responsif.",
+      "Melakukan pencatatan tiket gangguan teknis dan follow-up penyelesaian masalah sesuai standar prosedur.",
+      "Membantu konfigurasi perangkat endpoint, instalasi software, dan pemecahan kendala OS remote."
     ],
-    tags: ["Helpdesk", "Remote Support", "VPN", "Ticketing"],
+    tags: ["Helpdesk", "Remote Support", "VPN", "Ticketing", "Windows / Linux"]
   },
   {
-    period: "Jan 2025 – Jul 2026",
-    badge: "Karyawan",
     role: "Network Operations Center (NOC)",
     company: "PT Inovasi Tjaraka Buana MyNet",
-    location: "Bandung, Indonesia",
+    location: "Bandung",
+    period: "Jan 2025 – Jul 2026",
+    badge: "Karyawan",
     points: [
-      "Memantau performa jaringan ISP 24/7 menggunakan Zabbix, Grafana, dan MRTG untuk stabilitas layanan.",
-      "Analisis traffic, packet loss, down link, dan remote troubleshooting untuk memaksimalkan uptime.",
-      "Manajemen VLAN, static/dynamic routing, firewall rules, backup konfigurasi, dan alokasi IP Address.",
+      "Memantau performa jaringan ISP 24/7 menggunakan Zabbix, Grafana, dan MRTG untuk stabilitas dan respons cepat insiden.",
+      "Melakukan analisis traffic network, packet loss, down link, dan remote troubleshooting untuk memaksimalkan uptime.",
+      "Mengelola konfigurasi VLAN, routing, firewall rules, backup konfigurasi berkala, serta dokumentasi IP Address.",
+      "Mengonfigurasi perangkat MikroTik via Winbox dan CLI untuk routing, firewall, dan bandwidth management ISP."
     ],
-    tags: ["Zabbix", "Grafana", "MRTG", "MikroTik", "Linux Server"],
+    tags: ["Zabbix", "Grafana", "MRTG", "MikroTik", "Winbox", "Linux", "BGP"]
   },
   {
+    role: "Customer Support",
+    company: "PT Inovasi Tjaraka Buana MyNet",
+    location: "Bandung",
     period: "Jan 2024 – Des 2024",
     badge: "Magang / PKL",
-    role: "Customer Support & Technical Helpdesk",
-    company: "PT Inovasi Tjaraka Buana MyNet",
-    location: "Bandung, Indonesia",
     points: [
-      "Melayani aduan pelanggan terkait koneksi internet, konfigurasi router WiFi rumah, dan eskalasi tim teknis lapangan.",
-      "Melakukan diagnosa awal problem jaringan pelanggan melalui command ping, traceroute, dan optical power modem.",
+      "Menangani keluhan pelanggan terkait gangguan internet melalui telepon, WhatsApp, dan ticketing system dengan responsif.",
+      "Mengidentifikasi problem awal dari sisi pelanggan maupun jaringan serta memandu troubleshooting modem dan ONU.",
+      "Melakukan eskalasi tiket gangguan teknis ke tim NOC untuk penanganan lanjutan sesuai prosedur dan SLA.",
+      "Mendokumentasikan setiap interaksi dan solusi penanganan untuk peningkatan mutu layanan."
     ],
-    tags: ["Customer Support", "Troubleshooting", "Helpdesk", "Modem Optical"],
+    tags: ["Customer Service", "Ticketing", "Modem / ONU", "SLA", "WhatsApp Support"]
+  }
+];
+
+const EDUCATION = [
+  {
+    school: "Universitas Muhammadiyah Malang (UMM)",
+    major: "Akuakultur (Perikanan)",
+    period: "Sep 2026 – Sekarang",
+    badge: "Mahasiswa Aktif",
+    desc: "Menempuh pendidikan tinggi Program Studi Akuakultur (Perikanan) di Universitas Muhammadiyah Malang (UMM). Mempelajari teknologi budidaya perairan modern, manajemen kualitas air & ekosistem akuatik, nutrisi biota air, serta pemanfaatan sistem otomasi dan monitoring berbasis IoT (Smart Aquaculture).",
+    tags: ["Akuakultur", "Smart Aquaculture", "IoT Telemetri", "Kualitas Air"]
   },
+  {
+    school: "SMK PGRI 3 Malang",
+    major: "Teknik Komputer dan Jaringan (TKJ)",
+    period: "2022 – 2025",
+    badge: "Alumni",
+    desc: "Melaksanakan proyek praktikum jaringan komputer dan administrasi server sebagai implementasi keterampilan teknis di bidang IT dan networking.",
+    tags: ["Konfigurasi MikroTik", "Routing & Switching", "Linux Server", "Fiber Optik Dasar", "Administrasi Jaringan"]
+  }
 ];
 
 export default function Timeline() {
+  const [tab, setTab] = useState("experience");
+
   return (
-    <section id="journey" className="cinematic-journey-section">
-      <div className="cinematic-container">
-        <Reveal>
-          <div className="cinematic-section-header">
-            <span className="section-step-badge">04 / THE JOURNEY</span>
-            <h2 className="cinematic-section-title">
-              TERUS BERGERAK. MEMASTIKAN SISTEM TETAP HIDUP.
-            </h2>
-            <p className="cinematic-section-desc">
-              Rekam jejak pengalaman profesional di Network Operations Center, penanganan insiden infrastruktur, dan dukungan teknis.
-            </p>
-          </div>
-        </Reveal>
+    <section id="experience" className="section">
+      <Reveal>
+        <div className="section-label">Trajectory & Background</div>
+        <TypewriterTitle text="Experience & Education" />
+        <div className="section-desc">
+          Rekam jejak profesional dalam operasional NOC dan IT Support, dipadukan dengan dasar akademis rekayasa jaringan dan teknologi otomasi.
+        </div>
 
-        {/* Minimalist Vertical Timeline Matching Frame 032 */}
-        <div className="cinematic-timeline-wrap">
-          <div className="cinematic-timeline-spine" aria-hidden="true" />
+        <div className="timeline-tabs" id="education">
+          <button
+            type="button"
+            className={`timeline-tab-btn ${tab === "experience" ? "active" : ""}`}
+            onClick={() => setTab("experience")}
+          >
+            <Briefcase size={16} /> Pengalaman Kerja ({EXPERIENCES.length})
+          </button>
+          <button
+            type="button"
+            className={`timeline-tab-btn ${tab === "education" ? "active" : ""}`}
+            onClick={() => setTab("education")}
+          >
+            <GraduationCap size={16} /> Pendidikan ({EDUCATION.length})
+          </button>
+        </div>
+      </Reveal>
 
-          {EXPERIENCES.map((exp, idx) => (
-            <div key={`${exp.company}-${idx}`} className="cinematic-timeline-row">
-              {/* Left Column: Period & Badge */}
-              <div className="cinematic-timeline-time">
-                <span className="cinematic-timeline-period">{exp.period}</span>
-                <span className="cinematic-timeline-type-pill">{exp.badge}</span>
-              </div>
-
-              {/* Center Node */}
-              <div className="cinematic-timeline-node">
-                <span className="cinematic-timeline-dot" />
-              </div>
-
-              {/* Right Column: Card Content */}
-              <div className="cinematic-timeline-body">
-                <div className="cinematic-timeline-header">
-                  <h3 className="cinematic-timeline-role">{exp.role}</h3>
-                  <div className="cinematic-timeline-sub">
-                    <span className="cinematic-timeline-company">{exp.company}</span>
-                    <span className="cinematic-timeline-sep">·</span>
-                    <span className="cinematic-timeline-loc">
-                      <MapPin size={12} /> {exp.location}
-                    </span>
+      {tab === "experience" ? (
+        <div className="timeline-list">
+          {EXPERIENCES.map((item, index) => (
+            <Reveal key={item.company + item.period} delay={index * 60}>
+              <div className="timeline-card">
+                <div className="timeline-header">
+                  <div className="timeline-top-meta">
+                    <span className="timeline-badge">{item.badge}</span>
+                    <div className="timeline-period-badge">
+                      <Calendar size={13} />
+                      <span>{item.period}</span>
+                    </div>
                   </div>
+                  <h3 className="timeline-role">{item.role}</h3>
+                  <p className="timeline-company">{item.company} · {item.location}</p>
                 </div>
 
-                <ul className="cinematic-timeline-points">
-                  {exp.points.map((pt, pIdx) => (
-                    <li key={pIdx}>{pt}</li>
+                <ul className="timeline-points">
+                  {item.points.map((pt, i) => (
+                    <li key={i}>{pt}</li>
                   ))}
                 </ul>
 
-                <div className="cinematic-timeline-tags">
-                  {exp.tags.map((tag) => (
-                    <span key={tag} className="cinematic-tag">
-                      {tag}
-                    </span>
+                <div className="timeline-tags">
+                  {item.tags.map((t) => (
+                    <span key={t} className="timeline-tag">{t}</span>
                   ))}
                 </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
-      </div>
+      ) : (
+        <div className="timeline-list">
+          {EDUCATION.map((item, index) => (
+            <Reveal key={item.school} delay={index * 60}>
+              <div className="timeline-card">
+                <div className="timeline-header">
+                  <div className="timeline-top-meta">
+                    <span className="timeline-badge timeline-badge--edu">{item.badge}</span>
+                    <div className="timeline-period-badge">
+                      <Calendar size={13} />
+                      <span>{item.period}</span>
+                    </div>
+                  </div>
+                  <h3 className="timeline-role">{item.school}</h3>
+                  <p className="timeline-company">{item.major}</p>
+                </div>
+
+                <p className="timeline-desc">{item.desc}</p>
+
+                <div className="timeline-tags">
+                  {item.tags.map((t) => (
+                    <span key={t} className="timeline-tag">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

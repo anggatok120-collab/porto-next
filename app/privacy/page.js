@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Kebijakan Privasi',
+  title: 'Kebijakan Privasi | Angga',
   description: 'Kebijakan privasi situs portofolio Angga.',
 }
 
