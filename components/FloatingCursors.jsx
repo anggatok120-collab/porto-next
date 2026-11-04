@@ -1,20 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export default function FloatingCursors() {
-  const [mounted, setMounted] = useState(false);
   const [enabled, setEnabled] = useState(true);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <>
-      {/* 60FPS Pure CSS Continuous Multi-Agent Flying Cursors */}
+      {/* 60FPS Pure CSS Continuous Multi-Agent Flying Cursors (Rendered directly in SSR & Client) */}
       <div className={`live-cursors-layer ${!enabled ? "live-cursors-layer--paused" : ""}`} aria-hidden="true">
         {/* Agent 1: Cyan (Devin · Agent 01) */}
         <div className="live-cursor-agent live-cursor-agent--1">
