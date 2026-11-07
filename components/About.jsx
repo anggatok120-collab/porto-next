@@ -142,7 +142,16 @@ export default function About() {
             onClick={advanceTrait}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            title="Klik untuk melihat sifat selanjutnya"
+            role="button"
+            tabIndex={0}
+            aria-label="Klik kartu untuk berganti sifat"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                advanceTrait();
+              }
+            }}
+            title="Klik kartu untuk berganti sifat"
           >
             {TRAITS.map((trait, i) => {
               const count = TRAITS.length;
@@ -169,7 +178,12 @@ export default function About() {
               }
 
               return (
-                <div key={trait} className="trait-card" style={style}>
+                <div
+                  key={trait}
+                  className="trait-card"
+                  data-top={offset === 0 ? "true" : "false"}
+                  style={style}
+                >
                   <span className="trait-card-eyebrow">TRAIT / STRENGTH</span>
                   <div className="trait-card-title">{trait}</div>
                   <span className="trait-card-counter">

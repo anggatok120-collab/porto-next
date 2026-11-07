@@ -177,7 +177,7 @@ html.dark body::before {
 }
 
 html.dark .nav-bar {
-  background: rgba(26, 29, 35, 0.75);
+  background: rgba(20, 23, 29, 0.88);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
 }
 
@@ -1491,6 +1491,8 @@ html.dark .work-album-item {
   justify-content: center;
   min-height: 360px;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .trait-stack {
@@ -1498,6 +1500,28 @@ html.dark .work-album-item {
   width: 280px;
   height: 240px;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+}
+
+.trait-stack:focus,
+.trait-stack:focus-visible,
+.trait-stack:active {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.trait-stack *,
+.trait-stack *::selection {
+  -webkit-tap-highlight-color: transparent !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  background: transparent !important;
 }
 
 .trait-card {
@@ -1514,12 +1538,39 @@ html.dark .work-album-item {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              border-color 0.25s ease,
+              box-shadow 0.25s ease,
+              background-color 0.25s ease;
   user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
 }
 
 html.dark .trait-card {
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  background: rgba(26, 29, 35, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* Subtle, muted click feedback on laptop and mobile ("birunya disamarin") */
+.trait-stack:active .trait-card[data-top="true"],
+.trait-card[data-top="true"]:active {
+  border-color: rgba(56, 189, 248, 0.32) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 22px rgba(56, 189, 248, 0.12) !important;
+}
+
+html.dark .trait-stack:active .trait-card[data-top="true"],
+html.dark .trait-card[data-top="true"]:active {
+  background: rgba(22, 30, 44, 0.92) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
 }
 
 .trait-card-eyebrow {
@@ -1527,6 +1578,9 @@ html.dark .trait-card {
   font-size: 10px;
   letter-spacing: 0.2em;
   color: var(--text-dim);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .trait-card-title {
@@ -1535,6 +1589,9 @@ html.dark .trait-card {
   line-height: 1.15;
   color: var(--text);
   letter-spacing: -0.02em;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .trait-card-counter {
@@ -1542,6 +1599,9 @@ html.dark .trait-card {
   font-size: 11px;
   color: var(--text-dim);
   align-self: flex-end;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .trait-hint {
@@ -1549,6 +1609,9 @@ html.dark .trait-card {
   font-size: 11px;
   color: var(--text-dim);
   margin-top: 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Currently cards row */
