@@ -163,9 +163,7 @@ html.dark body::before {
   max-width: 1080px;
   height: 56px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #ffffff;
   border: 1px solid var(--line-strong);
   z-index: 1000;
   display: flex;
@@ -173,21 +171,23 @@ html.dark body::before {
   justify-content: space-between;
   padding: 0 10px 0 18px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 html.dark .nav-bar {
-  background: rgba(20, 23, 29, 0.88);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  background: #14171d;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
 }
 
 .nav-bar.scrolled {
   top: 18px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
 }
 
 html.dark .nav-bar.scrolled {
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
+  background: #101318;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6);
 }
 
 .nav-mobile-header {
