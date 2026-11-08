@@ -1516,12 +1516,17 @@ html.dark .work-album-item {
   -webkit-tap-highlight-color: transparent !important;
 }
 
-.trait-stack *,
-.trait-stack *::selection {
+.trait-stack,
+.trait-stack * {
   -webkit-tap-highlight-color: transparent !important;
   user-select: none !important;
   -webkit-user-select: none !important;
+}
+
+.trait-stack ::selection,
+.trait-stack *::selection {
   background: transparent !important;
+  color: inherit !important;
 }
 
 .trait-card {
@@ -1530,7 +1535,7 @@ html.dark .work-album-item {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--surface);
+  background: var(--surface) !important;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   padding: 28px;
@@ -1553,24 +1558,26 @@ html.dark .work-album-item {
 }
 
 html.dark .trait-card {
-  background: rgba(26, 29, 35, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  background: #0f1622 !important; /* Fully opaque deep marine dark slate: prevents background cards text from showing through */
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
 }
 
 /* Subtle, muted click feedback on laptop and mobile ("birunya disamarin") */
+.trait-stack:hover .trait-card[data-top="true"] {
+  border-color: rgba(56, 189, 248, 0.28);
+}
+
 .trait-stack:active .trait-card[data-top="true"],
 .trait-card[data-top="true"]:active {
-  border-color: rgba(56, 189, 248, 0.32) !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 22px rgba(56, 189, 248, 0.12) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 22px rgba(56, 189, 248, 0.14) !important;
 }
 
 html.dark .trait-stack:active .trait-card[data-top="true"],
 html.dark .trait-card[data-top="true"]:active {
-  background: rgba(22, 30, 44, 0.92) !important;
-  border-color: rgba(56, 189, 248, 0.35) !important;
+  background: #141f30 !important;
+  border-color: rgba(56, 189, 248, 0.38) !important;
 }
 
 .trait-card-eyebrow {
