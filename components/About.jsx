@@ -193,7 +193,6 @@ export default function About() {
               );
             })}
           </div>
-          <span className="trait-hint">Klik kartu untuk berganti • Otomatis berotasi</span>
         </Reveal>
       </div>
 
