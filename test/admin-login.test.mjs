@@ -90,3 +90,26 @@ test("POST /api/admin/login memproses login berhasil dan mengirim notifikasi suk
     globalThis.fetch = originalFetch;
   }
 });
+
+test("POST /api/admin/login: rate limit tidak bisa dilewati dengan mengganti body.clientIp di belakang NAT", async () => {
+  process.env.AUTH_SECRET = "12345678901234567890123456789012";
+  process.env.ADMIN_PASSWORD = "supersecretadminpassword123";
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ ok: true }));
+
+  try {
+    const statuses = [];
+    for (let i = 0; i < 7; i++) {
+      const res = await POST(new Request("http://localhost/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-forwarded-for": "10.10.0.77" },
+        body: JSON.stringify({ password: `salah-${i}`, clientIp: `36.80.1.${i + 1}` }),
+      }));
+      statuses.push(res.status);
+    }
+    assert.deepEqual(statuses.slice(0, 5), [401, 401, 401, 401, 401]);
+    assert.deepEqual(statuses.slice(5), [429, 429], "Percobaan ke-6 dst harus diblokir walau clientIp berganti");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

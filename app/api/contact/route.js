@@ -112,7 +112,8 @@ export async function POST(request) {
       )
     }
 
-    const body = await request.json()
+    const parsed = await request.json()
+    const body = parsed && typeof parsed === 'object' ? parsed : {}
     const name = typeof body.name === 'string' ? body.name.trim() : ''
     const email = typeof body.email === 'string' ? body.email.trim() : ''
     const message = typeof body.message === 'string' ? body.message.trim() : ''

@@ -68,3 +68,19 @@ test("POST /api/contact berhasil memproses pesan valid dan mengirim notifikasi T
     globalThis.fetch = originalFetch;
   }
 });
+
+test("POST /api/contact mengembalikan 400 (bukan 500) untuk body JSON null", async () => {
+  const { POST } = await import("../app/api/contact/route.js");
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ ok: true }));
+  try {
+    const res = await POST(new Request("http://localhost/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "cf-connecting-ip": "203.0.113.200" },
+      body: "null",
+    }));
+    assert.equal(res.status, 400);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

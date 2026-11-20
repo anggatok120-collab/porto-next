@@ -104,11 +104,17 @@ function isPrivateIp(ip) {
   return false
 }
 
-function getClientIp(request, body) {
-  const headerIp = request.headers.get('cf-connecting-ip')
+function getHeaderIp(request) {
+  return request.headers.get('cf-connecting-ip')
     || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || request.headers.get('x-real-ip')
     || 'unknown'
+}
+
+// Hanya untuk tampilan notifikasi. body.clientIp dikirim oleh browser sehingga
+// tidak boleh dipakai sebagai kunci rate limit (bisa diganti tiap request).
+function getClientIp(request, body) {
+  const headerIp = getHeaderIp(request)
 
   if (isPrivateIp(headerIp) && body?.clientIp && typeof body.clientIp === 'string') {
     const candidate = body.clientIp.trim()
@@ -179,8 +185,11 @@ export async function POST(request) {
       body = await request.json()
     } catch {}
 
+    if (!body || typeof body !== 'object') body = {}
+
     const ip = getClientIp(request, body)
-    const rateLimit = checkLoginRateLimit(ip)
+    const rateLimitKey = getHeaderIp(request)
+    const rateLimit = checkLoginRateLimit(rateLimitKey)
     if (!rateLimit.allowed) {
       return Response.json(
         { error: 'Terlalu banyak percobaan login. Silakan coba lagi dalam 15 menit.' },
@@ -203,7 +212,7 @@ export async function POST(request) {
     }
 
     if (!verifyAdminPassword(password)) {
-      recordFailedLogin(ip)
+      recordFailedLogin(rateLimitKey)
       await sendTelegramLoginNotification({
         success: false,
         ip,
@@ -213,7 +222,7 @@ export async function POST(request) {
       return Response.json({ error: 'Password salah' }, { status: 401 })
     }
 
-    clearFailedLogin(ip)
+    clearFailedLogin(rateLimitKey)
     await sendTelegramLoginNotification({
       success: true,
       ip,
